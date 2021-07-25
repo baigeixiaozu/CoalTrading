@@ -4,7 +4,7 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{4F6F20E0-6196-400D-B86B-CE9686E51C22}" Loaded="No" Name="国煤交易系统" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="模型/国煤交易系统.pdm"/>
+		<Model Expanded="Yes" ID="{4F6F20E0-6196-400D-B86B-CE9686E51C22}" Name="国煤交易系统" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="模型/国煤交易系统.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
