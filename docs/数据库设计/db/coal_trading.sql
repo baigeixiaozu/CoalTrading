@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/26 14:45:22                           */
+/* Created on:     2021/7/26 15:35:31                           */
 /*==============================================================*/
 
 
@@ -188,7 +188,7 @@ create table ct_news
 engine = InnoDB;
 
 insert into ct_news (news_id, news_title, news_content, news_date, news_status, news_author_id, news_auditor_id)
-select news_id, news_title, news_content, news_date, news_status, news_publisher_id, news_auditor_id
+select news_id, news_title, news_content, news_date, news_status, news_author_id, news_auditor_id
 from coal_trading.tmp_ct_news;
 
 drop table if exists coal_trading.tmp_ct_news;
@@ -230,6 +230,14 @@ drop table if exists coal_trading.tmp_ct_order;
 create index Index_user_id on ct_order
 (
    user_id
+);
+
+/*==============================================================*/
+/* Index: Index_req_id                                          */
+/*==============================================================*/
+create index Index_req_id on ct_order
+(
+   req_id
 );
 
 /*==============================================================*/
@@ -437,6 +445,14 @@ create unique index Index_user_login on ct_users
    user_login
 );
 
+/*==============================================================*/
+/* Index: Index_msg_id                                          */
+/*==============================================================*/
+create unique index Index_msg_id on ct_website_message
+(
+   id
+);
+
 alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
@@ -471,5 +487,11 @@ alter table ct_user_role_relationships add constraint FK_UR_REF_ROLE foreign key
       references ct_userrole (role_id) on delete restrict on update restrict;
 
 alter table ct_user_role_relationships add constraint FK_UR_REF_USER foreign key (user_id)
+      references ct_users (user_id) on delete restrict on update restrict;
+
+alter table ct_website_message add constraint FK_UM_REF_USER_1 foreign key (wm_from_userid)
+      references ct_users (user_id) on delete restrict on update restrict;
+
+alter table ct_website_message add constraint FK_UM_REF_USER_2 foreign key (wm_to_userid)
       references ct_users (user_id) on delete restrict on update restrict;
 
