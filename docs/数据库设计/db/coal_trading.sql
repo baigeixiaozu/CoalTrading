@@ -1,15 +1,13 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/25 19:42:16                           */
+/* Created on:     2021/7/26 14:45:22                           */
 /*==============================================================*/
 
 
 # AlterHeader
 SET FOREIGN_KEY_CHECKS=0;  # 取消外键约束
 
-
-use coal_trading;
 
 drop table if exists coal_trading.tmp_ct_company;
 
@@ -47,8 +45,6 @@ drop table if exists coal_trading.tmp_ct_user_role_relationships;
 
 rename table coal_trading.ct_user_role_relationships to tmp_ct_user_role_relationships;
 
-drop table if exists coal_trading.ct_userext;
-
 drop table if exists coal_trading.tmp_ct_userrole;
 
 rename table coal_trading.ct_userrole to tmp_ct_userrole;
@@ -57,12 +53,14 @@ drop table if exists coal_trading.tmp_ct_users;
 
 rename table coal_trading.ct_users to tmp_ct_users;
 
+use coal_trading;
+
 /*==============================================================*/
 /* Table: ct_company                                            */
 /*==============================================================*/
 create table ct_company
 (
-   user_id              bigint not null comment '用户ID',
+   user_id              bigint(20) not null comment '用户ID',
    com_name             varchar(20) not null comment '企业名称',
    legal_name           varchar(20) comment '法人代表',
    legal_id             varchar(20) comment '法人身份证号',
@@ -104,7 +102,7 @@ create unique index Index_com_name on ct_company
 /*==============================================================*/
 create table ct_fund
 (
-   user_id              bigint not null comment '财务用户ID',
+   user_id              bigint(20) not null comment '财务用户ID',
    com_name             varchar(20) comment '汇款单位名称',
    bank_name            varchar(20) comment '开户行名称',
    bank_acc             varchar(19) comment '银行账号',
@@ -134,19 +132,18 @@ create unique index Index_user_id on ct_fund
 /*==============================================================*/
 create table ct_fund_log
 (
-   user_id              bigint not null comment '用户ID',
+   user_id              bigint(20) not null comment '用户ID',
    log_date             datetime comment '变动时间',
-   log_type             bigint comment '变动操作',
+   log_type             bigint comment '变动操作：
+            1. 预存（增加）
+            2. 缴纳给平台（冻结）
+            3. 平台扣除指定额度的冻结款项（减少）
+            ',
    log_fund_count       decimal(10,2) comment '金额数量',
-   log_cert             varchar(255) comment '交易凭证',
+   log_cert             varchar(255) comment '交易凭证（文件）',
    primary key (user_id)
 )
 engine = InnoDB;
-
-alter table ct_fund_log comment '变动操作：
-1. 预存（增加）
-2. 缴纳给平台（冻结）
-3. 平台扣除指定额度的冻';
 
 insert into ct_fund_log (user_id, log_date, log_type, log_fund_count, log_cert)
 select user_id, log_date, log_type, log_fund_count, log_cert
@@ -176,24 +173,22 @@ create index Index_log_type on ct_fund_log
 create table ct_news
 (
    news_id              bigint not null comment '新闻ID',
-   user_id              bigint comment '用户ID',
-   ct__user_id          bigint comment '用户ID',
    news_title           varchar(20) comment '新闻标题',
    news_content         text comment '内容',
    news_date            datetime comment '创建时间',
-   news_status          int comment '状态',
+   news_status          int comment '状态：
+            1. 草稿
+            2. 发布
+            3. 撤销（隐藏）
+            4. 删除（记录直接没了）',
+   news_author_id       bigint(20) comment '发布人员',
+   news_auditor_id      bigint(20) comment '审核人员',
    primary key (news_id)
 )
 engine = InnoDB;
 
-alter table ct_news comment '状态：
-1. 草稿
-2. 发布
-3. 撤销（隐藏）
-4. 删除（记录直接';
-
-insert into ct_news (news_id, user_id, ct__user_id, news_title, news_content, news_date, news_status)
-select news_id, user_id, ct__user_id, news_title, news_content, news_date, news_status
+insert into ct_news (news_id, news_title, news_content, news_date, news_status, news_author_id, news_auditor_id)
+select news_id, news_title, news_content, news_date, news_status, news_publisher_id, news_auditor_id
 from coal_trading.tmp_ct_news;
 
 drop table if exists coal_trading.tmp_ct_news;
@@ -212,18 +207,16 @@ create unique index Index_news_id on ct_news
 create table ct_order
 (
    ooder_id             varchar(20) not null comment '订单ID',
-   req_id               bigint comment '需求ID',
-   user_id              bigint comment '用户ID',
+   req_id               bigint(20) comment '需求ID',
+   user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
-   status               int comment '订单状态',
+   status               smallint(6) comment '订单状态：
+            1. 进行中
+            2. 超时
+            3. 完成',
    primary key (ooder_id)
 )
 engine = InnoDB;
-
-alter table ct_order comment '订单状态：
-1. 进行中
-2. 超时
-3. 完成';
 
 insert into ct_order (ooder_id, req_id, user_id, created_time, status)
 select ooder_id, req_id, user_id, created_time, status
@@ -283,11 +276,11 @@ create unique index Index_pri on ct_privilege
 /*==============================================================*/
 create table ct_request
 (
-   req_id               bigint not null comment '需求ID',
-   user_id              bigint comment '用户ID',
+   req_id               bigint(20) not null comment '需求ID',
+   user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
-   type                 bigint comment '购入/卖出',
+   type                 smallint(6) comment '购入/卖出',
    status               int comment '需求状态
             1. 草稿
             2. 发布
@@ -347,7 +340,7 @@ create unique index Index_role_pri_id on ct_role_pri_relationships
 create table ct_user_role_relationships
 (
    role_id              bigint not null comment '角色ID',
-   user_id              bigint not null comment '用户ID',
+   user_id              bigint(20) not null comment '用户ID',
    primary key (role_id, user_id)
 )
 engine = InnoDB;
@@ -409,22 +402,25 @@ create index Index_role_id on ct_userrole
 /*==============================================================*/
 create table ct_users
 (
-   user_id              bigint not null comment '用户ID',
+   user_id              bigint(20) not null comment '用户ID',
    user_login           varchar(20) not null comment '登录名',
-   user_pass            varchar(50) comment '用户密码',
+   user_pass            varchar(50) comment '用户密码：
+            要经过加密',
    user_nick            varchar(20) comment '用户昵称',
    user_email           varchar(20) comment '用户邮箱',
    created_time         datetime comment '创建时间',
-   user_status          int comment '用户状态',
+   user_status          int comment '用户状态：
+            1. 待审核
+            2. 审核通过（可用）
+            ',
    primary key (user_id)
 )
 engine = InnoDB;
 
-alter table ct_users comment '用户类型：
+alter table ct_users comment '存储的用户类型：
 1. 管理员
 2. 交易用户
 3. 财务用户
-
 ';
 
 insert into ct_users (user_id, user_login, user_pass, user_nick, user_email, created_time, user_status)
@@ -450,10 +446,10 @@ alter table ct_fund add constraint FK_FU_REF_USER foreign key (user_id)
 alter table ct_fund_log add constraint FK_FL_REF_USER foreign key (user_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
-alter table ct_news add constraint FK_NEWS_REF_USER_1 foreign key (user_id)
+alter table ct_news add constraint FK_NEWS_REF_USER_1 foreign key (news_author_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
-alter table ct_news add constraint FK_NEWS_REF_USER_2 foreign key (ct__user_id)
+alter table ct_news add constraint FK_NEWS_REF_USER_2 foreign key (news_auditor_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
 alter table ct_order add constraint FK_ORDER_REF_REQ foreign key (req_id)
