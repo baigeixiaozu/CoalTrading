@@ -1,57 +1,21 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/26 15:35:31                           */
+/* Created on:     2021/7/26 18:54:32                           */
 /*==============================================================*/
 
 
-# AlterHeader
+# HEADER
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; # 自增设置
 SET FOREIGN_KEY_CHECKS=0;  # 取消外键约束
 
 
-drop table if exists coal_trading.tmp_ct_company;
+drop database if exists coal_trading;
 
-rename table coal_trading.ct_company to tmp_ct_company;
-
-drop table if exists coal_trading.tmp_ct_fund;
-
-rename table coal_trading.ct_fund to tmp_ct_fund;
-
-drop table if exists coal_trading.tmp_ct_fund_log;
-
-rename table coal_trading.ct_fund_log to tmp_ct_fund_log;
-
-drop table if exists coal_trading.tmp_ct_news;
-
-rename table coal_trading.ct_news to tmp_ct_news;
-
-drop table if exists coal_trading.tmp_ct_order;
-
-rename table coal_trading.ct_order to tmp_ct_order;
-
-drop table if exists coal_trading.tmp_ct_privilege;
-
-rename table coal_trading.ct_privilege to tmp_ct_privilege;
-
-drop table if exists coal_trading.tmp_ct_request;
-
-rename table coal_trading.ct_request to tmp_ct_request;
-
-drop table if exists coal_trading.tmp_ct_role_pri_relationships;
-
-rename table coal_trading.ct_role_pri_relationships to tmp_ct_role_pri_relationships;
-
-drop table if exists coal_trading.tmp_ct_user_role_relationships;
-
-rename table coal_trading.ct_user_role_relationships to tmp_ct_user_role_relationships;
-
-drop table if exists coal_trading.tmp_ct_userrole;
-
-rename table coal_trading.ct_userrole to tmp_ct_userrole;
-
-drop table if exists coal_trading.tmp_ct_users;
-
-rename table coal_trading.ct_users to tmp_ct_users;
+/*==============================================================*/
+/* Database: coal_trading                                       */
+/*==============================================================*/
+create database coal_trading;
 
 use coal_trading;
 
@@ -83,12 +47,6 @@ engine = InnoDB;
 
 alter table ct_company comment '企业基本信息表';
 
-insert into ct_company (user_id, com_name, legal_name, legal_id, com_addr, com_contact, com_zip, business_license_id, business_license_file, manage_license_id, fax, registered_capital, oib_code, oib_code_file, tr_cert, tr_cert_file, manage_license_file)
-select user_id, com_name, legal_name, legal_id, com_addr, com_contact, com_zip, business_license_id, business_license_file, manage_license_id, fax, registered_capital, oib_code, oib_code_file, tr_cert, tr_cert_file, manage_license_file
-from coal_trading.tmp_ct_company;
-
-drop table if exists coal_trading.tmp_ct_company;
-
 /*==============================================================*/
 /* Index: Index_com_name                                        */
 /*==============================================================*/
@@ -112,12 +70,6 @@ create table ct_fund
    primary key (user_id)
 )
 engine = InnoDB;
-
-insert into ct_fund (user_id, com_name, bank_name, bank_acc, fund_total, fund_freeze, ao_permit_file)
-select user_id, com_name, bank_name, bank_acc, fund_total, fund_freeze, ao_permit_file
-from coal_trading.tmp_ct_fund;
-
-drop table if exists coal_trading.tmp_ct_fund;
 
 /*==============================================================*/
 /* Index: Index_user_id                                         */
@@ -145,12 +97,6 @@ create table ct_fund_log
 )
 engine = InnoDB;
 
-insert into ct_fund_log (user_id, log_date, log_type, log_fund_count, log_cert)
-select user_id, log_date, log_type, log_fund_count, log_cert
-from coal_trading.tmp_ct_fund_log;
-
-drop table if exists coal_trading.tmp_ct_fund_log;
-
 /*==============================================================*/
 /* Index: Index_user_id                                         */
 /*==============================================================*/
@@ -172,7 +118,7 @@ create index Index_log_type on ct_fund_log
 /*==============================================================*/
 create table ct_news
 (
-   news_id              bigint not null comment '新闻ID',
+   news_id              bigint(20) not null comment '新闻ID',
    news_title           varchar(20) comment '新闻标题',
    news_content         text comment '内容',
    news_date            datetime comment '创建时间',
@@ -187,12 +133,6 @@ create table ct_news
 )
 engine = InnoDB;
 
-insert into ct_news (news_id, news_title, news_content, news_date, news_status, news_author_id, news_auditor_id)
-select news_id, news_title, news_content, news_date, news_status, news_author_id, news_auditor_id
-from coal_trading.tmp_ct_news;
-
-drop table if exists coal_trading.tmp_ct_news;
-
 /*==============================================================*/
 /* Index: Index_news_id                                         */
 /*==============================================================*/
@@ -206,23 +146,19 @@ create unique index Index_news_id on ct_news
 /*==============================================================*/
 create table ct_order
 (
-   ooder_id             varchar(20) not null comment '订单ID',
+   order_id             bigint(20) not null comment '订单ID',
+   order_num            varchar(30),
    req_id               bigint(20) comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    status               smallint(6) comment '订单状态：
             1. 进行中
             2. 超时
-            3. 完成',
-   primary key (ooder_id)
+            3. 完成
+            4. 取消',
+   primary key (order_id)
 )
 engine = InnoDB;
-
-insert into ct_order (ooder_id, req_id, user_id, created_time, status)
-select ooder_id, req_id, user_id, created_time, status
-from coal_trading.tmp_ct_order;
-
-drop table if exists coal_trading.tmp_ct_order;
 
 /*==============================================================*/
 /* Index: Index_user_id                                         */
@@ -245,7 +181,7 @@ create index Index_req_id on ct_order
 /*==============================================================*/
 create unique index Index_order_id on ct_order
 (
-   ooder_id
+   order_id
 );
 
 /*==============================================================*/
@@ -253,7 +189,7 @@ create unique index Index_order_id on ct_order
 /*==============================================================*/
 create table ct_privilege
 (
-   pri_id               bigint not null comment '权限ID',
+   pri_id               bigint(20) not null comment '权限ID',
    pri_name             varchar(10) comment '权限名',
    primary key (pri_id)
 )
@@ -264,12 +200,6 @@ alter table ct_privilege comment '权限：
 2. 资讯审核权限
 3. 资讯维护权限
 4.';
-
-insert into ct_privilege (pri_id, pri_name)
-select pri_id, pri_name
-from coal_trading.tmp_ct_privilege;
-
-drop table if exists coal_trading.tmp_ct_privilege;
 
 /*==============================================================*/
 /* Index: Index_pri                                             */
@@ -300,12 +230,6 @@ create table ct_request
 )
 engine = InnoDB;
 
-insert into ct_request (req_id, user_id, created_time, ended_time, type, status, deatil)
-select req_id, user_id, created_time, ended_time, type, status, deatil
-from coal_trading.tmp_ct_request;
-
-drop table if exists coal_trading.tmp_ct_request;
-
 /*==============================================================*/
 /* Index: Index_req_id                                          */
 /*==============================================================*/
@@ -319,19 +243,13 @@ create index Index_req_id on ct_request
 /*==============================================================*/
 create table ct_role_pri_relationships
 (
-   role_id              bigint not null comment '角色ID',
-   pri_id               bigint not null comment '权限ID',
+   role_id              bigint(20) not null comment '角色ID',
+   pri_id               bigint(20) not null comment '权限ID',
    primary key (role_id, pri_id)
 )
 engine = InnoDB;
 
 alter table ct_role_pri_relationships comment '1个角色可以对应1个权限';
-
-insert into ct_role_pri_relationships (role_id, pri_id)
-select role_id, pri_id
-from coal_trading.tmp_ct_role_pri_relationships;
-
-drop table if exists coal_trading.tmp_ct_role_pri_relationships;
 
 /*==============================================================*/
 /* Index: Index_role_pri_id                                     */
@@ -347,17 +265,11 @@ create unique index Index_role_pri_id on ct_role_pri_relationships
 /*==============================================================*/
 create table ct_user_role_relationships
 (
-   role_id              bigint not null comment '角色ID',
+   role_id              bigint(20) not null comment '角色ID',
    user_id              bigint(20) not null comment '用户ID',
    primary key (role_id, user_id)
 )
 engine = InnoDB;
-
-insert into ct_user_role_relationships (role_id, user_id)
-select role_id, user_id
-from coal_trading.tmp_ct_user_role_relationships;
-
-drop table if exists coal_trading.tmp_ct_user_role_relationships;
 
 /*==============================================================*/
 /* Index: user_role_index                                       */
@@ -380,7 +292,7 @@ create unique index Index_user_id on ct_user_role_relationships
 /*==============================================================*/
 create table ct_userrole
 (
-   role_id              bigint not null comment '角色ID',
+   role_id              bigint(20) not null comment '角色ID',
    role_name            varchar(20) comment '角色名',
    primary key (role_id)
 )
@@ -390,12 +302,6 @@ alter table ct_userrole comment '1. 几种管理员：
      a. 资讯编辑员
      b. 资讯审核员
     ';
-
-insert into ct_userrole (role_id, role_name)
-select role_id, role_name
-from coal_trading.tmp_ct_userrole;
-
-drop table if exists coal_trading.tmp_ct_userrole;
 
 /*==============================================================*/
 /* Index: Index_role_id                                         */
@@ -431,12 +337,6 @@ alter table ct_users comment '存储的用户类型：
 3. 财务用户
 ';
 
-insert into ct_users (user_id, user_login, user_pass, user_nick, user_email, created_time, user_status)
-select user_id, user_login, user_pass, user_nick, user_email, created_time, user_status
-from coal_trading.tmp_ct_users;
-
-drop table if exists coal_trading.tmp_ct_users;
-
 /*==============================================================*/
 /* Index: Index_user_login                                      */
 /*==============================================================*/
@@ -444,6 +344,25 @@ create unique index Index_user_login on ct_users
 (
    user_login
 );
+
+/*==============================================================*/
+/* Table: ct_website_message                                    */
+/*==============================================================*/
+create table ct_website_message
+(
+   id                   bigint(20) not null comment '新闻主键',
+   modified             datetime comment '修改时间',
+   type                 smallint comment '消息类型（1.系统消息）',
+   wm_context           varchar(1024) comment '站内信内容',
+   wm_created           datetime comment '发信时间',
+   wm_from_userid       bigint(20) comment '发信人用户ID',
+   wm_from_username     varchar(128) comment '发信人用户名',
+   wm_read              smallint comment '是否已读（1. 未读；2.已读）',
+   wm_to_userid         bigint(20) comment '收信人用户ID',
+   wm_to_username       varchar(128) comment '收信人用户名',
+   primary key (id)
+)
+engine = InnoDB;
 
 /*==============================================================*/
 /* Index: Index_msg_id                                          */
@@ -495,3 +414,6 @@ alter table ct_website_message add constraint FK_UM_REF_USER_1 foreign key (wm_f
 alter table ct_website_message add constraint FK_UM_REF_USER_2 foreign key (wm_to_userid)
       references ct_users (user_id) on delete restrict on update restrict;
 
+
+
+# FOOTER
