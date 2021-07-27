@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/27 7:44:08                            */
+/* Created on:     2021/7/27 9:24:58                            */
 /*==============================================================*/
 
 
@@ -350,9 +350,9 @@ create unique index Index_user_login on ct_users
 /*==============================================================*/
 create table ct_website_message
 (
-   id                   bigint(20) not null comment '新闻主键',
-   modified             datetime comment '修改时间',
-   type                 smallint comment '消息类型（1.系统消息）',
+   wm_id                bigint(20) not null comment '新闻主键',
+   wm_modified          datetime comment '修改时间',
+   wm_type              smallint comment '消息类型（1.系统消息）',
    wm_context           varchar(1024) comment '站内信内容',
    wm_created           datetime comment '发信时间',
    wm_from_userid       bigint(20) comment '发信人用户ID',
@@ -360,7 +360,7 @@ create table ct_website_message
    wm_read              smallint comment '是否已读（1. 未读；2.已读）',
    wm_to_userid         bigint(20) comment '收信人用户ID',
    wm_to_username       varchar(128) comment '收信人用户名',
-   primary key (id)
+   primary key (wm_id)
 )
 engine = InnoDB;
 
@@ -369,7 +369,7 @@ engine = InnoDB;
 /*==============================================================*/
 create unique index Index_msg_id on ct_website_message
 (
-   id
+   wm_id
 );
 
 alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
