@@ -10,3 +10,7 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# Swagger 有点问题？
+swagger:
+  enabled: true

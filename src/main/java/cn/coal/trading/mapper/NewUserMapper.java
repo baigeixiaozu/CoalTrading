@@ -9,5 +9,5 @@ import java.util.Map;
  * @Date 2021/7/26 21:36
  * @Version 1.0
  **/
-public interface UserMapper extends BaseMapper <Map>{
+public interface NewUserMapper extends BaseMapper <Map>{
 }

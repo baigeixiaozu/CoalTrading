@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+
 /**
  * @Author jiyec
  * @Date 2021/7/26 21:42
@@ -16,4 +17,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class BaseUser {
     private Integer userId;
+    private String password;
+
 }

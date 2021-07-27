@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/26 18:54:32                           */
+/* Created on:     2021/7/27 7:44:08                            */
 /*==============================================================*/
 
 
@@ -185,17 +185,17 @@ create unique index Index_order_id on ct_order
 );
 
 /*==============================================================*/
-/* Table: ct_privilege                                          */
+/* Table: ct_permissions                                        */
 /*==============================================================*/
-create table ct_privilege
+create table ct_permissions
 (
-   pri_id               bigint(20) not null comment '权限ID',
-   pri_name             varchar(10) comment '权限名',
-   primary key (pri_id)
+   permission_id        bigint(20) not null comment '权限ID',
+   permission_name      varchar(10) comment '权限名',
+   primary key (permission_id)
 )
 engine = InnoDB;
 
-alter table ct_privilege comment '权限：
+alter table ct_permissions comment '权限：
 1. 资讯编辑权限
 2. 资讯审核权限
 3. 资讯维护权限
@@ -204,9 +204,9 @@ alter table ct_privilege comment '权限：
 /*==============================================================*/
 /* Index: Index_pri                                             */
 /*==============================================================*/
-create unique index Index_pri on ct_privilege
+create unique index Index_pri on ct_permissions
 (
-   pri_id
+   permission_id
 );
 
 /*==============================================================*/
@@ -239,25 +239,25 @@ create index Index_req_id on ct_request
 );
 
 /*==============================================================*/
-/* Table: ct_role_pri_relationships                             */
+/* Table: ct_role_permission_relationships                      */
 /*==============================================================*/
-create table ct_role_pri_relationships
+create table ct_role_permission_relationships
 (
    role_id              bigint(20) not null comment '角色ID',
-   pri_id               bigint(20) not null comment '权限ID',
-   primary key (role_id, pri_id)
+   permission_id        bigint(20) not null comment '权限ID',
+   primary key (role_id, permission_id)
 )
 engine = InnoDB;
 
-alter table ct_role_pri_relationships comment '1个角色可以对应1个权限';
+alter table ct_role_permission_relationships comment '1个角色可以对应1个权限';
 
 /*==============================================================*/
 /* Index: Index_role_pri_id                                     */
 /*==============================================================*/
-create unique index Index_role_pri_id on ct_role_pri_relationships
+create unique index Index_role_pri_id on ct_role_permission_relationships
 (
    role_id,
-   pri_id
+   permission_id
 );
 
 /*==============================================================*/
@@ -396,10 +396,10 @@ alter table ct_order add constraint FK_ORDER_REF_USER foreign key (user_id)
 alter table ct_request add constraint FK_REQ_REF_USER foreign key (user_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
-alter table ct_role_pri_relationships add constraint FK_GR_REF_GRANT foreign key (pri_id)
-      references ct_privilege (pri_id) on delete restrict on update restrict;
+alter table ct_role_permission_relationships add constraint FK_RP_REF_PERMISSION foreign key (permission_id)
+      references ct_permissions (permission_id) on delete restrict on update restrict;
 
-alter table ct_role_pri_relationships add constraint FK_GR_REF_ROLE foreign key (role_id)
+alter table ct_role_permission_relationships add constraint FK_RP_REF_ROLE foreign key (role_id)
       references ct_userrole (role_id) on delete restrict on update restrict;
 
 alter table ct_user_role_relationships add constraint FK_UR_REF_ROLE foreign key (role_id)
