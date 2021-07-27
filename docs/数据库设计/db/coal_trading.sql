@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/27 9:24:58                            */
+/* Created on:     2021/7/27 14:55:28                           */
 /*==============================================================*/
 
 
@@ -201,6 +201,29 @@ alter table ct_permissions comment '权限：
 3. 资讯维护权限
 4.';
 
+/*
+权限：
+1. 超级管理员
+2. 资讯编辑权限
+3. 资讯审核权限
+4. 资讯维护权限
+5. 注册用户审核权限
+6. 交易审核权限
+7. 用户创建权限
+8. 挂牌权限
+9. 挂牌权限
+10.信息编辑权限
+*/
+INSERT INTO ct_permissions VALUES(1, "SUPER_ADMIN");
+INSERT INTO ct_permissions VALUES(2, "NEWS_EDITOR");
+INSERT INTO ct_permissions VALUES(3, "NEWS_AUDITOR");
+INSERT INTO ct_permissions VALUES(4, "NEWS_MANAGER");
+INSERT INTO ct_permissions VALUES(5, "USER_REG_AUDITOR");
+INSERT INTO ct_permissions VALUES(6, "TRADE_AUDITOR");
+INSERT INTO ct_permissions VALUES(7, "USER_ADD");
+INSERT INTO ct_permissions VALUES(8, "PUB_SALE");
+INSERT INTO ct_permissions VALUES(9, "PUB_BUY");
+
 /*==============================================================*/
 /* Index: Index_pri                                             */
 /*==============================================================*/
@@ -251,6 +274,17 @@ engine = InnoDB;
 
 alter table ct_role_permission_relationships comment '1个角色可以对应1个权限';
 
+/*role_id, permission*/
+INSERT INTO ct_role_permission_relationships VALUES(1,1);
+INSERT INTO ct_role_permission_relationships VALUES(1,7);
+INSERT INTO ct_role_permission_relationships VALUES(2,2);
+INSERT INTO ct_role_permission_relationships VALUES(3,3);
+INSERT INTO ct_role_permission_relationships VALUES(4,4);
+INSERT INTO ct_role_permission_relationships VALUES(5,5);
+INSERT INTO ct_role_permission_relationships VALUES(6,6);
+INSERT INTO ct_role_permission_relationships VALUES(7,8);
+INSERT INTO ct_role_permission_relationships VALUES(8,9);
+
 /*==============================================================*/
 /* Index: Index_role_pri_id                                     */
 /*==============================================================*/
@@ -265,11 +299,14 @@ create unique index Index_role_pri_id on ct_role_permission_relationships
 /*==============================================================*/
 create table ct_user_role_relationships
 (
-   role_id              bigint(20) not null comment '角色ID',
    user_id              bigint(20) not null comment '用户ID',
+   role_id              bigint(20) not null comment '角色ID',
    primary key (role_id, user_id)
 )
 engine = InnoDB;
+
+INSERT INTO ct_user_role_relationships(`user_id`, `role_id`) 
+VALUES(1, 1),(2,2),(3,3),(4,4),(5,5),(6,6);
 
 /*==============================================================*/
 /* Index: user_role_index                                       */
@@ -293,6 +330,7 @@ create unique index Index_user_id on ct_user_role_relationships
 create table ct_userrole
 (
    role_id              bigint(20) not null comment '角色ID',
+   role_mark            varchar(20) comment '角色标记',
    role_name            varchar(20) comment '角色名',
    primary key (role_id)
 )
@@ -302,6 +340,29 @@ alter table ct_userrole comment '1. 几种管理员：
      a. 资讯编辑员
      b. 资讯审核员
     ';
+
+/*
+1. 几种管理员：
+     a. 超级管理员
+     b. 资讯编辑员
+     c. 资讯审核员
+     d. 资讯维护员
+     e. 注册用户审核员
+     f. 交易审核员
+     
+2. 交易用户[供应商,采购商]
+3. 财务用户
+*/
+INSERT INTO ct_userrole(`role_id`, `role_name`, `role_mark`) VALUES
+(1, "超级管理员", "SUPER_ADMIN"),
+(2, "资讯编辑员", "NEWS_EDITOR"),
+(3, "资讯审核员", "NEWS_AUDITOR"),
+(4, "资讯维护员", "NEWS_MANAGER"),
+(5, "注册用户审核员", "USER_REG_AUDITOR"),
+(6, "交易审核员", "TRADE_AUDITOR"),
+(7, "供应商", "USER_SALE"),
+(8, "采购商", "USER_BUY"),
+(9, "财务用户", "USER_MONEY");
 
 /*==============================================================*/
 /* Index: Index_role_id                                         */
@@ -316,13 +377,13 @@ create index Index_role_id on ct_userrole
 /*==============================================================*/
 create table ct_users
 (
-   user_id              bigint(20) not null comment '用户ID',
+   user_id              bigint(20) not null auto_increment comment '用户ID',
    user_login           varchar(20) not null comment '登录名',
    user_pass            varchar(50) comment '用户密码：
             要经过加密',
    user_nick            varchar(20) comment '用户昵称',
    user_email           varchar(20) comment '用户邮箱',
-   created_time         datetime comment '创建时间',
+   created_time         datetime default CURRENT_TIMESTAMP comment '创建时间',
    user_status          int comment '用户状态：
             1. 待审核
             2. 审核通过（可用）
@@ -336,6 +397,15 @@ alter table ct_users comment '存储的用户类型：
 2. 交易用户
 3. 财务用户
 ';
+
+INSERT INTO `ct_users` (`user_id`, `user_login`, `user_pass`, `user_nick`, `user_email`, `user_status`) 
+VALUES 
+(1, 'superadmin', '123456', '超级管理员', "1@mail.com", 2),
+(2, 'newseditor', '123456', '资讯编辑员', '2@mail.com', 2),
+(3, 'newsauditor', '123456', '资讯审核员', '3@mail.com', 2),
+(4, 'newsmanager', '123456', '资讯维护员', "4@mail.com", 2),
+(5, 'userregauditor', '123456', '注册用户审核员', "4@mail.com", 2),
+(6, 'tradeauditor', '123456', '交易审核员', "4@mail.com", 2);
 
 /*==============================================================*/
 /* Index: Index_user_login                                      */
