@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/27 14:55:28                           */
+/* Created on:     2021/7/27 15:08:42                           */
 /*==============================================================*/
 
 
@@ -53,6 +53,28 @@ alter table ct_company comment '企业基本信息表';
 create unique index Index_com_name on ct_company
 (
    com_name
+);
+
+/*==============================================================*/
+/* Table: ct_finance_bargain_bind                               */
+/*==============================================================*/
+create table ct_finance_bargain_bind
+(
+   bargain_id           bigint(20) not null comment '交易用户ID',
+   finance_id           bigint(20) not null comment '财务用户ID',
+   primary key (bargain_id, finance_id)
+)
+engine = InnoDB;
+
+alter table ct_finance_bargain_bind comment '财务用户与交易用户（采购商，供应商）绑定';
+
+/*==============================================================*/
+/* Index: Index_1                                               */
+/*==============================================================*/
+create unique index Index_1 on ct_finance_bargain_bind
+(
+   bargain_id,
+   finance_id
 );
 
 /*==============================================================*/
@@ -443,6 +465,12 @@ create unique index Index_msg_id on ct_website_message
 );
 
 alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
+      references ct_users (user_id) on delete restrict on update restrict;
+
+alter table ct_finance_bargain_bind add constraint FK_FT_REF_USER_1 foreign key (bargain_id)
+      references ct_users (user_id) on delete restrict on update restrict;
+
+alter table ct_finance_bargain_bind add constraint FK_FT_REF_USER_2 foreign key (finance_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
 alter table ct_fund add constraint FK_FU_REF_USER foreign key (user_id)
