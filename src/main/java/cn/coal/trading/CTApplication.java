@@ -1,13 +1,15 @@
 package cn.coal.trading;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+@MapperScan(basePackages = {"cn.coal.trading.mapper"})
+public class CTApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(CTApplication.class, args);
 	}
 
 }

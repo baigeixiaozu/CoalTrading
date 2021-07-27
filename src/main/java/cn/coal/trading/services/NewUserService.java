@@ -1,7 +1,9 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.BaseUser;
+import cn.coal.trading.bean.UserRole;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,4 +14,5 @@ import java.util.Map;
 public interface NewUserService {
     Map<String, Object> newUser();
     BaseUser findBaseUserById(String id);
+    List<UserRole> getRoleList();
 }
