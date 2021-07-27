@@ -1,11 +1,8 @@
 package cn.coal.trading.controller;
 
-import cn.coal.trading.bean.NewUser;
+import cn.coal.trading.bean.BaseUser;
 import cn.coal.trading.bean.UserRole;
-import cn.coal.trading.mapper.NewUserMapper;
-import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.NewUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,10 +23,14 @@ public class NewUserController {
     NewUserService newUserService;
 
     @PostMapping("/new")
-    public Map<String, Object> newUser(@RequestBody NewUser user){
+    public Map<String, Object> newUser(@RequestBody BaseUser user){
+
+
+
         return new HashMap<String, Object>(){{
             put("code", 200);
             put("test", user);
+
         }};
     }
 

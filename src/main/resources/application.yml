@@ -6,6 +6,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://106.52.202.68:3306/coal_trading
 
+  # 热部署
+  devtools:
+    restart:
+      enabled: true
+
 # MP
 mybatis-plus:
   configuration:
