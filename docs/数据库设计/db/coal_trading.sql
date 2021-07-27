@@ -1,6 +1,7 @@
 /*==============================================================*/
+/* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/25 9:25:09                            */
+/* Created on:     2021/7/26 18:54:32                           */
 /*==============================================================*/
 
 
@@ -9,116 +10,128 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; # 自增设置
 SET FOREIGN_KEY_CHECKS=0;  # 取消外键约束
 
 
-alter table ct_fund
-   drop primary key;
+drop database if exists coal_trading;
 
-drop table if exists ct_fund;
+/*==============================================================*/
+/* Database: coal_trading                                       */
+/*==============================================================*/
+create database coal_trading;
 
-alter table ct_fund_log
-   drop primary key;
+use coal_trading;
 
-drop table if exists ct_fund_log;
+/*==============================================================*/
+/* Table: ct_company                                            */
+/*==============================================================*/
+create table ct_company
+(
+   user_id              bigint(20) not null comment '用户ID',
+   com_name             varchar(20) not null comment '企业名称',
+   legal_name           varchar(20) comment '法人代表',
+   legal_id             varchar(20) comment '法人身份证号',
+   com_addr             varchar(20) comment '注册地区',
+   com_contact          varchar(20) comment '联系电话',
+   com_zip              varchar(20) comment '邮政编码',
+   business_license_id  varchar(20) comment '营业执照号',
+   business_license_file varchar(255) comment '营业执照（文件）',
+   manage_license_id    varchar(20) comment '经营许可证编号',
+   fax                  varchar(20) comment '传真',
+   registered_capital   varchar(20) comment '注册资金（万元）',
+   oib_code             varchar(20) comment '组织机构代码',
+   oib_code_file        varchar(255) comment '组织机构代码证（文件）',
+   tr_cert              varchar(20) comment '税务登记证代码',
+   tr_cert_file         varchar(255) comment '税务登记证（文件）',
+   manage_license_file  varchar(255) comment '煤炭经营许可证（文件）[买方无]',
+   primary key (user_id)
+)
+engine = InnoDB;
 
-alter table ct_news
-   drop primary key;
+alter table ct_company comment '企业基本信息表';
 
-drop table if exists ct_news;
-
-alter table ct_order
-   drop primary key;
-
-drop table if exists ct_order;
-
-alter table ct_privilege
-   drop primary key;
-
-drop table if exists ct_privilege;
-
-alter table ct_request
-   drop primary key;
-
-drop table if exists ct_request;
-
-drop table if exists ct_role_pri_relationships;
-
-drop table if exists ct_user_role_relationships;
-
-alter table ct_userext
-   drop primary key;
-
-drop table if exists ct_userext;
-
-alter table ct_userrole
-   drop primary key;
-
-drop table if exists ct_userrole;
-
-alter table ct_users
-   drop primary key;
-
-drop table if exists ct_users;
+/*==============================================================*/
+/* Index: Index_com_name                                        */
+/*==============================================================*/
+create unique index Index_com_name on ct_company
+(
+   com_name
+);
 
 /*==============================================================*/
 /* Table: ct_fund                                               */
 /*==============================================================*/
 create table ct_fund
 (
-   user_id              bigint not null comment '财务用户ID',
+   user_id              bigint(20) not null comment '财务用户ID',
    com_name             varchar(20) comment '汇款单位名称',
    bank_name            varchar(20) comment '开户行名称',
    bank_acc             varchar(19) comment '银行账号',
    fund_total           decimal(10,2) comment '账户金额',
-   fund_freeze          decimal(10,2) comment '报价冻结金额'
+   fund_freeze          decimal(10,2) comment '报价冻结金额',
+   ao_permit_file       varchar(255) comment '开户许可证（文件）',
+   primary key (user_id)
 )
 engine = InnoDB;
 
-alter table ct_fund
-   add primary key (user_id);
+/*==============================================================*/
+/* Index: Index_user_id                                         */
+/*==============================================================*/
+create unique index Index_user_id on ct_fund
+(
+   user_id
+);
 
 /*==============================================================*/
 /* Table: ct_fund_log                                           */
 /*==============================================================*/
 create table ct_fund_log
 (
-   user_id              bigint not null comment '用户ID',
+   user_id              bigint(20) not null comment '用户ID',
    log_date             datetime comment '变动时间',
-   log_type             bigint comment '变动操作',
+   log_type             bigint comment '变动操作：
+            1. 预存（增加）
+            2. 缴纳给平台（冻结）
+            3. 平台扣除指定额度的冻结款项（减少）
+            ',
    log_fund_count       decimal(10,2) comment '金额数量',
-   log_cert             varchar(255) comment '交易凭证'
+   log_cert             varchar(255) comment '交易凭证（文件）',
+   primary key (user_id)
 )
 engine = InnoDB;
 
-alter table ct_fund_log comment '变动操作：
-1. 预存（增加）
-2. 缴纳给平台（冻结）
-3. 平台扣除指定额度的冻';
+/*==============================================================*/
+/* Index: Index_user_id                                         */
+/*==============================================================*/
+create index Index_user_id on ct_fund_log
+(
+   user_id
+);
 
-alter table ct_fund_log
-   add primary key (user_id);
+/*==============================================================*/
+/* Index: Index_log_type                                        */
+/*==============================================================*/
+create index Index_log_type on ct_fund_log
+(
+   log_type
+);
 
 /*==============================================================*/
 /* Table: ct_news                                               */
 /*==============================================================*/
 create table ct_news
 (
-   news_id              bigint not null comment '新闻ID',
+   news_id              bigint(20) not null comment '新闻ID',
    news_title           varchar(20) comment '新闻标题',
    news_content         text comment '内容',
    news_date            datetime comment '创建时间',
-   news_status          int comment '状态',
-   news_author          bigint comment '编写人员',
-   news_auditor         bigint comment '审核人员'
+   news_status          int comment '状态：
+            1. 草稿
+            2. 发布
+            3. 撤销（隐藏）
+            4. 删除（记录直接没了）',
+   news_author_id       bigint(20) comment '发布人员',
+   news_auditor_id      bigint(20) comment '审核人员',
+   primary key (news_id)
 )
 engine = InnoDB;
-
-alter table ct_news comment '状态：
-1. 草稿
-2. 发布
-3. 撤销（隐藏）
-4. 删除（记录直接';
-
-alter table ct_news
-   add primary key (news_id);
 
 /*==============================================================*/
 /* Index: Index_news_id                                         */
@@ -133,29 +146,52 @@ create unique index Index_news_id on ct_news
 /*==============================================================*/
 create table ct_order
 (
-   oid                  varchar(20) not null comment '订单ID',
-   req_id               bigint comment '需求ID',
-   user_id              bigint comment '用户ID',
+   order_id             bigint(20) not null comment '订单ID',
+   order_num            varchar(30),
+   req_id               bigint(20) comment '需求ID',
+   user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
-   status               int comment '订单状态'
+   status               smallint(6) comment '订单状态：
+            1. 进行中
+            2. 超时
+            3. 完成
+            4. 取消',
+   primary key (order_id)
 )
 engine = InnoDB;
 
-alter table ct_order comment '订单状态：
-1. 进行中
-2. 超时
-3. 完成';
+/*==============================================================*/
+/* Index: Index_user_id                                         */
+/*==============================================================*/
+create index Index_user_id on ct_order
+(
+   user_id
+);
 
-alter table ct_order
-   add primary key (oid);
+/*==============================================================*/
+/* Index: Index_req_id                                          */
+/*==============================================================*/
+create index Index_req_id on ct_order
+(
+   req_id
+);
+
+/*==============================================================*/
+/* Index: Index_order_id                                        */
+/*==============================================================*/
+create unique index Index_order_id on ct_order
+(
+   order_id
+);
 
 /*==============================================================*/
 /* Table: ct_privilege                                          */
 /*==============================================================*/
 create table ct_privilege
 (
-   pri_id               bigint not null comment '权限ID',
-   pri_name             varchar(10) comment '权限名'
+   pri_id               bigint(20) not null comment '权限ID',
+   pri_name             varchar(10) comment '权限名',
+   primary key (pri_id)
 )
 engine = InnoDB;
 
@@ -164,9 +200,6 @@ alter table ct_privilege comment '权限：
 2. 资讯审核权限
 3. 资讯维护权限
 4.';
-
-alter table ct_privilege
-   add primary key (pri_id);
 
 /*==============================================================*/
 /* Index: Index_pri                                             */
@@ -181,43 +214,60 @@ create unique index Index_pri on ct_privilege
 /*==============================================================*/
 create table ct_request
 (
-   req_id               bigint not null comment '需求ID',
-   user_id              bigint comment '用户ID',
+   req_id               bigint(20) not null comment '需求ID',
+   user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
-   type                 bigint comment '购入/卖出',
-   status               int comment '需求状态',
-   deatil               text comment '需求信息(JSON)'
+   type                 smallint(6) comment '购入/卖出',
+   status               int comment '需求状态
+            1. 草稿
+            2. 发布
+            3. 被摘取
+            4. 隐藏
+            5. 完成',
+   deatil               text comment '需求信息(JSON)',
+   primary key (req_id)
 )
 engine = InnoDB;
 
-alter table ct_request comment '需求状态：
-1. 草稿
-2. 发布
-3. 被摘取
-4. 隐藏
-                               -&#&';
-
-alter table ct_request
-   add primary key (req_id);
+/*==============================================================*/
+/* Index: Index_req_id                                          */
+/*==============================================================*/
+create index Index_req_id on ct_request
+(
+   req_id
+);
 
 /*==============================================================*/
 /* Table: ct_role_pri_relationships                             */
 /*==============================================================*/
 create table ct_role_pri_relationships
 (
-   role_id              bigint comment '角色ID',
-   pri_id               bigint comment '权限ID'
+   role_id              bigint(20) not null comment '角色ID',
+   pri_id               bigint(20) not null comment '权限ID',
+   primary key (role_id, pri_id)
 )
 engine = InnoDB;
+
+alter table ct_role_pri_relationships comment '1个角色可以对应1个权限';
+
+/*==============================================================*/
+/* Index: Index_role_pri_id                                     */
+/*==============================================================*/
+create unique index Index_role_pri_id on ct_role_pri_relationships
+(
+   role_id,
+   pri_id
+);
 
 /*==============================================================*/
 /* Table: ct_user_role_relationships                            */
 /*==============================================================*/
 create table ct_user_role_relationships
 (
-   role_id              bigint not null comment '角色ID',
-   user_id              bigint not null comment '用户ID'
+   role_id              bigint(20) not null comment '角色ID',
+   user_id              bigint(20) not null comment '用户ID',
+   primary key (role_id, user_id)
 )
 engine = InnoDB;
 
@@ -226,28 +276,13 @@ engine = InnoDB;
 /*==============================================================*/
 create unique index user_role_index on ct_user_role_relationships
 (
-   role_id,
-   user_id
+   role_id
 );
 
 /*==============================================================*/
-/* Table: ct_userext                                            */
+/* Index: Index_user_id                                         */
 /*==============================================================*/
-create table ct_userext
-(
-   user_id              bigint not null comment '用户ID',
-   ext_ver              int comment '拓展版本',
-   ext_info             text comment '拓展信息'
-)
-engine = InnoDB;
-
-alter table ct_userext
-   add primary key (user_id);
-
-/*==============================================================*/
-/* Index: Index_user                                            */
-/*==============================================================*/
-create unique index Index_user on ct_userext
+create unique index Index_user_id on ct_user_role_relationships
 (
    user_id
 );
@@ -257,8 +292,9 @@ create unique index Index_user on ct_userext
 /*==============================================================*/
 create table ct_userrole
 (
-   role_id              bigint not null comment '角色ID',
-   role_name            varchar(20) comment '角色名'
+   role_id              bigint(20) not null comment '角色ID',
+   role_name            varchar(20) comment '角色名',
+   primary key (role_id)
 )
 engine = InnoDB;
 
@@ -267,31 +303,39 @@ alter table ct_userrole comment '1. 几种管理员：
      b. 资讯审核员
     ';
 
-alter table ct_userrole
-   add primary key (role_id);
+/*==============================================================*/
+/* Index: Index_role_id                                         */
+/*==============================================================*/
+create index Index_role_id on ct_userrole
+(
+   role_id
+);
 
 /*==============================================================*/
 /* Table: ct_users                                              */
 /*==============================================================*/
 create table ct_users
 (
-   user_id              bigint not null comment '用户ID',
-   user_login           varchar(20) comment '登录名',
-   user_pass            varchar(50) comment '用户密码',
+   user_id              bigint(20) not null comment '用户ID',
+   user_login           varchar(20) not null comment '登录名',
+   user_pass            varchar(50) comment '用户密码：
+            要经过加密',
+   user_nick            varchar(20) comment '用户昵称',
+   user_email           varchar(20) comment '用户邮箱',
    created_time         datetime comment '创建时间',
-   user_status          int comment '用户状态'
+   user_status          int comment '用户状态：
+            1. 待审核
+            2. 审核通过（可用）
+            ',
+   primary key (user_id)
 )
 engine = InnoDB;
 
-alter table ct_users comment '用户类型：
+alter table ct_users comment '存储的用户类型：
 1. 管理员
 2. 交易用户
 3. 财务用户
-
 ';
-
-alter table ct_users
-   add primary key (user_id);
 
 /*==============================================================*/
 /* Index: Index_user_login                                      */
@@ -302,13 +346,34 @@ create unique index Index_user_login on ct_users
 );
 
 /*==============================================================*/
-/* Index: Index_user_login_pass                                 */
+/* Table: ct_website_message                                    */
 /*==============================================================*/
-create index Index_user_login_pass on ct_users
+create table ct_website_message
 (
-   user_login,
-   user_pass
+   id                   bigint(20) not null comment '新闻主键',
+   modified             datetime comment '修改时间',
+   type                 smallint comment '消息类型（1.系统消息）',
+   wm_context           varchar(1024) comment '站内信内容',
+   wm_created           datetime comment '发信时间',
+   wm_from_userid       bigint(20) comment '发信人用户ID',
+   wm_from_username     varchar(128) comment '发信人用户名',
+   wm_read              smallint comment '是否已读（1. 未读；2.已读）',
+   wm_to_userid         bigint(20) comment '收信人用户ID',
+   wm_to_username       varchar(128) comment '收信人用户名',
+   primary key (id)
+)
+engine = InnoDB;
+
+/*==============================================================*/
+/* Index: Index_msg_id                                          */
+/*==============================================================*/
+create unique index Index_msg_id on ct_website_message
+(
+   id
 );
+
+alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
+      references ct_users (user_id) on delete restrict on update restrict;
 
 alter table ct_fund add constraint FK_FU_REF_USER foreign key (user_id)
       references ct_users (user_id) on delete restrict on update restrict;
@@ -316,10 +381,10 @@ alter table ct_fund add constraint FK_FU_REF_USER foreign key (user_id)
 alter table ct_fund_log add constraint FK_FL_REF_USER foreign key (user_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
-alter table ct_news add constraint FK_NEWS_REF_USER_1 foreign key (news_author)
+alter table ct_news add constraint FK_NEWS_REF_USER_1 foreign key (news_author_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
-alter table ct_news add constraint FK_NEWS_REF_USER_2 foreign key (news_auditor)
+alter table ct_news add constraint FK_NEWS_REF_USER_2 foreign key (news_auditor_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
 alter table ct_order add constraint FK_ORDER_REF_REQ foreign key (req_id)
@@ -343,7 +408,10 @@ alter table ct_user_role_relationships add constraint FK_UR_REF_ROLE foreign key
 alter table ct_user_role_relationships add constraint FK_UR_REF_USER foreign key (user_id)
       references ct_users (user_id) on delete restrict on update restrict;
 
-alter table ct_userext add constraint FK_UE_REF_USER foreign key (user_id)
+alter table ct_website_message add constraint FK_UM_REF_USER_1 foreign key (wm_from_userid)
+      references ct_users (user_id) on delete restrict on update restrict;
+
+alter table ct_website_message add constraint FK_UM_REF_USER_2 foreign key (wm_to_userid)
       references ct_users (user_id) on delete restrict on update restrict;
 
 

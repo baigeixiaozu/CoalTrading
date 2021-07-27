@@ -1,0 +1,12 @@
+spring:
+# 数据库
+  datasource:
+    username: root
+    password: baigeixiaozi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://106.52.202.68:3306/coal_trading
+
+# MP
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
