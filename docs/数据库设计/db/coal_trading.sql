@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/27 15:08:42                           */
+/* Created on:     2021/7/27 18:27:09                           */
 /*==============================================================*/
 
 
@@ -26,8 +26,10 @@ create table ct_company
 (
    user_id              bigint(20) not null comment '用户ID',
    com_name             varchar(20) not null comment '企业名称',
+   com_intro            text comment '企业介绍',
    legal_name           varchar(20) comment '法人代表',
    legal_id             varchar(20) comment '法人身份证号',
+   legal_id_file        varchar(255) comment '法人身份证（文件）',
    com_addr             varchar(20) comment '注册地区',
    com_contact          varchar(20) comment '联系电话',
    com_zip              varchar(20) comment '邮政编码',
@@ -40,7 +42,11 @@ create table ct_company
    oib_code_file        varchar(255) comment '组织机构代码证（文件）',
    tr_cert              varchar(20) comment '税务登记证代码',
    tr_cert_file         varchar(255) comment '税务登记证（文件）',
-   manage_license_file  varchar(255) comment '煤炭经营许可证（文件）[买方无]',
+   manage_license_file  varchar(255) comment '煤炭经营许可证（文件）[供应商]',
+   coal_store_site      varchar(255) comment '煤源存放地点[供应商]',
+   coal_quantity        bigint comment '煤源数量[供应商]',
+   coal_quality         varchar(10) comment '煤源质量[供应商]',
+   coal_transport       varchar(20) comment '运输方式及保障能力[供应商]',
    primary key (user_id)
 )
 engine = InnoDB;
@@ -405,8 +411,8 @@ create table ct_users
             要经过加密',
    user_nick            varchar(20) comment '用户昵称',
    user_email           varchar(20) comment '用户邮箱',
-   created_time         datetime default CURRENT_TIMESTAMP comment '创建时间',
-   user_status          int comment '用户状态：
+   user_registered      datetime default CURRENT_TIMESTAMP comment '创建时间',
+   user_status          int default 1 comment '用户状态：
             1. 待审核
             2. 审核通过（可用）
             ',
