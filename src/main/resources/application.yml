@@ -7,6 +7,7 @@ spring:
     url: jdbc:mysql://106.52.202.68:3306/coal_trading
 
 # MP
+#配置日志  打印sql语句
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -14,3 +15,4 @@ mybatis-plus:
 # Swagger 有点问题？
 swagger:
   enabled: true
+
