@@ -55,11 +55,11 @@
 		</dependency>
 
 		<!--https://gitee.com/baomidou/shaun-->
-		<!--<dependency>-->
-		<!--	<groupId>com.baomidou</groupId>-->
-		<!--	<artifactId>shaun-spring-boot-starter</artifactId>-->
-		<!--	<version>1.2</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>shaun-spring-boot-starter</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 		<!--Swagger-->
 		<dependency>
