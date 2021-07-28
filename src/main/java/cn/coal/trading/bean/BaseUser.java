@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -22,17 +23,16 @@ import java.util.Date;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "ct_users")
-@EnableConfigurationProperties
 @ConfigurationProperties(prefix = "user")
-public class BaseUser {
+@TableName(value = "ct_users")
+public class BaseUser implements Serializable {
     @TableId
-    private Long id;
-    private String login;
-    private String pass;
-    private String nick;
-    private String email;
-    private Date registered;
+    private Long    id;
+    private String  login;
+    private String  pass;
+    private String  nick;
+    private String  email;
+    private Date    registered;
     private Integer status;
     @TableField(exist = false)
     private Integer role;

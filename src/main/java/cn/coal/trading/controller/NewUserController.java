@@ -1,7 +1,7 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.BaseUser;
-import cn.coal.trading.bean.UserRole;
+import cn.coal.trading.bean.Role;
 import cn.coal.trading.services.NewUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +25,11 @@ public class NewUserController {
     @PostMapping("/new")
     public Map<String, Object> newUser(@RequestBody BaseUser user){
 
-
+        Integer ret = newUserService.newUser(user);
 
         return new HashMap<String, Object>(){{
             put("code", 200);
-            put("test", user);
-
+            put("test", ret);
         }};
     }
 
@@ -38,12 +37,12 @@ public class NewUserController {
     @GetMapping("/getRoleList")
     public Map<String, Object> getRoleList(){
 
-        List<UserRole> userRoles = newUserService.getRoleList();
+        List<Role> roles = newUserService.getRoleList();
         Map<String, Object> result = new HashMap<>();
 
-        if(userRoles != null){
+        if(roles != null){
             result.put("code", 200);
-            result.put("data", userRoles);
+            result.put("data", roles);
         }else{
             result.put("code", 201);
             result.put("msg", "角色数据获取失败，未知异常");

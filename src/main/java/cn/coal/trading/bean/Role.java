@@ -19,7 +19,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ct_userrole")
-public class UserRole implements Serializable {
+public class Role implements Serializable {
     @TableId
     private Integer roleId;
     private String roleName;

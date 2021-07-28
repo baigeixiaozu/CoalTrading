@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Date;
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "wm")
 @TableName(value = "wm")
-public class Msg {
+public class Msg implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
     // 消息内容

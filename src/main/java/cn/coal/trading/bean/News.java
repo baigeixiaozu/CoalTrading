@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /*
@@ -17,7 +18,7 @@ Version:v1.0
 @Component//将pojo类实例化到spring容器内
 @NoArgsConstructor//配置无参构造方法
 @AllArgsConstructor//配置有参构造方法
-public class News {
+public class News implements Serializable {
     private int newsID;
     private String newTitle;
     private String newsContent;

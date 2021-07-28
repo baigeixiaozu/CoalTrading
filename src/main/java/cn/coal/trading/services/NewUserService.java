@@ -1,10 +1,9 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.BaseUser;
-import cn.coal.trading.bean.UserRole;
+import cn.coal.trading.bean.Role;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author jiyec
@@ -12,7 +11,7 @@ import java.util.Map;
  * @Version 1.0
  **/
 public interface NewUserService {
-    Map<String, Object> newUser();
+    Integer newUser(BaseUser user);
     BaseUser findBaseUserById(String id);
-    List<UserRole> getRoleList();
+    List<Role> getRoleList();
 }
