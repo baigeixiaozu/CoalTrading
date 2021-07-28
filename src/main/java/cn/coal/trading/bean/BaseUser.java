@@ -1,5 +1,6 @@
 package cn.coal.trading.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -26,11 +27,11 @@ import java.util.Date;
 @ConfigurationProperties(prefix = "user")
 @TableName(value = "ct_users")
 public class BaseUser implements Serializable {
-    @TableId
-    private Long    id;
-    private String  login;
-    private String  pass;
-    private String  nick;
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    private String login;
+    private String pass;
+    private String nick;
     private String  email;
     private Date    registered;
     private Integer status;

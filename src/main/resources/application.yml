@@ -19,3 +19,6 @@ mybatis-plus:
 # Swagger 有点问题？
 swagger:
   enabled: true
+# 日志
+logging:
+  config: classpath:logback-spring.xml

@@ -7,6 +7,8 @@ import cn.coal.trading.mapper.RoleMapper;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.NewUserService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,23 +28,28 @@ public class NewUserServiceImpl implements NewUserService {
     UserRoleMapper userRoleMapper;
     @Resource
     RoleMapper roleMapper;
-    /**
-     * 新建用户（不是注册）
-     * @return 0成功|1已存在|2角色分配失败
-     */
+
     @Override
-    public Integer newUser(BaseUser user) {
-        // TODO:检查用户名是否存在
+    public String newUser(BaseUser user) {
+
+        Integer count = userMapper.selectCount(new QueryWrapper<BaseUser>() {{
+            eq("login", user.getLogin());
+        }});
+        if(count > 0){
+            return "用户已存在";
+        }
         int insert = userMapper.insert(user);
-        if(insert == 0)return 1;
+        if(insert == 0) {
+            return "用户创建失败";
+        }
         Integer role = user.getRole();
 
         insert = userRoleMapper.insert(new UserRoleBinding(user.getId(), role));
         if(insert == 0) {
             userMapper.deleteById(user.getId());
-            return 2;
+            return "用户角色绑定失败";
         }
-        return 0;
+        return null;
     }
 
     @Override

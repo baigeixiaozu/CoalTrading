@@ -25,12 +25,45 @@ public class NewUserController {
     @PostMapping("/new")
     public Map<String, Object> newUser(@RequestBody BaseUser user){
 
-        Integer ret = newUserService.newUser(user);
+        // TODO: 权限验证
+        Map<String, Object> result = new HashMap<>();
+        if(user.getLogin() == null) {
+            result.put("code", 105201);
+            result.put("msg", "用户名不能为空");
+            return result;
+        }
+        if(user.getPass() == null) {
+            result.put("code", 105201);
+            result.put("msg", "密码不能为空");
+            return result;
+        }
+        if(user.getNick() == null) {
+            result.put("code", 105201);
+            result.put("msg", "昵称不能为空");
+            return result;
+        }
+        if(user.getEmail() == null) {
+            result.put("code", 105201);
+            result.put("msg", "邮箱不能为空");
+            return result;
+        }
+        if(user.getRole() == null) {
+            result.put("code", 105201);
+            result.put("msg", "用户角色不能为空");
+            return result;
+        }
+        String ret = newUserService.newUser(user);
 
-        return new HashMap<String, Object>(){{
-            put("code", 200);
-            put("test", ret);
-        }};
+        if(ret == null){
+            result.put("code", 200);
+            result.put("msg", "success");
+        }else{
+            result.put("code", 105202);
+            result.put("msg", "fail");
+            result.put("error", ret);
+        }
+
+        return result;
     }
 
     // TODO: 权限验证

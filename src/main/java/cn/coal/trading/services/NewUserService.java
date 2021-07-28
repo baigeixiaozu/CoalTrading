@@ -11,7 +11,13 @@ import java.util.List;
  * @Version 1.0
  **/
 public interface NewUserService {
-    Integer newUser(BaseUser user);
+    /**
+     * 新建用户（不是注册）
+     *
+     * @param user 要新增的用户
+     * @return String null成功|”***“错误信息
+     */
+    String newUser(BaseUser user);
     BaseUser findBaseUserById(String id);
     List<Role> getRoleList();
 }
