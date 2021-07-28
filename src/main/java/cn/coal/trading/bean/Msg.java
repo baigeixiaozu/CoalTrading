@@ -24,16 +24,16 @@ import java.util.Date;
 @Component
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "wm")
-@TableName(value = "wm")
+@TableName(value = "ct_website_message")
 public class Msg implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
     // 消息内容
     private String context;
     private Date created;
-    private Long fromUserId;
-    private Long fromUserName;
-    private Long toUserId;
-    private Long toUserName;
-    private int read;
+    private Long fromUserid;
+    private String fromUsername;
+    private Long toUserid;
+    private String toUsername;
+    private Integer readStatus;
 }
