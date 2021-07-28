@@ -1,6 +1,6 @@
 package cn.coal.trading.mapper;
 
-import cn.coal.trading.bean.UserRoleBinding;
+import cn.coal.trading.bean.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -8,5 +8,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @Date 2021/7/27 14:32
  * @Version 1.0
  **/
-public interface UserRoleMapper extends BaseMapper<UserRoleBinding> {
+public interface RoleMapper extends BaseMapper<Role> {
 }

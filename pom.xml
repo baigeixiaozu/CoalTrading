@@ -53,12 +53,13 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
-		<!--<dependency>-->
-		<!--	<groupId>cn.dev33</groupId>-->
-		<!--	<artifactId>sa-token-spring-boot-starter</artifactId>-->
-		<!--	<version>1.24.0</version>-->
-		<!--</dependency>-->
+
+		<!--https://gitee.com/baomidou/shaun-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>shaun-spring-boot-starter</artifactId>
+			<version>1.2</version>
+		</dependency>
 
 		<!--Swagger-->
 		<dependency>
