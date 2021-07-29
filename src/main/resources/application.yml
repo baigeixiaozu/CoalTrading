@@ -36,7 +36,6 @@ shaun:
     - /swagger-resources
     - /doc.html
     - /favicon.ico
-    - /error
   exclude-branch: # 排除以此路径开头
     - /webjars
   expire-time: 1d # 不设置默认永久有效

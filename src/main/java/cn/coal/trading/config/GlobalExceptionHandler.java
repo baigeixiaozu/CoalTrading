@@ -1,6 +1,5 @@
 package cn.coal.trading.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.pac4j.core.context.HttpConstants;
 import org.pac4j.core.exception.http.ForbiddenAction;
 import org.pac4j.core.exception.http.HttpAction;
