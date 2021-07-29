@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/29 8:31:25                            */
+/* Created on:     2021/7/29 18:17:28                           */
 /*==============================================================*/
 
 
@@ -337,9 +337,9 @@ INSERT INTO ct_user_role_relationships(`user_id`, `role_id`)
 VALUES(1, 1),(2,2),(3,3),(4,4),(5,5),(6,6);
 
 /*==============================================================*/
-/* Index: user_role_index                                       */
+/* Index: Index_user_role                                       */
 /*==============================================================*/
-create unique index user_role_index on ct_user_role_relationships
+create index Index_user_role on ct_user_role_relationships
 (
    role_id
 );
@@ -347,7 +347,7 @@ create unique index user_role_index on ct_user_role_relationships
 /*==============================================================*/
 /* Index: Index_user_id                                         */
 /*==============================================================*/
-create unique index Index_user_id on ct_user_role_relationships
+create index Index_user_id on ct_user_role_relationships
 (
    user_id
 );
