@@ -3,6 +3,7 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.News;
 import cn.coal.trading.services.NewsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,14 +18,14 @@ import java.util.Map;
  * Version:v1.0
  */
 
-@CrossOrigin//解决跨域请求授权问题
+/*@CrossOrigin//解决跨域请求授权问题*/
 @RestController//注释该类为Controller类，return返回值将被转换成json，字符串除外
+@RequestMapping("/news")//接收打开页面时发送的请求，获取资讯标题和详细资讯路径
 public class NewsController {
     @Resource
     NewsService newsService;
 
-    //接收打开页面时发送的请求，获取资讯标题和详细资讯路径
-    @RequestMapping("/News")
+    @GetMapping("/show")
     public Map<String,Object> showNews(){
         try{
             List<News> NewsList= newsService.getAllNews();
