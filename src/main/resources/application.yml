@@ -6,6 +6,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://106.52.202.68:3306/coal_trading
 
+  # 热部署
+  devtools:
+    restart:
+      enabled: true
+
 # MP
 #配置日志  打印sql语句
 mybatis-plus:
@@ -15,4 +20,23 @@ mybatis-plus:
 # Swagger 有点问题？
 swagger:
   enabled: true
+# 日志
+logging:
+  config: classpath:logback-spring.xml
 
+# 权限验证
+shaun:
+  salt: 4anhodTB#xeyjZLn2h4VL8de$H*OQNpv # 32位字符串,不配置则每次启动不一样导致重启前登录的用户token失效
+  stateless: true # 默认 true,表示是前后端分离的
+  session-on: false # 默认 false,表示不用session(会影响pac4j的类对session的操作)
+  login-url: /login # 如果配置,则会加入 exclude-path 内,前后端不分离下鉴权失败会被重定向到此
+  token-location: header # 默认 header,token 的存取位置
+  exclude-path: # 排除具体的路径
+    - /v2/api-docs
+    - /swagger-resources
+    - /doc.html
+    - /favicon.ico
+    - /error
+  exclude-branch: # 排除以此路径开头
+    - /webjars
+  expire-time: 1d # 不设置默认永久有效
