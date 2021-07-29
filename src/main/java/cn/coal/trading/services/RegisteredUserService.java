@@ -2,6 +2,7 @@ package cn.coal.trading.services;
 
 
 import cn.coal.trading.bean.RegisteredUser;
+import cn.coal.trading.bean.ResponseData;
 
 
 import java.util.Map;
@@ -12,5 +13,5 @@ import java.util.Map;
  * @Version 1.0
  **/
 public interface RegisteredUserService {
-    Map<String,Object> register(RegisteredUser registeredUser);
+    ResponseData register(RegisteredUser registeredUser);
 }

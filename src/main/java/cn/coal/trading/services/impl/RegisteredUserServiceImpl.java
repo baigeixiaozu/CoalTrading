@@ -4,6 +4,7 @@ package cn.coal.trading.services.impl;
 import cn.coal.trading.bean.BaseUser;
 import cn.coal.trading.bean.RegisteredUser;
 
+import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.UserRoleBinding;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRoleMapper;
@@ -32,8 +33,8 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
     @Autowired
     public UserRoleMapper userRoleMapper;
     @Override
-    public Map<String,Object> register(RegisteredUser registeredUser) {
-        HashMap<String, Object> map = new HashMap<>();
+    public ResponseData register(RegisteredUser registeredUser) {
+        ResponseData response=new ResponseData();
         BaseUser baseUser=new BaseUser();
 
         baseUser.setLogin(registeredUser.getLogin());
@@ -53,14 +54,21 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
         }
         UserRoleBinding urb=new UserRoleBinding(baseUser.getId(),role);
         userRoleMapper.insert(urb);
-           map.put("code","201");
-           map.put("msg","创建成功");
+
+           response.setCode(201);
+           response.setMsg("创建成功");
+           response.setError("无");
+           response.setData(null);
+           response.setStatus(true);
 
        }else{
-           map.put("code","101");
-           map.put("msg","用户名重复，创建失败");
+           response.setCode(409);
+           response.setMsg("创建失败，用户名已存在");
+           response.setError("资源冲突，或者资源被锁定");
+           response.setData(null);
+           response.setStatus(false);
        }
-        return map;
+        return response;
     }
 
 

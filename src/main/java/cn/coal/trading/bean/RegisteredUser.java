@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
  * @author Sorakado
  * @time 7.28 20:00
  */
-@Component
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("ct_users")
+
 public class RegisteredUser   {
     private String login;
     private String pass;
