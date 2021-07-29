@@ -2,7 +2,6 @@ package cn.coal.trading.services.impl;
 
 
 import cn.coal.trading.bean.BaseUser;
-import cn.coal.trading.bean.RegisteredUser;
 
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.UserRoleBinding;
@@ -10,13 +9,8 @@ import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.RegisteredUserService;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author Sorakado
@@ -33,7 +27,7 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
     @Autowired
     public UserRoleMapper userRoleMapper;
     @Override
-    public ResponseData register(RegisteredUser registeredUser) {
+    public ResponseData register(BaseUser registeredUser) {
         ResponseData response=new ResponseData();
         BaseUser baseUser=new BaseUser();
 

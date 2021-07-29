@@ -1,11 +1,8 @@
 package cn.coal.trading.services;
 
 
-import cn.coal.trading.bean.RegisteredUser;
+import cn.coal.trading.bean.BaseUser;
 import cn.coal.trading.bean.ResponseData;
-
-
-import java.util.Map;
 
 /**
  * @Author Sorakado
@@ -13,5 +10,5 @@ import java.util.Map;
  * @Version 1.0
  **/
 public interface RegisteredUserService {
-    ResponseData register(RegisteredUser registeredUser);
+    ResponseData register(BaseUser user);
 }
