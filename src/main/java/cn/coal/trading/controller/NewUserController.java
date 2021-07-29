@@ -1,8 +1,10 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.BaseUser;
+import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Role;
 import cn.coal.trading.services.NewUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,64 +24,66 @@ public class NewUserController {
     @Resource
     NewUserService newUserService;
 
-    @PostMapping("/new")
-    public Map<String, Object> newUser(@RequestBody BaseUser user){
+    @Resource
+    ResponseData responseData;
 
-        // TODO: 权限验证
-        Map<String, Object> result = new HashMap<>();
+    @PostMapping("/new")
+    public ResponseData newUser(@RequestBody BaseUser user){
+
         if(user.getLogin() == null) {
-            result.put("code", 105201);
-            result.put("msg", "用户名不能为空");
-            return result;
+            responseData.setCode(105201);
+            responseData.setMsg("用户名不能为空");
+            return responseData;
         }
         if(user.getPass() == null) {
-            result.put("code", 105201);
-            result.put("msg", "密码不能为空");
-            return result;
+            responseData.setCode(105201);
+            responseData.setMsg("密码不能为空");
+            return responseData;
         }
         if(user.getNick() == null) {
-            result.put("code", 105201);
-            result.put("msg", "昵称不能为空");
-            return result;
+            responseData.setCode(105201);
+            responseData.setMsg("昵称不能为空");
+            return responseData;
         }
         if(user.getEmail() == null) {
-            result.put("code", 105201);
-            result.put("msg", "邮箱不能为空");
-            return result;
+            responseData.setCode(105201);
+            responseData.setMsg("邮箱不能为空");
+            return responseData;
         }
         if(user.getRole() == null) {
-            result.put("code", 105201);
-            result.put("msg", "用户角色不能为空");
-            return result;
+            return responseData;
         }
         String ret = newUserService.newUser(user);
 
         if(ret == null){
-            result.put("code", 200);
-            result.put("msg", "success");
+            responseData.setCode(200);
+            responseData.setMsg("success");
         }else{
-            result.put("code", 105202);
-            result.put("msg", "fail");
-            result.put("error", ret);
+            responseData.setCode(105202);
+            responseData.setMsg("fail");
+            responseData.setError(ret);
         }
 
-        return result;
+        return responseData;
     }
 
-    // TODO: 权限验证
-    @GetMapping("/getRoleList")
-    public Map<String, Object> getRoleList(){
+    // 获取角色列表
+    @GetMapping({"/getRoleList/{type}"})
+    public ResponseData getRoleList(@PathVariable String type){
 
-        List<Role> roles = newUserService.getRoleList();
-        Map<String, Object> result = new HashMap<>();
+        List<Role> roles = newUserService.getRoleList(type);
 
         if(roles != null){
-            result.put("code", 200);
-            result.put("data", roles);
+            responseData.setCode(200);
+            responseData.setMsg("success");
+            responseData.setStatus(true);
+            responseData.setData(roles);
         }else{
-            result.put("code", 201);
-            result.put("msg", "角色数据获取失败，未知异常");
+            responseData.setCode(201);
+            responseData.setMsg("fail");
+            responseData.setStatus(false);
+            responseData.setError("角色数据获取失败，未知异常");
         }
-        return result;
+        return responseData;
     }
 }

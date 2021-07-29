@@ -21,7 +21,8 @@ import java.io.Serializable;
 @TableName("ct_userrole")
 public class Role implements Serializable {
     @TableId
-    private Integer roleId;
-    private String roleName;
-    private String roleMark;
+    private Integer id;
+    private String name;
+    private String mark;
+    private String type;
 }

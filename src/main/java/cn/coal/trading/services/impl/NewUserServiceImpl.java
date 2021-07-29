@@ -8,7 +8,6 @@ import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.NewUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,13 +52,10 @@ public class NewUserServiceImpl implements NewUserService {
     }
 
     @Override
-    public BaseUser findBaseUserById(String id) {
-        return new BaseUser();
-    }
-
-    @Override
-    public List<Role> getRoleList() {
-        return roleMapper.selectList(null);
+    public List<Role> getRoleList(String type) {
+        return roleMapper.selectList(new QueryWrapper<Role>(){{
+            eq("type", type);
+        }});
     }
 
 }

@@ -10,6 +10,11 @@ spring:
   devtools:
     restart:
       enabled: true
+  mvc:
+    throw-exception-if-no-handler-found: true #出现错误时, 直接抛出异常
+  web:
+    resources:
+      add-mappings: false   #不要为我们工程中的资源文件建立映射
 
 # MP
 #配置日志  打印sql语句
@@ -38,4 +43,5 @@ shaun:
     - /favicon.ico
   exclude-branch: # 排除以此路径开头
     - /webjars
+    - /user
   expire-time: 1d # 不设置默认永久有效

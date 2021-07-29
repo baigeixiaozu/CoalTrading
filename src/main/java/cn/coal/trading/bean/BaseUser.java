@@ -16,6 +16,8 @@ import java.util.Date;
 
 
 /**
+ * 基础用户实体，其它用户实体尽量在此基础上进行继承操作
+ *
  * @Author jiyec
  * @Date 2021/7/26 21:42
  * @Version 1.0
@@ -28,10 +30,10 @@ import java.util.Date;
 @TableName(value = "ct_users")
 public class BaseUser implements Serializable {
     @TableId(type = IdType.AUTO)
-    private Long id;
-    private String login;
-    private String pass;
-    private String nick;
+    private Long    id;
+    private String  login;
+    private String  pass;
+    private String  nick;
     private String  email;
     private Date    registered;
     private Integer status;
