@@ -41,6 +41,7 @@ shaun:
     - /swagger-resources
     - /doc.html
     - /favicon.ico
+    - /user/getRoleList/user  # 未注册用户获取角色列表
   exclude-branch: # 排除以此路径开头
     - /webjars
     - /user
