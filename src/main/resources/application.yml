@@ -11,9 +11,15 @@ spring:
       enabled: true
   mvc:
     throw-exception-if-no-handler-found: true #出现错误时, 直接抛出异常
+    format:
+      date: yyyy-MM-dd
   web:
     resources:
       add-mappings: false   #不要为我们工程中的资源文件建立映射
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+
 
 # MP
 #配置日志  打印sql语句
@@ -27,7 +33,8 @@ swagger:
 
 # 日志
 logging:
-  config: classpath:logback-spring.xml
+  level: debug
+#  config: classpath:logback-spring.xml
 
 # 权限验证
 shaun:
