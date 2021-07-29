@@ -3,9 +3,14 @@ package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.BaseUser;
 import cn.coal.trading.bean.RegisteredUser;
-import cn.coal.trading.mapper.RegisteredUserMapper;
+
+import cn.coal.trading.bean.UserRoleBinding;
 import cn.coal.trading.mapper.UserMapper;
+import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.RegisteredUserService;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +25,13 @@ import java.util.Map;
 
 @Service
 public class RegisteredUserServiceImpl implements RegisteredUserService {
-    @Autowired
-    public RegisteredUserMapper registeredUserMapper;
+
     @Autowired
     public UserMapper userMapper;
     @Autowired
     public BaseUser baseUser;
-
+    @Autowired
+    public UserRoleMapper userRoleMapper;
     @Override
     public Map<String,Object> register(RegisteredUser registeredUser) {
         HashMap<String, Object> map = new HashMap<>();
@@ -38,11 +43,17 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
         int result  =userMapper.insert(baseUser);
 
        if(result==1){
-            map.put("code","201");
-            map.put("msg","创建成功");
 
-
-
+        int role=0;
+        if(baseUser.getNick().equals("供应商")){
+             role=7;
+        }else{
+            role=8;
+        }
+        UserRoleBinding urb=new UserRoleBinding(baseUser.getId(),role);
+        userRoleMapper.insert(urb);
+           map.put("code","201");
+           map.put("msg","创建成功");
 
        }else{
            map.put("code","101");
