@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @TableName("ct_company")
 public class CompanyInformation {
-    private int userId;
+    private Long userId;
     private String comName;
     private String comIntro;
     private String legalName;
@@ -37,7 +37,7 @@ public class CompanyInformation {
     private String trCert;
     private String trCertFile;
     private String coalStoreSite;
-    private int coalQuantity;
+    private Integer coalQuantity;
     private String coalQuality;
     private String coalTransport;
 }

@@ -25,7 +25,7 @@ public class News implements Serializable {
     private String newTitle;//资讯标题
     private String newsContent;//资讯内容
     private Date newDate;//资讯日期
-    private int status;//状态：草稿：1；发布：2
+    private Integer status;//状态：草稿：1；发布：2
     private String authorID;//发布人员ID
     private String auditorID;//审核人员ID
 }
