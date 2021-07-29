@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 响应体实体
+ * 统一响应体实体
  *
  * @Author jiyec
  * @Date 2021/7/29 11:15

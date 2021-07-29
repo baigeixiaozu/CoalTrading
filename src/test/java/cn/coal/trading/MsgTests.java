@@ -35,8 +35,11 @@ public class MsgTests {
 
     @Test
     void getMsg(){
+        // 获取某个用户收到的消息
         List<Msg> msgList1 = msgService.getMsgByToId(1L);
         log.info("{}", msgList1);
+
+        // 获取来自系统的消息（这个用处似乎不大）
         List<Msg> msgList2 = msgService.getMsgByFromId(null);
         log.info("{}", msgList2);
     }

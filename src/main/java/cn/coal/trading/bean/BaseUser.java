@@ -26,7 +26,6 @@ import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "user")
 @TableName(value = "ct_users")
 public class BaseUser implements Serializable {
     @TableId(type = IdType.AUTO)

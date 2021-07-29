@@ -15,7 +15,6 @@ import java.io.Serializable;
  * @Version 1.0
  **/
 @Data
-@Component
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ct_userrole")
