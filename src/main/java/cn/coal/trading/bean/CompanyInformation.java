@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Component
+
 @TableName("ct_company")
 public class CompanyInformation {
     private int userId;
@@ -22,7 +22,7 @@ public class CompanyInformation {
     private String comIntro;
     private String legalName;
     private String legalId;
-    private String conAddr;
+    private String comAddr;
     private String comContact;
     private String comZip;
     private String businessLicenseId;

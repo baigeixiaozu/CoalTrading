@@ -21,7 +21,7 @@ import java.util.Date;
  * @Version 1.0
  **/
 @Data
-@Component
+
 @NoArgsConstructor
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "user")

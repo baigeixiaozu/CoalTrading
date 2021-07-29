@@ -10,7 +10,7 @@ import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.RegisteredUserService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.apache.ibatis.annotations.Select;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +28,14 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 
     @Autowired
     public UserMapper userMapper;
-    @Autowired
-    public BaseUser baseUser;
+
     @Autowired
     public UserRoleMapper userRoleMapper;
     @Override
     public Map<String,Object> register(RegisteredUser registeredUser) {
         HashMap<String, Object> map = new HashMap<>();
+        BaseUser baseUser=new BaseUser();
+
         baseUser.setLogin(registeredUser.getLogin());
         baseUser.setPass(registeredUser.getPass());
         baseUser.setNick(registeredUser.getNick());
