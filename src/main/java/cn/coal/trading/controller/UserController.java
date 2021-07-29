@@ -1,15 +1,7 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.*;
-import cn.coal.trading.services.CompanyService;
-import cn.coal.trading.services.NewUserService;
-import cn.coal.trading.services.RegisteredUserService;
-import cn.coal.trading.services.UserLoginService;
-import cn.coal.trading.services.impl.CompanyServiceImpl;
-import cn.coal.trading.services.impl.UserLoginServiceImpl;
-import cn.coal.trading.services.impl.RegisteredUserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import cn.coal.trading.services.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author Sorakado & jiyeme
- * @version v2.0
+ * @veuserServiceion v2.0
  * @time 7.29 11:02
  */
 @RestController
@@ -26,18 +18,12 @@ import java.util.Map;
 public class UserController {
 
     @Resource
-    RegisteredUserService rs;
-    @Resource
-    UserLoginService ls;
-    @Resource
-    CompanyService cs;
-    @Resource
-    NewUserService newUserService;
+    UserService userService;
 
     /**
      * 新增用户操作
      * TODO: 设定超级管理员权限
-     * @Author jiye
+     * @Author jiyeme
      * @param user 用户信息
      * @return ResponseData
      */
@@ -69,7 +55,7 @@ public class UserController {
         if (user.getRole() == null) {
             return responseData;
         }
-        String ret = newUserService.newUser(user);
+        String ret = userService.newUser(user);
 
         if (ret == null) {
             responseData.setCode(200);
@@ -86,7 +72,7 @@ public class UserController {
     /**
      * 获取角色列表
      *
-     * @Author jiye
+     * @Author jiyeme
      * @param type 角色类型
      * @return ResponseData
      */
@@ -94,7 +80,7 @@ public class UserController {
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
 
-        List<Role> roles = newUserService.getRoleList(type);
+        List<Role> roles = userService.getRoleList(type);
 
         if (roles != null) {
             responseData.setCode(200);
@@ -111,27 +97,27 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData regisered(@RequestBody BaseUser user) {
 
-        ResponseData result = rs.register(user);
+        ResponseData result = userService.register(user);
 
         return result;
     }
 
     @GetMapping("/login")
     public ResponseData login(@RequestBody BaseUser user) {
-        ResponseData result = ls.login(user);
+        ResponseData result = userService.login(user);
 
         return result;
     }
 
     //        @GetMapping("/loginout")
 //        public ResponseData loginOut(@RequestBody BaseUser user){
-//       ResponseData result = rs.loginOut(user);
+//       ResponseData result = userService.loginOut(user);
 //
 //            return result;
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
 
-        ResponseData result = cs.complete(info);
+        ResponseData result = userService.complete(info);
 
         return result;
     }
