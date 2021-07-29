@@ -1,9 +1,6 @@
 package cn.coal.trading.controller;
 
-import cn.coal.trading.bean.CompanyInformation;
-import cn.coal.trading.bean.LoginUser;
-import cn.coal.trading.bean.RegisteredUser;
-import cn.coal.trading.bean.ResponseData;
+import cn.coal.trading.bean.*;
 import cn.coal.trading.services.impl.CompanyServiceImpl;
 import cn.coal.trading.services.impl.UserLoginServiceImpl;
 import cn.coal.trading.services.impl.RegisteredUserServiceImpl;
@@ -29,20 +26,20 @@ public class UserController {
         CompanyServiceImpl cs;
 
         @PostMapping("/register")
-        public ResponseData regisered(@RequestBody RegisteredUser user){
+        public ResponseData regisered(@RequestBody BaseUser user){
 
             ResponseData result = rs.register(user);
 
             return result;
         }
         @GetMapping("/login")
-        public ResponseData login(@RequestBody LoginUser user){
+        public ResponseData login(@RequestBody BaseUser user){
             ResponseData result = ls.login(user);
 
             return result;
         }
 //        @GetMapping("/loginout")
-//        public ResponseData loginOut(@RequestBody LoginUser user){
+//        public ResponseData loginOut(@RequestBody BaseUser user){
 //       ResponseData result = rs.loginOut(user);
 //
 //            return result;

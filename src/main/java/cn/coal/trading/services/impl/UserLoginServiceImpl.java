@@ -1,7 +1,7 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.BaseUser;
-import cn.coal.trading.bean.LoginUser;
+
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.services.UserLoginService;
@@ -18,7 +18,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     public UserMapper userMapper;
     @Override
-    public ResponseData login(LoginUser loginUserUser) {
+    public ResponseData login(BaseUser loginUserUser) {
         ResponseData response=new ResponseData();
         HashMap<String, Object> querymap = new HashMap<>();
         QueryWrapper<BaseUser> wrapper= new QueryWrapper<BaseUser>();
@@ -38,7 +38,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         else{
             response.setCode(401);
             response.setMsg("账号密码输入有误！");
-            response.setData(baseUser);
+            response.setData(null);
             response.setError("未授权");
 
         }
