@@ -12,9 +12,12 @@
 	<artifactId>CoalTrading</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CoalTrading</name>
-	<description>Demo project for Spring Boot</description>
+	<description>国煤交易平台</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<mp.version>3.4.3.1</mp.version>
+		<shaun.version>1.2</shaun.version>
+		<swagger.version>3.0.0</swagger.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -39,6 +42,12 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
@@ -46,31 +55,28 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.4.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>${mp.version}</version>
 		</dependency>
 
-		<!--https://gitee.com/baomidou/shaun-->
+		<!--登录验证依赖
+		仓库位置：https://gitee.com/baomidou/shaun
+		-->
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>shaun-spring-boot-starter</artifactId>
-			<version>1.2</version>
+			<version>${shaun.version}</version>
 		</dependency>
 
 		<!--Swagger-->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>3.0.0</version>
+			<version>${swagger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>3.0.0</version>
+			<version>${swagger.version}</version>
 		</dependency>
 
 	</dependencies>
