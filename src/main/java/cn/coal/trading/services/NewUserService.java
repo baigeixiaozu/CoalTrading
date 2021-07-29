@@ -18,6 +18,5 @@ public interface NewUserService {
      * @return String null成功|”***“错误信息
      */
     String newUser(BaseUser user);
-    BaseUser findBaseUserById(String id);
-    List<Role> getRoleList();
+    List<Role> getRoleList(String type);
 }

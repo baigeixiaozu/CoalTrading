@@ -19,8 +19,8 @@ Version:v1.0
 @NoArgsConstructor//配置无参构造方法
 @AllArgsConstructor//配置有参构造方法
 public class News implements Serializable {
-    private int newsID;
-    private String newTitle;
-    private String newsContent;
-    private Date newDate;
+    private int newsID;//资讯编号
+    private String newTitle;//资讯标题
+    private String newsContent;//资讯内容
+    private Date newDate;//资讯日期
 }
