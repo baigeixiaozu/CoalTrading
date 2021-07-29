@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/29 18:17:28                           */
+/* Created on:     2021/7/29 18:21:01                           */
 /*==============================================================*/
 
 
@@ -347,7 +347,7 @@ create index Index_user_role on ct_user_role_relationships
 /*==============================================================*/
 /* Index: Index_user_id                                         */
 /*==============================================================*/
-create index Index_user_id on ct_user_role_relationships
+create unique index Index_user_id on ct_user_role_relationships
 (
    user_id
 );
