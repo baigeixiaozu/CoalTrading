@@ -24,7 +24,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpAction.class})
     public ResponseData httpCodeException(HttpServletResponse response, HttpAction action) {
         ResponseData r = new ResponseData(){{
-            setStatus(false);
             setMsg("fail");
         }};
         if (action instanceof UnauthorizedAction) {
@@ -61,7 +60,6 @@ public class GlobalExceptionHandler {
             r.setCode(500);
         }
         r.setData(null);
-        r.setStatus(false);
         return r;
     }
     // @ExceptionHandler(value = RuntimeException.class) //@ExceptionHandler 该注解声明异常处理方法

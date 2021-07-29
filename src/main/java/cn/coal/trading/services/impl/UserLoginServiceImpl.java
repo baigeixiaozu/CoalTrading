@@ -33,7 +33,6 @@ public class UserLoginServiceImpl implements UserLoginService {
             response.setMsg("登录成功");
             response.setData(baseUser);
             response.setError("无");
-            response.setStatus(true);
 
         }
         else{
@@ -41,7 +40,6 @@ public class UserLoginServiceImpl implements UserLoginService {
             response.setMsg("账号密码输入有误！");
             response.setData(baseUser);
             response.setError("未授权");
-            response.setStatus(false);
 
         }
         return response;

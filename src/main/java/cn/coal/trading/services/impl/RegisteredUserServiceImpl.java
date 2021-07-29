@@ -59,14 +59,12 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
            response.setMsg("创建成功");
            response.setError("无");
            response.setData(null);
-           response.setStatus(true);
 
        }else{
            response.setCode(409);
            response.setMsg("创建失败，用户名已存在");
            response.setError("资源冲突，或者资源被锁定");
            response.setData(null);
-           response.setStatus(false);
        }
         return response;
     }

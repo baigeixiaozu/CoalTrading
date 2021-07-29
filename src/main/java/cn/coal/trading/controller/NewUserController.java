@@ -76,12 +76,10 @@ public class NewUserController {
         if(roles != null){
             responseData.setCode(200);
             responseData.setMsg("success");
-            responseData.setStatus(true);
             responseData.setData(roles);
         }else{
             responseData.setCode(201);
             responseData.setMsg("fail");
-            responseData.setStatus(false);
             responseData.setError("角色数据获取失败，未知异常");
         }
         return responseData;

@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResponseData {
     private Integer code;
-    private Boolean status;
     private String msg;
     private String error;
     private Object data;
