@@ -2,6 +2,7 @@ package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.Msg;
 import cn.coal.trading.services.MsgService;
+import io.swagger.annotations.SwaggerDefinition;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
