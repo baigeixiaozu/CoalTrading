@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/28 15:55:40                           */
+/* Created on:     2021/7/29 8:31:25                            */
 /*==============================================================*/
 
 
@@ -217,9 +217,9 @@ create unique index Index_order_id on ct_order
 /*==============================================================*/
 create table ct_permissions
 (
-   permission_id        bigint(20) not null comment '权限ID',
-   permission_name      varchar(10) comment '权限名',
-   primary key (permission_id)
+   id                   bigint(20) not null comment '权限ID',
+   name                 varchar(10) comment '权限名',
+   primary key (id)
 )
 engine = InnoDB;
 
@@ -242,22 +242,22 @@ alter table ct_permissions comment '权限：
 9. 挂牌权限
 10.信息编辑权限
 */
-INSERT INTO ct_permissions VALUES(1, "SUPER_ADMIN");
-INSERT INTO ct_permissions VALUES(2, "NEWS_EDITOR");
-INSERT INTO ct_permissions VALUES(3, "NEWS_AUDITOR");
-INSERT INTO ct_permissions VALUES(4, "NEWS_MANAGER");
-INSERT INTO ct_permissions VALUES(5, "USER_REG_AUDITOR");
-INSERT INTO ct_permissions VALUES(6, "TRADE_AUDITOR");
-INSERT INTO ct_permissions VALUES(7, "USER_ADD");
-INSERT INTO ct_permissions VALUES(8, "PUB_SALE");
-INSERT INTO ct_permissions VALUES(9, "PUB_BUY");
+INSERT INTO ct_permissions VALUES(1, "SUPER_ADMIN"),
+(2, "NEWS_EDITOR"),
+(3, "NEWS_AUDITOR"),
+(4, "NEWS_MANAGER"),
+(5, "USER_REG_AUDITOR"),
+(6, "TRADE_AUDITOR"),
+(7, "USER_ADD"),
+(8, "PUB_SALE"),
+(9, "PUB_BUY");
 
 /*==============================================================*/
 /* Index: Index_pri                                             */
 /*==============================================================*/
 create unique index Index_pri on ct_permissions
 (
-   permission_id
+   id
 );
 
 /*==============================================================*/
@@ -357,10 +357,11 @@ create unique index Index_user_id on ct_user_role_relationships
 /*==============================================================*/
 create table ct_userrole
 (
-   role_id              bigint(20) not null comment '角色ID',
-   role_mark            varchar(20) comment '角色标记',
-   role_name            varchar(20) comment '角色名',
-   primary key (role_id)
+   id                   bigint(20) not null comment '角色ID',
+   mark                 varchar(20) comment '角色标记',
+   name                 varchar(20) comment '角色名',
+   type                 varchar(10) comment '角色类型',
+   primary key (id)
 )
 engine = InnoDB;
 
@@ -381,23 +382,23 @@ alter table ct_userrole comment '1. 几种管理员：
 2. 交易用户[供应商,采购商]
 3. 财务用户
 */
-INSERT INTO ct_userrole(`role_id`, `role_name`, `role_mark`) VALUES
-(1, "超级管理员", "SUPER_ADMIN"),
-(2, "资讯编辑员", "NEWS_EDITOR"),
-(3, "资讯审核员", "NEWS_AUDITOR"),
-(4, "资讯维护员", "NEWS_MANAGER"),
-(5, "注册用户审核员", "USER_REG_AUDITOR"),
-(6, "交易审核员", "TRADE_AUDITOR"),
-(7, "供应商", "USER_SALE"),
-(8, "采购商", "USER_BUY"),
-(9, "财务用户", "USER_MONEY");
+INSERT INTO ct_userrole(`id`, `name`, `mark`, `type`) VALUES
+(1, "超级管理员", "SUPER_ADMIN", "admin"),
+(2, "资讯编辑员", "NEWS_EDITOR", "admin"),
+(3, "资讯审核员", "NEWS_AUDITOR", "admin"),
+(4, "资讯维护员", "NEWS_MANAGER", "admin"),
+(5, "注册用户审核员", "USER_REG_AUDITOR", "admin"),
+(6, "交易审核员", "TRADE_AUDITOR", "admin"),
+(7, "供应商", "USER_SALE", "user"),
+(8, "采购商", "USER_BUY", "user"),
+(9, "财务用户", "USER_MONEY", "user");
 
 /*==============================================================*/
 /* Index: Index_role_id                                         */
 /*==============================================================*/
 create index Index_role_id on ct_userrole
 (
-   role_id
+   id
 );
 
 /*==============================================================*/
@@ -501,13 +502,13 @@ alter table ct_request add constraint FK_REQ_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_role_permission_relationships add constraint FK_RP_REF_PERMISSION foreign key (permission_id)
-      references ct_permissions (permission_id) on delete restrict on update restrict;
+      references ct_permissions (id) on delete restrict on update restrict;
 
 alter table ct_role_permission_relationships add constraint FK_RP_REF_ROLE foreign key (role_id)
-      references ct_userrole (role_id) on delete restrict on update restrict;
+      references ct_userrole (id) on delete restrict on update restrict;
 
 alter table ct_user_role_relationships add constraint FK_UR_REF_ROLE foreign key (role_id)
-      references ct_userrole (role_id) on delete restrict on update restrict;
+      references ct_userrole (id) on delete restrict on update restrict;
 
 alter table ct_user_role_relationships add constraint FK_UR_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
