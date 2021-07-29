@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 消息实体类
+ *
  * @Author jiyec
  * @Date 2021/7/27 9:10
  * @Version 1.0

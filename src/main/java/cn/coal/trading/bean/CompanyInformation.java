@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
+ * 公司信息表实体类
+ *
  * @author Sorakado
  * @time 7.28 22:22
  * @version v1.0

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 /**
+ * 角色表实体类
+ *
  * @Author jiyec
  * @Date 2021/7/27 14:31
  * @Version 1.0

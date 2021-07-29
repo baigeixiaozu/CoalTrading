@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
+ * 用户角色绑定表实体类
+ *
  * @Author jiyec
  * @Date 2021/7/27 18:57
  * @Version 1.0
