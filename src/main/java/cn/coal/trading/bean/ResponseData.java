@@ -3,7 +3,6 @@ package cn.coal.trading.bean;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
  * 响应体实体
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  **/
 @Data
-@Component
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseData {

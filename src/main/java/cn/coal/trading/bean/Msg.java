@@ -21,9 +21,6 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
-@EnableConfigurationProperties
-@ConfigurationProperties(prefix = "wm")
 @TableName(value = "ct_website_message")
 public class Msg implements Serializable {
     @TableId(type = IdType.AUTO)
