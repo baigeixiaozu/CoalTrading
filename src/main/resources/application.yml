@@ -1,11 +1,10 @@
 spring:
-# 数据库
+  # 数据库
   datasource:
     username: root
     password: baigeixiaozi
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://106.52.202.68:3306/coal_trading
-
   # 热部署
   devtools:
     restart:
@@ -25,6 +24,7 @@ mybatis-plus:
 # Swagger 有点问题？
 swagger:
   enabled: true
+
 # 日志
 logging:
   config: classpath:logback-spring.xml

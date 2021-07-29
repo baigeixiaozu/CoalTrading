@@ -24,11 +24,10 @@ public class NewUserController {
     @Resource
     NewUserService newUserService;
 
-    @Resource
-    ResponseData responseData;
-
     @PostMapping("/new")
     public ResponseData newUser(@RequestBody BaseUser user){
+
+        ResponseData responseData = new ResponseData();
 
         if(user.getLogin() == null) {
             responseData.setCode(105201);
@@ -70,6 +69,7 @@ public class NewUserController {
     // 获取角色列表
     @GetMapping({"/getRoleList/{type}"})
     public ResponseData getRoleList(@PathVariable String type){
+        ResponseData responseData = new ResponseData();
 
         List<Role> roles = newUserService.getRoleList(type);
 
