@@ -33,7 +33,9 @@ swagger:
 
 # 日志
 logging:
-  level: debug
+  level:
+   org.pac4j: debug
+   com.baomidou.shaun: debug
 #  config: classpath:logback-spring.xml
 
 # 权限验证
