@@ -1,9 +1,6 @@
 package cn.coal.trading.services;
 
-import cn.coal.trading.bean.BaseUser;
-import cn.coal.trading.bean.CompanyInformation;
-import cn.coal.trading.bean.ResponseData;
-import cn.coal.trading.bean.Role;
+import cn.coal.trading.bean.*;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ public interface UserService {
      * @Date 2021/7/29 15:04
      * @Version 1.0
      **/
-    ResponseData register(BaseUser user);
+    ResponseData register(TradeUser user);
     /**
      * 新建用户（不是注册）
      *

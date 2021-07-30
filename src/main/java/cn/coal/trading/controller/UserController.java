@@ -104,14 +104,14 @@ public class UserController {
      * @Version 2.0
      **/
     @PostMapping("/register")
-    public ResponseData register(@RequestBody BaseUser user) {
+    public ResponseData register(@RequestBody TradeUser user) {
 
         ResponseData result = userService.register(user);
 
         return result;
     }
     /**
-     * @Author Sorakado
+     * @Author Sorakado & jiyeme
      * @Date 2021/7/29 16:34
      * @Version 2.0
      **/

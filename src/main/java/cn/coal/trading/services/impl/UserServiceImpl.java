@@ -41,11 +41,12 @@ public class UserServiceImpl implements UserService {
     private UserRolePermitMapper userRolePermitMapper;
 
     /**
-     * @Author Sorakado
+     * @Author jiyeme & Sorakado
      * @Date 2021/7/30 17:34
      * @Version 2.0
      *
-     * @return*/
+     * @return
+     * */
     @Override
     public String login(BaseUser loginUser) {
         QueryWrapper<BaseUser> wrapper = new QueryWrapper<>();
@@ -79,30 +80,23 @@ public class UserServiceImpl implements UserService {
 
     /**
      * @Author Sorakado
+     * @ReWrite jiyeme
+     *
      * @Date 2021/7/30 17:35
      * @Version 2.0
      **/
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ResponseData register(BaseUser registeredUser) {
+    public ResponseData register(TradeUser user) {
         ResponseData response = new ResponseData();
         BaseUser baseUser = new BaseUser();
-
-        baseUser.setLogin(registeredUser.getLogin());
-        baseUser.setPass(registeredUser.getPass());
-        baseUser.setNick(registeredUser.getNick());
-        baseUser.setEmail(registeredUser.getEmail());
 
         int result = userMapper.insert(baseUser);
 
         if (result == 1) {
-
-
-
             QueryWrapper<Role> wrapper = new QueryWrapper<>();
             wrapper.eq("name",baseUser.getNick());
             Role roleUser = roleMapper.selectOne(wrapper);
-
 
             UserRoleBinding urb = new UserRoleBinding(baseUser.getId(), roleUser.getId());
             userRoleMapper.insert(urb);
@@ -110,15 +104,12 @@ public class UserServiceImpl implements UserService {
             response.setCode(201);
             response.setMsg("创建成功");
             response.setError("无");
-            response.setData(null);
-
         } else {
-
             response.setCode(409);
             response.setMsg("创建失败，用户名已存在");
             response.setError("资源冲突，或者资源被锁定");
-            response.setData(null);
         }
+        response.setData(null);
         return response;
     }
 
