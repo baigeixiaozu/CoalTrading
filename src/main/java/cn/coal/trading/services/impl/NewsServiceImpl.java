@@ -24,8 +24,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> getAllNews(){
         QueryWrapper<News> wrapper=new QueryWrapper<>();
-        wrapper.eq("title",1);
-        wrapper.eq("content",2);
+/*        wrapper.eq("title",);
+        wrapper.eq("content",2);*/
 
         return newsMapper.selectList(wrapper);
     }
