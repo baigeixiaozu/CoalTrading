@@ -27,8 +27,11 @@ import java.util.Date;
 public class Msg implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long id;
+    // 消息标题
+    private String title;
     // 消息内容
     private String context;
+    private Integer msgType;
     private Date created;
     private Long fromUserid;
     private String fromUsername;

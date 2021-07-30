@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author jiyec
@@ -22,22 +23,27 @@ public class MsgTests {
 
     @Test
     void send(){
-        Msg msg = new Msg(){{
-            setContext("这是消息内容");
-            setFromUserid(null);    // 系统消息userid置空
-            setFromUsername("系统消息");
-            setToUserid(1L);
-            setToUsername("超级管理员");
-        }};
-        boolean send = msgService.send(msg);
-        log.info("发送结果：{}", send);
+        for(int i=0; i < 100; i++) {
+            int finalI = i;
+            Msg msg = new Msg(){{
+                setTitle("这是站内信标题" + finalI);
+                setContext("这是消息内容" + finalI);
+                setFromUserid(null);    // 系统消息userid置空
+                setMsgType(1);
+                setFromUsername("系统消息");
+                setToUserid(1L);
+                setToUsername("超级管理员");
+            }};
+            boolean send = msgService.send(msg);
+            log.info("发送结果：{}", send);
+        }
     }
 
     @Test
     void getMsg(){
         // 获取某个用户收到的消息
-        List<Msg> msgList1 = msgService.getMsgByToId(1L);
-        log.info("{}", msgList1);
+        Map<String, Object> msgMap = msgService.getMsgByToId(1L, 0, 10);
+        log.info("{}", msgMap);
 
         // 获取来自系统的消息（这个用处似乎不大）
         List<Msg> msgList2 = msgService.getMsgByFromId(null);

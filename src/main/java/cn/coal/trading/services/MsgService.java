@@ -3,6 +3,7 @@ package cn.coal.trading.services;
 import cn.coal.trading.bean.Msg;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author jiyec
@@ -20,10 +21,12 @@ public interface MsgService {
 
     /**
      * 根据目标用户获取消息
-     * @param userId Long指定用户
-     * @return List<Msg> 消息列表
+     * @param userId long 指定用户ID
+     * @param page int 页码
+     * @param limit int 每页数量
+     * @return Map<String, Object> total:总数|rows:消息列表
      */
-    List<Msg> getMsgByToId(Long userId);
+    Map<String, Object> getMsgByToId(long userId, int page, int limit);
 
     /**
      * 根据来源用户获取消息
