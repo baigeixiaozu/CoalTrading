@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/30 20:12:41                           */
+/* Created on:     2021/7/30 22:43:42                           */
 /*==============================================================*/
 
 
@@ -254,7 +254,7 @@ create unique index Index_order_num on ct_order
 create table ct_permissions
 (
    id                   bigint(20) not null comment '权限ID',
-   name                 varchar(10) comment '权限名',
+   name                 varchar(15) comment '权限名',
    primary key (id)
 )
 engine = InnoDB;
