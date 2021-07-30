@@ -17,12 +17,6 @@ public interface UserService {
      **/
     ResponseData complete(CompanyInformation companyInformation);
     /**
-     * @Author Sorakado
-     * @Date 2021/7/29 15:04
-     * @Version 1.0
-     **/
-    ResponseData register(TradeUser user);
-    /**
      * 新建用户（不是注册）
      *
      * @param user 要新增的用户

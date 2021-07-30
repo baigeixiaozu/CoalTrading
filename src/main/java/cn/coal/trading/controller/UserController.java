@@ -27,6 +27,8 @@ public class UserController {
     UserService userService;
     @Resource
     LoginService loginService;
+    @Resource
+    RegisterService registerService;
 
     /**
      * 新增用户操作
@@ -112,7 +114,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData register(@RequestBody TradeUser user) {
 
-        ResponseData result = userService.register(user);
+        ResponseData result = registerService.register(user);
 
         return result;
     }

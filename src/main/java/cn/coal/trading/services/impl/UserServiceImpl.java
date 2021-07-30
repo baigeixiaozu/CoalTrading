@@ -35,43 +35,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CompanyMapper companyMapper;
 
-
-
-    /**
-     * @Author Sorakado
-     * @ReWrite jiyeme
-     *
-     * @Date 2021/7/30 17:35
-     * @Version 2.0
-     **/
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public ResponseData register(TradeUser user) {
-        // TODO: 重写
-        ResponseData response = new ResponseData();
-
-        // 设置用户状态为待审核
-        user.setStatus(1);
-        int result = userMapper.insert(user);
-
-        if (result == 1) {
-            long userId = user.getId();
-
-            UserRoleBinding urb = new UserRoleBinding(user.getId(), user.getRole());
-            userRoleMapper.insert(urb);
-
-            response.setCode(201);
-            response.setMsg("创建成功");
-            response.setError("无");
-        } else {
-            response.setCode(409);
-            response.setMsg("创建失败，用户名已存在");
-            response.setError("资源冲突，或者资源被锁定");
-        }
-        response.setData(null);
-        return response;
-    }
-
     @Override
     public String newUser(BaseUser user) {
 
