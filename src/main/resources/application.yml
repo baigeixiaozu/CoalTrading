@@ -53,7 +53,7 @@ shaun:
     - /user/register
   exclude-branch: # 排除以此路径开头
     - /webjars
-  expire-time: 1d # 不设置默认永久有效
+  expire-time: 2d # 不设置默认永久有效
   header:
     name: Authorization
     prefix: Bear

@@ -31,52 +31,11 @@ public class UserServiceImpl implements UserService {
     @Resource
     RoleMapper roleMapper;
 
-    @Autowired
-    private SecurityManager securityManager;
 
     @Autowired
     private CompanyMapper companyMapper;
 
-    @Resource
-    private UserRolePermitMapper userRolePermitMapper;
 
-    /**
-     * @Author jiyeme & Sorakado
-     * @Date 2021/7/30 17:34
-     * @Version 2.0
-     *
-     * @return
-     * */
-    @Override
-    public String login(BaseUser loginUser) {
-        QueryWrapper<BaseUser> wrapper = new QueryWrapper<>();
-        // 加密
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-        wrapper.eq("login", loginUser.getLogin());
-
-        BaseUser user = userMapper.selectOne(wrapper);
-        boolean isPassRight = encoder.matches(loginUser.getPass(), user.getPass());
-        String token = null;
-        if(isPassRight){
-            // 获取角色，权限
-            final TokenProfile profile = new TokenProfile();
-            profile.setId(user.getId().toString());
-
-            List<Map<String, Object>> relation = userRolePermitMapper.getRelation(user.getId());
-
-            profile.addRole((String)relation.get(0).get("role_mark"));
-
-            //profile.setRoles(roles:Set);
-            for (Map<String, Object> map : relation) {
-                profile.addPermission((String)map.get("permission"));
-            }
-            //profile.setPermissions(permissions:Set);
-            //profile.addAttribute("key","value");
-            token = securityManager.login(profile);
-            //如果选择token存cookie里,securityManager.login会进行自动操作
-        }
-        return token;
-    }
 
     /**
      * @Author Sorakado
@@ -88,17 +47,17 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData register(TradeUser user) {
+        // TODO: 重写
         ResponseData response = new ResponseData();
-        BaseUser baseUser = new BaseUser();
 
-        int result = userMapper.insert(baseUser);
+        // 设置用户状态为待审核
+        user.setStatus(1);
+        int result = userMapper.insert(user);
 
         if (result == 1) {
-            QueryWrapper<Role> wrapper = new QueryWrapper<>();
-            wrapper.eq("name",baseUser.getNick());
-            Role roleUser = roleMapper.selectOne(wrapper);
+            long userId = user.getId();
 
-            UserRoleBinding urb = new UserRoleBinding(baseUser.getId(), roleUser.getId());
+            UserRoleBinding urb = new UserRoleBinding(user.getId(), user.getRole());
             userRoleMapper.insert(urb);
 
             response.setCode(201);

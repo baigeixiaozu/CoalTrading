@@ -2,13 +2,15 @@ package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
+import cn.coal.trading.utils.TimeUtil;
 import com.baomidou.shaun.core.annotation.HasRole;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Sorakado & jiyeme
@@ -19,8 +21,12 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
+    @Value("${shaun.expire-time}")
+    String expireTime;
     @Resource
     UserService userService;
+    @Resource
+    LoginService loginService;
 
     /**
      * 新增用户操作
@@ -117,15 +123,45 @@ public class UserController {
      **/
     @PostMapping("/login")
     public ResponseData login(@RequestBody BaseUser user) {
-        String token = userService.login(user);
         ResponseData response = new ResponseData();
+        BaseUser userInfo = loginService.getUserInfo(user);
+        if(userInfo == null){
+            //用户不存在
+            response.setCode(101404);
+            response.setMsg("fail");
+            response.setError("用户不存在");
+            return response;
+        }else if(userInfo.getStatus() == 1){
+            //用户审核未通过
+            response.setCode(101403);
+            response.setMsg("fail");
+            response.setError("用户正在审核中");
+            return response;
+        }
+
+        // 加密  密码检查
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+        boolean isPassRight = encoder.matches(user.getPass(), userInfo.getPass());
+
+        if(!isPassRight){
+            //密码不正确
+            response.setCode(101401);
+            response.setMsg("fail");
+            response.setError("账户密码不正确");
+            return response;
+        }
+
+        String token = loginService.login(userInfo);
         if(token == null){
-            response.setCode(401);
+            response.setCode(101401);
+            response.setMsg("fail");
+            response.setError("登录失败，出现未知异常");
         }else{
             response.setCode(200);
             response.setMsg("success");
             response.setData(new HashMap<String, Object>(){{
                 put("access_token", token);
+                put("expire_time", TimeUtil.parse(expireTime));
             }});
         }
 

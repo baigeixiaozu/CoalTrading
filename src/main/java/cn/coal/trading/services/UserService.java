@@ -20,13 +20,6 @@ public interface UserService {
      * @Author Sorakado
      * @Date 2021/7/29 15:04
      * @Version 1.0
-     *
-     * @return*/
-    String login(BaseUser user);
-    /**
-     * @Author Sorakado
-     * @Date 2021/7/29 15:04
-     * @Version 1.0
      **/
     ResponseData register(TradeUser user);
     /**
