@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/30 22:43:42                           */
+/* Created on:     2021/7/31 7:41:09                            */
 /*==============================================================*/
 
 
@@ -168,7 +168,7 @@ create table ct_news
    title                varchar(20) comment '新闻标题',
    context              text comment '内容',
    date                 datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint comment '状态：
+   status               smallint not null comment '状态：
             1. 草稿
             2. 审核中
             3. 驳回（审核不通过）
@@ -207,7 +207,7 @@ create table ct_order
    req_id               bigint(20) comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
-   status               smallint(6) comment '订单状态：
+   status               smallint(6) not null comment '订单状态：
             1. 进行中
             2. 超时
             3. 完成
@@ -306,7 +306,7 @@ create table ct_request
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
    type                 smallint(6) comment '购入/卖出',
-   status               smallint comment '需求状态
+   status               smallint not null comment '需求状态
             1. 草稿
             2. 发布
             3. 被摘取
@@ -449,7 +449,7 @@ create table ct_users
    nick                 varchar(20) comment '用户昵称',
    email                varchar(20) not null comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint default 1 comment '用户状态：
+   status               smallint not null default 1 comment '用户状态：
             1. 待审核
             2. 审核通过（可用）
             ',
@@ -507,7 +507,7 @@ create table ct_website_message
    from_username        varchar(128) comment '发信人用户名',
    to_userid            bigint(20) comment '收信人用户ID',
    to_username          varchar(128) comment '收信人用户名',
-   read_status          smallint default 1 comment '是否已读（1. 未读；2.已读）',
+   read_status          smallint not null default 1 comment '是否已读（1. 未读；2.已读）',
    primary key (id)
 )
 engine = InnoDB;
