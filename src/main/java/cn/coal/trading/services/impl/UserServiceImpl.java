@@ -9,6 +9,7 @@ import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -30,6 +31,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public CompanyMapper companyMapper;
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/30 17:34
+     * @Version 2.0
+     **/
     @Override
     public ResponseData login(BaseUser loginUserUser) {
         ResponseData response=new ResponseData();
@@ -58,7 +64,12 @@ public class UserServiceImpl implements UserService {
         return response;
 
     }
-
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/30 17:35
+     * @Version 2.0
+     **/
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData register(BaseUser registeredUser) {
         ResponseData response=new ResponseData();
@@ -88,6 +99,7 @@ public class UserServiceImpl implements UserService {
             response.setData(null);
 
         }else{
+
             response.setCode(409);
             response.setMsg("创建失败，用户名已存在");
             response.setError("资源冲突，或者资源被锁定");

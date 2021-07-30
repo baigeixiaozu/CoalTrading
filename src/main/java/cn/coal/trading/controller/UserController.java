@@ -97,6 +97,11 @@ public class UserController {
         return responseData;
     }
 
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/29 14:34
+     * @Version 2.0
+     **/
     @PostMapping("/register")
     public ResponseData register(@RequestBody BaseUser user) {
 
@@ -104,7 +109,11 @@ public class UserController {
 
         return result;
     }
-
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/29 16:34
+     * @Version 2.0
+     **/
     @GetMapping("/login")
     public ResponseData login(@RequestBody BaseUser user) {
         ResponseData result = userService.login(user);
@@ -117,6 +126,11 @@ public class UserController {
 //       ResponseData result = userService.loginOut(user);
 //
 //            return result;
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/29 18:54
+     * @Version 1.0
+     **/
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
 
