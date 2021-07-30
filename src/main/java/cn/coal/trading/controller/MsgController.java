@@ -3,11 +3,12 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.Msg;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.MsgService;
+import com.baomidou.shaun.core.context.ProfileHolder;
+import com.baomidou.shaun.core.profile.TokenProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,15 +24,10 @@ public class MsgController {
     @Resource
     MsgService msgService;
 
-    // @Resource
-    // SecurityManager securityManager;
-
     @GetMapping("/myMsg")
     public Map<String, Object> getMyMsgList(@RequestParam(defaultValue = "0", required = false) Integer page, @RequestParam(defaultValue = "10", required = false) Integer limit){
-        // TokenProfile profile = ProfileHolder.getProfile();
-        // String id = profile.getId();
-        String id = "1";
-        Long userId = Long.parseLong(id);
+        TokenProfile profile = ProfileHolder.getProfile();
+        long userId = Long.parseLong(profile.getId());
         Map<String, Object> msgMap = msgService.getMsgByToId(userId, page, limit);
         return new HashMap<String, Object>(){{
             put("code", 200);
@@ -43,12 +39,13 @@ public class MsgController {
     @GetMapping("/detail/{msg_id}")
     public ResponseData msgDetail(@PathVariable("msg_id") Integer msgId){
         ResponseData responseData = new ResponseData();
-        Long userId = 1L;
+        TokenProfile profile = ProfileHolder.getProfile();
+        long userId = Long.parseLong(profile.getId());
         Msg msgDetail = msgService.getMsgDetail(msgId, userId);
         if(msgDetail == null){
             responseData.setCode(121404);
             responseData.setMsg("fail");
-            responseData.setError("没有该消息");
+            responseData.setError("该消息不存在");
         }else{
             responseData.setCode(200);
             responseData.setMsg("success");
