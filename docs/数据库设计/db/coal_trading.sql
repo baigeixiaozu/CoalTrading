@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/30 7:10:10                            */
+/* Created on:     2021/7/30 9:28:10                            */
 /*==============================================================*/
 
 
@@ -490,15 +490,16 @@ create unique index Index_user_email on ct_users
 create table ct_website_message
 (
    id                   bigint(20) not null auto_increment comment '新闻主键',
+   title                varchar(50) comment '站内信标题',
+   context              varchar(1024) comment '站内信内容',
    modified             datetime comment '修改时间',
    msg_type             smallint comment '消息类型（1.系统消息）',
-   context              varchar(1024) comment '站内信内容',
    created              datetime default CURRENT_TIMESTAMP comment '发信时间',
    from_userid          bigint(20) comment '发信人用户ID',
    from_username        varchar(128) comment '发信人用户名',
-   read_status          smallint default 1 comment '是否已读（1. 未读；2.已读）',
    to_userid            bigint(20) comment '收信人用户ID',
    to_username          varchar(128) comment '收信人用户名',
+   read_status          smallint default 1 comment '是否已读（1. 未读；2.已读）',
    primary key (id)
 )
 engine = InnoDB;
