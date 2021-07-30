@@ -37,6 +37,7 @@ public class MsgServiceImpl implements MsgService {
         return new HashMap<String, Object>(){{
             put("rows", msgs.getRecords());
             put("total", msgs.getTotal());
+            put("pages", msgs.getPages());
         }};
     }
 
