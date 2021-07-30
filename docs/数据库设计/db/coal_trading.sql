@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/30 9:28:10                            */
+/* Created on:     2021/7/30 18:46:24                           */
 /*==============================================================*/
 
 
@@ -202,8 +202,8 @@ create unique index Index_news_id on ct_news
 /*==============================================================*/
 create table ct_order
 (
-   id                   bigint(20) not null comment '订单ID',
-   num                  varchar(30),
+   id                   bigint(20) not null auto_increment comment '订单ID',
+   num                  varchar(30) not null,
    req_id               bigint(20) comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
@@ -238,6 +238,14 @@ create index Index_req_id on ct_order
 create unique index Index_order_id on ct_order
 (
    id
+);
+
+/*==============================================================*/
+/* Index: Index_order_num                                       */
+/*==============================================================*/
+create unique index Index_order_num on ct_order
+(
+   num
 );
 
 /*==============================================================*/
@@ -505,11 +513,11 @@ create table ct_website_message
 engine = InnoDB;
 
 /*==============================================================*/
-/* Index: Index_msg_id                                          */
+/* Index: Index_to_userid                                       */
 /*==============================================================*/
-create unique index Index_msg_id on ct_website_message
+create index Index_to_userid on ct_website_message
 (
-   id
+   to_userid
 );
 
 alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
