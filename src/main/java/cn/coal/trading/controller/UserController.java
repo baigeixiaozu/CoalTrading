@@ -6,6 +6,7 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -114,11 +115,21 @@ public class UserController {
      * @Date 2021/7/29 16:34
      * @Version 2.0
      **/
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseData login(@RequestBody BaseUser user) {
-        ResponseData result = userService.login(user);
+        String token = userService.login(user);
+        ResponseData response = new ResponseData();
+        if(token == null){
+            response.setCode(401);
+        }else{
+            response.setCode(200);
+            response.setMsg("success");
+            response.setData(new HashMap<String, Object>(){{
+                put("access_token", token);
+            }});
+        }
 
-        return result;
+        return response;
     }
 
     //        @GetMapping("/loginout")

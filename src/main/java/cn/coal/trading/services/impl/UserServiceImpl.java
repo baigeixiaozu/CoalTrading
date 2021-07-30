@@ -1,21 +1,19 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.*;
-import cn.coal.trading.mapper.CompanyMapper;
-import cn.coal.trading.mapper.RoleMapper;
-import cn.coal.trading.mapper.UserMapper;
-import cn.coal.trading.mapper.UserRoleMapper;
+import cn.coal.trading.mapper.*;
 import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.shaun.core.mgt.SecurityManager;
+import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author jiyec
@@ -25,23 +23,31 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    public UserMapper userMapper;
+    private UserMapper userMapper;
+
     @Autowired
-    public UserRoleMapper userRoleMapper;
+    private UserRoleMapper userRoleMapper;
+
     @Resource
     RoleMapper roleMapper;
 
     @Autowired
-    public CompanyMapper companyMapper;
+    private SecurityManager securityManager;
+
+    @Autowired
+    private CompanyMapper companyMapper;
+
+    @Resource
+    private UserRolePermitMapper userRolePermitMapper;
 
     /**
      * @Author Sorakado
      * @Date 2021/7/30 17:34
      * @Version 2.0
-     **/
+     *
+     * @return*/
     @Override
-    public ResponseData login(BaseUser loginUser) {
-        ResponseData response = new ResponseData();
+    public String login(BaseUser loginUser) {
         QueryWrapper<BaseUser> wrapper = new QueryWrapper<>();
         // 加密
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
@@ -49,17 +55,26 @@ public class UserServiceImpl implements UserService {
 
         BaseUser user = userMapper.selectOne(wrapper);
         boolean isPassRight = encoder.matches(loginUser.getPass(), user.getPass());
-        if (isPassRight) {
-            response.setCode(200);
-            response.setMsg("登录成功");
-            response.setError("无");
-        } else {
-            response.setCode(401);
-            response.setMsg("账号密码输入有误！");
-            response.setError("未授权");
-        }
-        return response;
+        String token = null;
+        if(isPassRight){
+            // 获取角色，权限
+            final TokenProfile profile = new TokenProfile();
+            profile.setId(user.getId().toString());
 
+            List<Map<String, Object>> relation = userRolePermitMapper.getRelation(user.getId());
+
+            profile.addRole((String)relation.get(0).get("role_mark"));
+
+            //profile.setRoles(roles:Set);
+            for (Map<String, Object> map : relation) {
+                profile.addPermission((String)map.get("permission"));
+            }
+            //profile.setPermissions(permissions:Set);
+            //profile.addAttribute("key","value");
+            token = securityManager.login(profile);
+            //如果选择token存cookie里,securityManager.login会进行自动操作
+        }
+        return token;
     }
 
     /**
