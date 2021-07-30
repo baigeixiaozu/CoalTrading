@@ -82,13 +82,14 @@ public class UserServiceImpl implements UserService {
 
         if (result == 1) {
 
-            int role = 0;
-            if (baseUser.getNick().equals("供应商")) {
-                role = 7;
-            } else {
-                role = 8;
-            }
-            UserRoleBinding urb = new UserRoleBinding(baseUser.getId(), role);
+
+
+            QueryWrapper<Role> wrapper = new QueryWrapper<>();
+            wrapper.eq("name",baseUser.getNick());
+            Role roleUser = roleMapper.selectOne(wrapper);
+
+
+            UserRoleBinding urb = new UserRoleBinding(baseUser.getId(), roleUser.getId());
             userRoleMapper.insert(urb);
 
             response.setCode(201);
