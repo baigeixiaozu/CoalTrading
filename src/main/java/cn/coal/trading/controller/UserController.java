@@ -2,6 +2,7 @@ package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
+import com.baomidou.shaun.core.annotation.HasRole;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,6 +29,7 @@ public class UserController {
      * @return ResponseData
      */
     @PostMapping("/new")
+    @HasRole(value = {"SUPER_ADMIN"})
     public ResponseData newUser(@RequestBody BaseUser user) {
 
         ResponseData responseData = new ResponseData();
@@ -77,6 +79,7 @@ public class UserController {
      * @return ResponseData
      */
     @GetMapping({"/getRoleList/{type}"})
+    @HasRole(value = {"SUPER_ADMIN"})   // TODO: 是否与路径排除发生冲突，有待确认
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
 
@@ -95,7 +98,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseData regisered(@RequestBody BaseUser user) {
+    public ResponseData register(@RequestBody BaseUser user) {
 
         ResponseData result = userService.register(user);
 
