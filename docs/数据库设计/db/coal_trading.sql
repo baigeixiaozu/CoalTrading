@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/29 18:21:01                           */
+/* Created on:     2021/7/30 7:10:10                            */
 /*==============================================================*/
 
 
@@ -74,12 +74,24 @@ engine = InnoDB;
 
 alter table ct_finance_bargain_bind comment '财务用户与交易用户（采购商，供应商）绑定';
 
+INSERT INTO ct_finance_bargain_bind(`bargain_id`, `finance_id`) VALUES
+(7, 8),
+(9, 10);
+
 /*==============================================================*/
-/* Index: Index_1                                               */
+/* Index: Index_bargain_id                                      */
 /*==============================================================*/
-create unique index Index_1 on ct_finance_bargain_bind
+create unique index Index_bargain_id on ct_finance_bargain_bind
 (
    bargain_id,
+   finance_id
+);
+
+/*==============================================================*/
+/* Index: Index_fiance_id                                       */
+/*==============================================================*/
+create unique index Index_fiance_id on ct_finance_bargain_bind
+(
    finance_id
 );
 
@@ -98,6 +110,12 @@ create table ct_fund
    primary key (user_id)
 )
 engine = InnoDB;
+
+INSERT INTO ct_fund
+(`user_id`, `com_name`, `bank_name`, `bank_acc`, `total`, `freeze`, `ao_permit_file`) 
+VALUES
+(8 , "供应商公司1", "银行1", "123456789", 10000.00, 5000.55, "path/to/file"),
+(10, "采购商公司2", "银行1", "123456789", 10000.00, 5000.55, "path/to/file");
 
 /*==============================================================*/
 /* Index: Index_user_id                                         */
@@ -146,20 +164,30 @@ create index Index_log_type on ct_fund_log
 /*==============================================================*/
 create table ct_news
 (
-   id                   bigint(20) not null comment '新闻ID',
+   id                   bigint(20) not null auto_increment comment '新闻ID',
    title                varchar(20) comment '新闻标题',
-   content              text comment '内容',
-   date                 datetime comment '创建时间',
-   status               int comment '状态：
+   context              text comment '内容',
+   date                 datetime default CURRENT_TIMESTAMP comment '创建时间',
+   status               smallint comment '状态：
             1. 草稿
-            2. 发布
-            3. 撤销（隐藏）
-            4. 删除（记录直接没了）',
-   author_id            bigint(20) comment '发布人员',
+            2. 审核中
+            3. 驳回（审核不通过）
+            4. 发布
+            5. 撤销（隐藏）
+            6. 删除（记录直接没了）',
+   author_id            bigint(20) comment '编写人员',
    auditor_id           bigint(20) comment '审核人员',
    primary key (id)
 )
 engine = InnoDB;
+
+INSERT INTO ct_news(id, title, context, status, author_id, auditor_id)
+VALUES
+(1, "草稿资讯", "草稿资讯的内容", 1, 2, NULL),
+(2, "审核中资讯", "审核中资讯的内容", 2, 2, 3),
+(3, "审核驳回资讯", "审核驳回资讯的内容", 3, 2, 3),
+(4, "发布的资讯", "发布的资讯的内容", 4, 2, 3),
+(5, "撤销的资讯", "撤销的资讯的内容", 5, 2, 3);
 
 /*==============================================================*/
 /* Index: Index_news_id                                         */
@@ -270,7 +298,7 @@ create table ct_request
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
    type                 smallint(6) comment '购入/卖出',
-   status               int comment '需求状态
+   status               smallint comment '需求状态
             1. 草稿
             2. 发布
             3. 被摘取
@@ -406,14 +434,14 @@ create index Index_role_id on ct_userrole
 /*==============================================================*/
 create table ct_users
 (
-   id                   bigint(20) not null auto_increment comment '用户ID',
-   login                varchar(20) not null comment '登录名',
+   id                   bigint(20) not null auto_increment comment '用户ID（唯一）',
+   login                varchar(20) not null comment '登录名（唯一）',
    pass                 varchar(50) comment '用户密码：
             要经过加密',
    nick                 varchar(20) comment '用户昵称',
-   email                varchar(20) comment '用户邮箱',
+   email                varchar(20) not null comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               int default 1 comment '用户状态：
+   status               smallint default 1 comment '用户状态：
             1. 待审核
             2. 审核通过（可用）
             ',
@@ -430,11 +458,15 @@ alter table ct_users comment '存储的用户类型：
 INSERT INTO `ct_users` (`id`, `login`, `pass`, `nick`, `email`, `status`) 
 VALUES 
 (1, 'superadmin', '123456', '超级管理员', "1@mail.com", 2),
-(2, 'newseditor', '123456', '资讯编辑员', '2@mail.com', 2),
-(3, 'newsauditor', '123456', '资讯审核员', '3@mail.com', 2),
-(4, 'newsmanager', '123456', '资讯维护员', "4@mail.com", 2),
-(5, 'userregauditor', '123456', '注册用户审核员', "4@mail.com", 2),
-(6, 'tradeauditor', '123456', '交易审核员', "4@mail.com", 2);
+(2, 'newseditor1', '123456', '资讯编辑员1', '2@mail.com', 2),
+(3, 'newsauditor1', '123456', '资讯审核员1', '3@mail.com', 2),
+(4, 'newsmanager1', '123456', '资讯维护员1', "4@mail.com", 2),
+(5, 'userregauditor1', '123456', '注册用户审核员1', "5@mail.com", 2),
+(6, 'tradeauditor1', '123456', '交易审核员1', "6@mail.com", 2),
+(7, 'saleuser1', '123456', '供应商用户1', "7@mail.com", 2),
+(8, 'salemoneyuser1', '123456', '供应商户1', "8@mail.com", 2),
+(9, 'buyuser1', '123456', '采购商用户', "9@mail.com", 2),
+(10, 'buymoneyuser1', '123456', '采购商财务用户1', "10@mail.com", 2);
 
 /*==============================================================*/
 /* Index: Index_user_login                                      */
@@ -442,6 +474,14 @@ VALUES
 create unique index Index_user_login on ct_users
 (
    login
+);
+
+/*==============================================================*/
+/* Index: Index_user_email                                      */
+/*==============================================================*/
+create unique index Index_user_email on ct_users
+(
+   email
 );
 
 /*==============================================================*/
