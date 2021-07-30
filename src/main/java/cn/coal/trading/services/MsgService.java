@@ -34,4 +34,13 @@ public interface MsgService {
      * @return List<Msg> 消息列表
      */
     List<Msg> getMsgByFromId(Long userId);
+
+    /**
+     * 根据消息ID与用户ID查询消息具体内容
+     *
+     * @param msgId 消息ID
+     * @param userId 用户ID
+     * @return Msg 消息数据实体
+     */
+    Msg getMsgDetail(long msgId, long userId);
 }

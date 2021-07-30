@@ -24,7 +24,7 @@ public class MsgTests {
     @Test
     void send(){
         for(int i=0; i < 100; i++) {
-            int finalI = i;
+            int finalI = i+1;
             Msg msg = new Msg(){{
                 setTitle("这是站内信标题" + finalI);
                 setContext("这是消息内容" + finalI);

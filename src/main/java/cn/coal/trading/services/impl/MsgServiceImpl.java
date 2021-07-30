@@ -32,6 +32,7 @@ public class MsgServiceImpl implements MsgService {
     public Map<String, Object> getMsgByToId(long userId, int page, int limit) {
 
         Page<Msg> msgs = msgMapper.selectPage(new Page<>(page, limit), new QueryWrapper<Msg>() {{
+            select("id", "title", "msg_type", "created", "from_username");
             eq("to_userid", userId);
         }});
         return new HashMap<String, Object>(){{
@@ -48,6 +49,14 @@ public class MsgServiceImpl implements MsgService {
                 isNull("from_userid");
             else
                 eq("from_userid", userId);
+        }});
+    }
+
+    @Override
+    public Msg getMsgDetail(long msgId, long userId) {
+        return msgMapper.selectOne(new QueryWrapper<Msg>() {{
+            eq("id", msgId);
+            eq("to_userid", userId);
         }});
     }
 }
