@@ -18,27 +18,29 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @TableName("ct_company")
 public class CompanyInformation {
-    private Long userId;
-    private String comName;
-    private String comIntro;
-    private String legalName;
-    private String legalId;
-    private String legalIdFile;
-    private String comAddr;
-    private String comContact;
-    private String comZip;
-    private String businessLicenseId;
-    private String businessLicenseIdFile;
-    private String manageLicenseId;
-    private String manageLicenseIdFile;
-    private String fax;
-    private String registeredCapital;
-    private String oibCode;
-    private String oibCodeFile;
-    private String trCert;
-    private String trCertFile;
-    private String coalStoreSite;
-    private Integer coalQuantity;
-    private String coalQuality;
-    private String coalTransport;
+    private Long userId;                        // 企业主用户ID
+    private String comName;                     // 企业名称
+    private String comIntro;                    // 企业介绍
+    private String legalName;                   // 法人代表姓名
+    private String legalId;                     // 法人身份证号
+    private String legalIdFile;                 // 法人身份证文件（路径）
+    private String comAddr;                     // 企业注册地区
+    private String comContact;                  // 企业联系电话
+    private String comZip;                      // 企业邮政编码
+    private String businessLicenseId;           // 企业营业执照号
+    private String businessLicenseIdFile;       // 企业营业执照文件（路径）
+    private String manageLicenseId;             // 经营许可证编号
+    private String manageLicenseIdFile;         // 煤炭经营许可证（文件）[供应商]
+    private String fax;                         // 传真
+    private String registeredCapital;           // 注册资金（万元）
+    private String oibCode;                     // 组织机构代码
+    private String oibCodeFile;                 // 组织机构代码证（文件）
+    private String trCert;                      // 税务登记证代码
+    private String trCertFile;                  // 税务登记证文件（路径）
+    private String coalStoreSite;               // 煤炭存放地点[供应商]
+    private Integer coalQuantity;               // 煤炭数量[供应商]
+    private String coalQuality;                 // 煤炭质量[供应商]
+    private String coalTransport;               // 运输方式及保障能力[供应商]
+    private Integer status;                     // 信息状态[1.不可用| 2.审核阶段| 3.可用]
+    private String auditOpinion;                // 审核意见
 }

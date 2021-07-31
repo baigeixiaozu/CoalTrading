@@ -19,6 +19,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @TableName(value = "ct_user_role_relationships")
 public class UserRoleBinding implements Serializable {
-    private Long userId;
-    private Integer roleId;
+    private Long userId;        // 用户ID
+    private Integer roleId;     // 角色ID
 }
