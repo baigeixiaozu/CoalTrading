@@ -4,6 +4,8 @@ import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
 import cn.coal.trading.utils.TimeUtil;
 import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.context.ProfileHolder;
+import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Sorakado & jiyeme
@@ -88,9 +91,17 @@ public class UserController {
      * @return ResponseData
      */
     @GetMapping({"/getRoleList/{type}"})
-    @HasRole(value = {"SUPER_ADMIN"})   // TODO: 是否与路径排除发生冲突，有待确认
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
+        if("admin".equals(type)) {
+            TokenProfile profile = ProfileHolder.getProfile();
+            Set<String> permissions = profile.getPermissions();
+            boolean user_add = permissions.contains("USER_ADD");
+            if(!user_add){
+                responseData.setCode(403);
+                return responseData;
+            }
+        }
 
         List<Role> roles = userService.getRoleList(type);
 
