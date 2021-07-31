@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/31 12:21:53                           */
+/* Created on:     2021/7/31 16:42:43                           */
 /*==============================================================*/
 
 
@@ -47,6 +47,11 @@ create table ct_company
    coal_quantity        bigint comment '煤源数量[供应商]',
    coal_quality         varchar(10) comment '煤源质量[供应商]',
    coal_transport       varchar(20) comment '运输方式及保障能力[供应商]',
+   status               smallint comment '信息状态
+            1. 不可用
+            2. 审核阶段
+            3. 可用',
+   audit_opinion        varchar(255) comment '审核意见',
    primary key (user_id)
 )
 engine = InnoDB;
@@ -74,6 +79,11 @@ create table ct_finance
    balance              decimal(10,2) comment '账户金额',
    freeze               decimal(10,2) comment '报价冻结金额',
    ao_permit_file       varchar(255) comment '开户许可证（文件）',
+   status               smallint comment '信息状态
+            1. 不可用
+            2. 审核阶段
+            3. 可用',
+   audit_opinion        varchar(255) comment '审核意见',
    primary key (main_userid, finance_userid)
 )
 engine = InnoDB;
@@ -426,11 +436,9 @@ create table ct_users
    nick                 varchar(20) comment '用户昵称',
    email                varchar(20) not null comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint not null default 1 comment '用户状态：
-            1. 刚注册，未绑定角色
-            2. 选择注册角色，并填写相关信息等待审核
-            3. 审核通过（可用）
-            ',
+   status               smallint comment '用户状态
+            1. 用户未激活
+            2. 已激活',
    primary key (id)
 )
 engine = InnoDB;
@@ -441,18 +449,18 @@ alter table ct_users comment '存储的用户类型：
 3. 财务用户
 ';
 
-INSERT INTO `ct_users` (`id`, `login`, `pass`, `nick`, `email`, `status`) 
+INSERT INTO `ct_users` (`id`, `login`, `pass`, `nick`, `email`) 
 VALUES 
-(1, 'superadmin', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '超级管理员', "1@mail.com", 2),
-(2, 'newseditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '资讯编辑员1', '2@mail.com', 2),
-(3, 'newsauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '资讯审核员1', '3@mail.com', 2),
-(4, 'newsmanager1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '资讯维护员1', "4@mail.com", 2),
-(5, 'userregauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '注册用户审核员1', "5@mail.com", 2),
-(6, 'tradeauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '交易审核员1', "6@mail.com", 2),
-(7, 'saleuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商用户1', "7@mail.com", 2),
-(8, 'salemoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商财务用户1', "8@mail.com", 2),
-(9, 'buyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '采购商用户', "9@mail.com", 2),
-(10, 'buymoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '采购商财务用户1', "10@mail.com", 2);
+(1, 'superadmin', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '超级管理员', "1@mail.com"),
+(2, 'newseditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '资讯编辑员1', '2@mail.com'),
+(3, 'newsauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '资讯审核员1', '3@mail.com'),
+(4, 'newsmanager1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '资讯维护员1', "4@mail.com"),
+(5, 'userregauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '注册用户审核员1', "5@mail.com"),
+(6, 'tradeauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '交易审核员1', "6@mail.com"),
+(7, 'saleuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商用户1', "7@mail.com"),
+(8, 'salemoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商财务用户1', "8@mail.com"),
+(9, 'buyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '采购商用户', "9@mail.com"),
+(10, 'buymoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '采购商财务用户1', "10@mail.com");
 
 /*==============================================================*/
 /* Index: Index_user_login                                      */
