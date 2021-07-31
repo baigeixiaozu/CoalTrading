@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/31 17:26:40                           */
+/* Created on:     2021/7/31 18:29:06                           */
 /*==============================================================*/
 
 
@@ -47,7 +47,7 @@ create table ct_company
    coal_quantity        bigint comment '煤源数量[供应商]',
    coal_quality         varchar(10) comment '煤源质量[供应商]',
    coal_transport       varchar(20) comment '运输方式及保障能力[供应商]',
-   status               smallint comment '信息状态
+   status               smallint not null default 1 comment '信息状态
             1. 不可用
             2. 审核阶段
             3. 可用',
@@ -79,7 +79,7 @@ create table ct_finance
    balance              decimal(10,2) comment '账户金额',
    freeze               decimal(10,2) comment '报价冻结金额',
    ao_permit_file       varchar(255) comment '开户许可证（文件）',
-   status               smallint comment '信息状态
+   status               smallint not null default 1 comment '信息状态
             1. 不可用
             2. 审核阶段
             3. 可用',
@@ -152,8 +152,8 @@ create index Index_log_type on ct_fund_log
 create table ct_news
 (
    id                   bigint(20) not null auto_increment comment '新闻ID',
-   title                varchar(20) comment '新闻标题',
-   context              text comment '内容',
+   title                varchar(20) not null comment '新闻标题',
+   context              text not null comment '内容',
    date                 datetime default CURRENT_TIMESTAMP comment '创建时间',
    status               smallint not null comment '状态：
             1. 草稿
@@ -161,8 +161,8 @@ create table ct_news
             3. 驳回（审核不通过）
             4. 发布
             5. 撤销（隐藏）
-            6. 删除（记录直接没了）',
-   author_id            bigint(20) comment '编写人员',
+            删除（记录直接没了）',
+   author_id            bigint(20) not null comment '编写人员',
    auditor_id           bigint(20) comment '审核人员',
    primary key (id)
 )
@@ -436,7 +436,7 @@ create table ct_users
    nick                 varchar(20) comment '用户昵称',
    email                varchar(20) not null comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint comment '用户状态
+   status               smallint not null comment '用户状态
             1. 用户未激活
             2. 已激活',
    primary key (id)
@@ -484,14 +484,14 @@ create unique index Index_user_email on ct_users
 create table ct_website_message
 (
    id                   bigint(20) not null auto_increment comment '新闻主键',
-   title                varchar(50) comment '站内信标题',
-   context              varchar(1024) comment '站内信内容',
-   modified             datetime comment '修改时间',
-   msg_type             smallint comment '消息类型（1.系统消息）',
+   title                varchar(50) not null comment '站内信标题',
+   context              varchar(1024) not null comment '站内信内容',
+   modified             datetime default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
+   msg_type             smallint not null comment '消息类型（1.系统消息）',
    created              datetime default CURRENT_TIMESTAMP comment '发信时间',
    from_userid          bigint(20) comment '发信人用户ID',
    from_username        varchar(128) comment '发信人用户名',
-   to_userid            bigint(20) comment '收信人用户ID',
+   to_userid            bigint(20) not null comment '收信人用户ID',
    to_username          varchar(128) comment '收信人用户名',
    read_status          smallint not null default 1 comment '是否已读（1. 未读；2.已读）',
    primary key (id)
