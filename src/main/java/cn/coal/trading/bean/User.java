@@ -35,7 +35,7 @@ public class User implements Serializable {
     private String  nick;
     private String  email;
     private Date    registered;
-    private Integer status;
+    private Integer status;     // 激活状态（暂时保留，默认2）[1.未激活 2.激活]
     @TableField(exist = false)
     private Integer role;
     @TableField(exist = false)

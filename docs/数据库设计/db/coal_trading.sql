@@ -1,13 +1,13 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/31 16:42:43                           */
+/* Created on:     2021/7/31 17:26:40                           */
 /*==============================================================*/
 
 
 # HEADER
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; # ×ÔÔöÉèÖÃ
-SET FOREIGN_KEY_CHECKS=0;  # È¡ÏûÍâ¼üÔ¼Êø
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; # è‡ªå¢è®¾ç½®
+SET FOREIGN_KEY_CHECKS=0;  # å–æ¶ˆå¤–é”®çº¦æŸ
 
 
 drop database if exists coal_trading;
@@ -24,39 +24,39 @@ use coal_trading;
 /*==============================================================*/
 create table ct_company
 (
-   user_id              bigint(20) not null comment 'ÓÃ»§ID',
-   com_name             varchar(20) not null comment 'ÆóÒµÃû³Æ',
-   com_intro            text comment 'ÆóÒµ½éÉÜ',
-   legal_name           varchar(20) comment '·¨ÈË´ú±í',
-   legal_id             varchar(20) comment '·¨ÈËÉí·İÖ¤ºÅ',
-   legal_id_file        varchar(255) comment '·¨ÈËÉí·İÖ¤£¨ÎÄ¼ş£©',
-   com_addr             varchar(20) comment '×¢²áµØÇø',
-   com_contact          varchar(20) comment 'ÁªÏµµç»°',
-   com_zip              varchar(20) comment 'ÓÊÕş±àÂë',
-   business_license_id  varchar(20) comment 'ÓªÒµÖ´ÕÕºÅ',
-   business_license_file varchar(255) comment 'ÓªÒµÖ´ÕÕ£¨ÎÄ¼ş£©',
-   manage_license_id    varchar(20) comment '¾­ÓªĞí¿ÉÖ¤±àºÅ',
-   fax                  varchar(20) comment '´«Õæ',
-   registered_capital   varchar(20) comment '×¢²á×Ê½ğ£¨ÍòÔª£©',
-   oib_code             varchar(20) comment '×éÖ¯»ú¹¹´úÂë',
-   oib_code_file        varchar(255) comment '×éÖ¯»ú¹¹´úÂëÖ¤£¨ÎÄ¼ş£©',
-   tr_cert              varchar(20) comment 'Ë°ÎñµÇ¼ÇÖ¤´úÂë',
-   tr_cert_file         varchar(255) comment 'Ë°ÎñµÇ¼ÇÖ¤£¨ÎÄ¼ş£©',
-   manage_license_file  varchar(255) comment 'ÃºÌ¿¾­ÓªĞí¿ÉÖ¤£¨ÎÄ¼ş£©[¹©Ó¦ÉÌ]',
-   coal_store_site      varchar(255) comment 'ÃºÔ´´æ·ÅµØµã[¹©Ó¦ÉÌ]',
-   coal_quantity        bigint comment 'ÃºÔ´ÊıÁ¿[¹©Ó¦ÉÌ]',
-   coal_quality         varchar(10) comment 'ÃºÔ´ÖÊÁ¿[¹©Ó¦ÉÌ]',
-   coal_transport       varchar(20) comment 'ÔËÊä·½Ê½¼°±£ÕÏÄÜÁ¦[¹©Ó¦ÉÌ]',
-   status               smallint comment 'ĞÅÏ¢×´Ì¬
-            1. ²»¿ÉÓÃ
-            2. ÉóºË½×¶Î
-            3. ¿ÉÓÃ',
-   audit_opinion        varchar(255) comment 'ÉóºËÒâ¼û',
+   user_id              bigint(20) not null comment 'ç”¨æˆ·ID',
+   com_name             varchar(20) not null comment 'ä¼ä¸šåç§°',
+   com_intro            text comment 'ä¼ä¸šä»‹ç»',
+   legal_name           varchar(20) comment 'æ³•äººä»£è¡¨',
+   legal_id             varchar(20) comment 'æ³•äººèº«ä»½è¯å·',
+   legal_id_file        varchar(255) comment 'æ³•äººèº«ä»½è¯ï¼ˆæ–‡ä»¶ï¼‰',
+   com_addr             varchar(20) comment 'æ³¨å†Œåœ°åŒº',
+   com_contact          varchar(20) comment 'è”ç³»ç”µè¯',
+   com_zip              varchar(20) comment 'é‚®æ”¿ç¼–ç ',
+   business_license_id  varchar(20) comment 'è¥ä¸šæ‰§ç…§å·',
+   business_license_file varchar(255) comment 'è¥ä¸šæ‰§ç…§ï¼ˆæ–‡ä»¶ï¼‰',
+   manage_license_id    varchar(20) comment 'ç»è¥è®¸å¯è¯ç¼–å·',
+   fax                  varchar(20) comment 'ä¼ çœŸ',
+   registered_capital   varchar(20) comment 'æ³¨å†Œèµ„é‡‘ï¼ˆä¸‡å…ƒï¼‰',
+   oib_code             varchar(20) comment 'ç»„ç»‡æœºæ„ä»£ç ',
+   oib_code_file        varchar(255) comment 'ç»„ç»‡æœºæ„ä»£ç è¯ï¼ˆæ–‡ä»¶ï¼‰',
+   tr_cert              varchar(20) comment 'ç¨åŠ¡ç™»è®°è¯ä»£ç ',
+   tr_cert_file         varchar(255) comment 'ç¨åŠ¡ç™»è®°è¯ï¼ˆæ–‡ä»¶ï¼‰',
+   manage_license_file  varchar(255) comment 'ç…¤ç‚­ç»è¥è®¸å¯è¯ï¼ˆæ–‡ä»¶ï¼‰[ä¾›åº”å•†]',
+   coal_store_site      varchar(255) comment 'ç…¤æºå­˜æ”¾åœ°ç‚¹[ä¾›åº”å•†]',
+   coal_quantity        bigint comment 'ç…¤æºæ•°é‡[ä¾›åº”å•†]',
+   coal_quality         varchar(10) comment 'ç…¤æºè´¨é‡[ä¾›åº”å•†]',
+   coal_transport       varchar(20) comment 'è¿è¾“æ–¹å¼åŠä¿éšœèƒ½åŠ›[ä¾›åº”å•†]',
+   status               smallint comment 'ä¿¡æ¯çŠ¶æ€
+            1. ä¸å¯ç”¨
+            2. å®¡æ ¸é˜¶æ®µ
+            3. å¯ç”¨',
+   audit_opinion        varchar(255) comment 'å®¡æ ¸æ„è§',
    primary key (user_id)
 )
 engine = InnoDB;
 
-alter table ct_company comment 'ÆóÒµ»ù±¾ĞÅÏ¢±í';
+alter table ct_company comment 'ä¼ä¸šåŸºæœ¬ä¿¡æ¯è¡¨';
 
 /*==============================================================*/
 /* Index: Index_com_name                                        */
@@ -71,30 +71,30 @@ create unique index Index_com_name on ct_company
 /*==============================================================*/
 create table ct_finance
 (
-   main_userid          bigint(20) not null comment '½»Ò×ÓÃ»§ID',
-   finance_userid       bigint(20) not null comment '²ÆÎñÓÃ»§ID',
-   com_name             varchar(20) comment '»ã¿îµ¥Î»Ãû³Æ',
-   bank_name            varchar(20) comment '¿ª»§ĞĞÃû³Æ',
-   bank_acc             varchar(19) comment 'ÒøĞĞÕËºÅ',
-   balance              decimal(10,2) comment 'ÕË»§½ğ¶î',
-   freeze               decimal(10,2) comment '±¨¼Û¶³½á½ğ¶î',
-   ao_permit_file       varchar(255) comment '¿ª»§Ğí¿ÉÖ¤£¨ÎÄ¼ş£©',
-   status               smallint comment 'ĞÅÏ¢×´Ì¬
-            1. ²»¿ÉÓÃ
-            2. ÉóºË½×¶Î
-            3. ¿ÉÓÃ',
-   audit_opinion        varchar(255) comment 'ÉóºËÒâ¼û',
+   main_userid          bigint(20) not null comment 'äº¤æ˜“ç”¨æˆ·ID',
+   finance_userid       bigint(20) not null comment 'è´¢åŠ¡ç”¨æˆ·ID',
+   com_name             varchar(20) comment 'æ±‡æ¬¾å•ä½åç§°',
+   bank_name            varchar(20) comment 'å¼€æˆ·è¡Œåç§°',
+   bank_acc             varchar(19) comment 'é“¶è¡Œè´¦å·',
+   balance              decimal(10,2) comment 'è´¦æˆ·é‡‘é¢',
+   freeze               decimal(10,2) comment 'æŠ¥ä»·å†»ç»“é‡‘é¢',
+   ao_permit_file       varchar(255) comment 'å¼€æˆ·è®¸å¯è¯ï¼ˆæ–‡ä»¶ï¼‰',
+   status               smallint comment 'ä¿¡æ¯çŠ¶æ€
+            1. ä¸å¯ç”¨
+            2. å®¡æ ¸é˜¶æ®µ
+            3. å¯ç”¨',
+   audit_opinion        varchar(255) comment 'å®¡æ ¸æ„è§',
    primary key (main_userid, finance_userid)
 )
 engine = InnoDB;
 
-alter table ct_finance comment 'ÆóÒµ²ÆÎñÕË»§±í';
+alter table ct_finance comment 'ä¼ä¸šè´¢åŠ¡è´¦æˆ·è¡¨';
 
 INSERT INTO ct_finance
 (`main_userid`, `finance_userid`, `com_name`, `bank_name`, `bank_acc`, `balance`, `freeze`, `ao_permit_file`) 
 VALUES
-(7, 8 , "¹©Ó¦ÉÌ¹«Ë¾1", "ÒøĞĞ1", "123456789", 10000.00, 5000.55, "path/to/file"),
-(9, 10, "²É¹ºÉÌ¹«Ë¾2", "ÒøĞĞ1", "123456789", 10000.00, 5000.55, "path/to/file");
+(7, 8 , "ä¾›åº”å•†å…¬å¸1", "é“¶è¡Œ1", "123456789", 10000.00, 5000.55, "path/to/file"),
+(9, 10, "é‡‡è´­å•†å…¬å¸2", "é“¶è¡Œ1", "123456789", 10000.00, 5000.55, "path/to/file");
 
 /*==============================================================*/
 /* Index: Index_finance_userid                                  */
@@ -117,15 +117,15 @@ create unique index Index_main_userid on ct_finance
 /*==============================================================*/
 create table ct_fund_log
 (
-   user_id              bigint(20) not null comment 'ÓÃ»§ID',
-   date                 datetime comment '±ä¶¯Ê±¼ä',
-   type                 bigint comment '±ä¶¯²Ù×÷£º
-            1. Ô¤´æ£¨Ôö¼Ó£©
-            2. ½ÉÄÉ¸øÆ½Ì¨£¨¶³½á£©
-            3. Æ½Ì¨¿Û³ıÖ¸¶¨¶î¶ÈµÄ¶³½á¿îÏî£¨¼õÉÙ£©
+   user_id              bigint(20) not null comment 'ç”¨æˆ·ID',
+   date                 datetime comment 'å˜åŠ¨æ—¶é—´',
+   type                 bigint comment 'å˜åŠ¨æ“ä½œï¼š
+            1. é¢„å­˜ï¼ˆå¢åŠ ï¼‰
+            2. ç¼´çº³ç»™å¹³å°ï¼ˆå†»ç»“ï¼‰
+            3. å¹³å°æ‰£é™¤æŒ‡å®šé¢åº¦çš„å†»ç»“æ¬¾é¡¹ï¼ˆå‡å°‘ï¼‰
             ',
-   fund_quantity        decimal(10,2) comment '½ğ¶îÊıÁ¿',
-   cert                 varchar(255) comment '½»Ò×Æ¾Ö¤£¨ÎÄ¼ş£©',
+   fund_quantity        decimal(10,2) comment 'é‡‘é¢æ•°é‡',
+   cert                 varchar(255) comment 'äº¤æ˜“å‡­è¯ï¼ˆæ–‡ä»¶ï¼‰',
    primary key (user_id)
 )
 engine = InnoDB;
@@ -151,30 +151,30 @@ create index Index_log_type on ct_fund_log
 /*==============================================================*/
 create table ct_news
 (
-   id                   bigint(20) not null auto_increment comment 'ĞÂÎÅID',
-   title                varchar(20) comment 'ĞÂÎÅ±êÌâ',
-   context              text comment 'ÄÚÈİ',
-   date                 datetime default CURRENT_TIMESTAMP comment '´´½¨Ê±¼ä',
-   status               smallint not null comment '×´Ì¬£º
-            1. ²İ¸å
-            2. ÉóºËÖĞ
-            3. ²µ»Ø£¨ÉóºË²»Í¨¹ı£©
-            4. ·¢²¼
-            5. ³·Ïú£¨Òş²Ø£©
-            6. É¾³ı£¨¼ÇÂ¼Ö±½ÓÃ»ÁË£©',
-   author_id            bigint(20) comment '±àĞ´ÈËÔ±',
-   auditor_id           bigint(20) comment 'ÉóºËÈËÔ±',
+   id                   bigint(20) not null auto_increment comment 'æ–°é—»ID',
+   title                varchar(20) comment 'æ–°é—»æ ‡é¢˜',
+   context              text comment 'å†…å®¹',
+   date                 datetime default CURRENT_TIMESTAMP comment 'åˆ›å»ºæ—¶é—´',
+   status               smallint not null comment 'çŠ¶æ€ï¼š
+            1. è‰ç¨¿
+            2. å®¡æ ¸ä¸­
+            3. é©³å›ï¼ˆå®¡æ ¸ä¸é€šè¿‡ï¼‰
+            4. å‘å¸ƒ
+            5. æ’¤é”€ï¼ˆéšè—ï¼‰
+            6. åˆ é™¤ï¼ˆè®°å½•ç›´æ¥æ²¡äº†ï¼‰',
+   author_id            bigint(20) comment 'ç¼–å†™äººå‘˜',
+   auditor_id           bigint(20) comment 'å®¡æ ¸äººå‘˜',
    primary key (id)
 )
 engine = InnoDB;
 
 INSERT INTO ct_news(id, title, context, status, author_id, auditor_id)
 VALUES
-(1, "²İ¸å×ÊÑ¶", "²İ¸å×ÊÑ¶µÄÄÚÈİ", 1, 2, NULL),
-(2, "ÉóºËÖĞ×ÊÑ¶", "ÉóºËÖĞ×ÊÑ¶µÄÄÚÈİ", 2, 2, 3),
-(3, "ÉóºË²µ»Ø×ÊÑ¶", "ÉóºË²µ»Ø×ÊÑ¶µÄÄÚÈİ", 3, 2, 3),
-(4, "·¢²¼µÄ×ÊÑ¶", "·¢²¼µÄ×ÊÑ¶µÄÄÚÈİ", 4, 2, 3),
-(5, "³·ÏúµÄ×ÊÑ¶", "³·ÏúµÄ×ÊÑ¶µÄÄÚÈİ", 5, 2, 3);
+(1, "è‰ç¨¿èµ„è®¯", "è‰ç¨¿èµ„è®¯çš„å†…å®¹", 1, 2, NULL),
+(2, "å®¡æ ¸ä¸­èµ„è®¯", "å®¡æ ¸ä¸­èµ„è®¯çš„å†…å®¹", 2, 2, 3),
+(3, "å®¡æ ¸é©³å›èµ„è®¯", "å®¡æ ¸é©³å›èµ„è®¯çš„å†…å®¹", 3, 2, 3),
+(4, "å‘å¸ƒçš„èµ„è®¯", "å‘å¸ƒçš„èµ„è®¯çš„å†…å®¹", 4, 2, 3),
+(5, "æ’¤é”€çš„èµ„è®¯", "æ’¤é”€çš„èµ„è®¯çš„å†…å®¹", 5, 2, 3);
 
 /*==============================================================*/
 /* Index: Index_news_id                                         */
@@ -189,16 +189,16 @@ create unique index Index_news_id on ct_news
 /*==============================================================*/
 create table ct_order
 (
-   id                   bigint(20) not null auto_increment comment '¶©µ¥ID',
+   id                   bigint(20) not null auto_increment comment 'è®¢å•ID',
    num                  varchar(30) not null,
-   req_id               bigint(20) comment 'ĞèÇóID',
-   user_id              bigint(20) comment 'ÓÃ»§ID',
-   created_time         datetime comment '´´½¨Ê±¼ä',
-   status               smallint(6) not null comment '¶©µ¥×´Ì¬£º
-            1. ½øĞĞÖĞ
-            2. ³¬Ê±
-            3. Íê³É
-            4. È¡Ïû',
+   req_id               bigint(20) comment 'éœ€æ±‚ID',
+   user_id              bigint(20) comment 'ç”¨æˆ·ID',
+   created_time         datetime comment 'åˆ›å»ºæ—¶é—´',
+   status               smallint(6) not null comment 'è®¢å•çŠ¶æ€ï¼š
+            1. è¿›è¡Œä¸­
+            2. è¶…æ—¶
+            3. å®Œæˆ
+            4. å–æ¶ˆ',
    primary key (id)
 )
 engine = InnoDB;
@@ -240,30 +240,30 @@ create unique index Index_order_num on ct_order
 /*==============================================================*/
 create table ct_permissions
 (
-   id                   bigint(20) not null comment 'È¨ÏŞID',
-   name                 varchar(15) comment 'È¨ÏŞÃû',
+   id                   bigint(20) not null comment 'æƒé™ID',
+   name                 varchar(15) comment 'æƒé™å',
    primary key (id)
 )
 engine = InnoDB;
 
-alter table ct_permissions comment 'È¨ÏŞ£º
-1. ×ÊÑ¶±à¼­È¨ÏŞ
-2. ×ÊÑ¶ÉóºËÈ¨ÏŞ
-3. ×ÊÑ¶Î¬»¤È¨ÏŞ
+alter table ct_permissions comment 'æƒé™ï¼š
+1. èµ„è®¯ç¼–è¾‘æƒé™
+2. èµ„è®¯å®¡æ ¸æƒé™
+3. èµ„è®¯ç»´æŠ¤æƒé™
 4.';
 
 /*
-È¨ÏŞ£º
-1. ³¬¼¶¹ÜÀíÔ±
-2. ×ÊÑ¶±à¼­È¨ÏŞ
-3. ×ÊÑ¶ÉóºËÈ¨ÏŞ
-4. ×ÊÑ¶Î¬»¤È¨ÏŞ
-5. ×¢²áÓÃ»§ÉóºËÈ¨ÏŞ
-6. ½»Ò×ÉóºËÈ¨ÏŞ
-7. ÓÃ»§´´½¨È¨ÏŞ
-8. ¹ÒÅÆÈ¨ÏŞ
-9. ¹ÒÅÆÈ¨ÏŞ
-10.ĞÅÏ¢±à¼­È¨ÏŞ
+æƒé™ï¼š
+1. è¶…çº§ç®¡ç†å‘˜
+2. èµ„è®¯ç¼–è¾‘æƒé™
+3. èµ„è®¯å®¡æ ¸æƒé™
+4. èµ„è®¯ç»´æŠ¤æƒé™
+5. æ³¨å†Œç”¨æˆ·å®¡æ ¸æƒé™
+6. äº¤æ˜“å®¡æ ¸æƒé™
+7. ç”¨æˆ·åˆ›å»ºæƒé™
+8. æŒ‚ç‰Œæƒé™
+9. æŒ‚ç‰Œæƒé™
+10.ä¿¡æ¯ç¼–è¾‘æƒé™
 */
 INSERT INTO ct_permissions VALUES(1, "SUPER_ADMIN"),
 (2, "NEWS_EDITOR"),
@@ -288,18 +288,18 @@ create unique index Index_pri on ct_permissions
 /*==============================================================*/
 create table ct_request
 (
-   id                   bigint(20) not null comment 'ĞèÇóID',
-   user_id              bigint(20) comment 'ÓÃ»§ID',
-   created_time         datetime comment '´´½¨Ê±¼ä',
-   ended_time           datetime comment '½áÊøÊ±¼ä',
-   type                 smallint(6) comment '¹ºÈë/Âô³ö',
-   status               smallint not null comment 'ĞèÇó×´Ì¬
-            1. ²İ¸å
-            2. ·¢²¼
-            3. ±»ÕªÈ¡
-            4. Òş²Ø
-            5. Íê³É',
-   deatil               text comment 'ĞèÇóĞÅÏ¢(JSON)',
+   id                   bigint(20) not null comment 'éœ€æ±‚ID',
+   user_id              bigint(20) comment 'ç”¨æˆ·ID',
+   created_time         datetime comment 'åˆ›å»ºæ—¶é—´',
+   ended_time           datetime comment 'ç»“æŸæ—¶é—´',
+   type                 smallint(6) comment 'è´­å…¥/å–å‡º',
+   status               smallint not null comment 'éœ€æ±‚çŠ¶æ€
+            1. è‰ç¨¿
+            2. å‘å¸ƒ
+            3. è¢«æ‘˜å–
+            4. éšè—
+            5. å®Œæˆ',
+   deatil               text comment 'éœ€æ±‚ä¿¡æ¯(JSON)',
    primary key (id)
 )
 engine = InnoDB;
@@ -317,13 +317,13 @@ create index Index_req_id on ct_request
 /*==============================================================*/
 create table ct_role_permission_relationships
 (
-   role_id              bigint(20) not null comment '½ÇÉ«ID',
-   permission_id        bigint(20) not null comment 'È¨ÏŞID',
+   role_id              bigint(20) not null comment 'è§’è‰²ID',
+   permission_id        bigint(20) not null comment 'æƒé™ID',
    primary key (role_id, permission_id)
 )
 engine = InnoDB;
 
-alter table ct_role_permission_relationships comment '1¸ö½ÇÉ«¿ÉÒÔ¶ÔÓ¦1¸öÈ¨ÏŞ';
+alter table ct_role_permission_relationships comment '1ä¸ªè§’è‰²å¯ä»¥å¯¹åº”1ä¸ªæƒé™';
 
 /*role_id, permission*/
 INSERT INTO ct_role_permission_relationships VALUES(1,1);
@@ -350,8 +350,8 @@ create unique index Index_role_pri_id on ct_role_permission_relationships
 /*==============================================================*/
 create table ct_user_role_relationships
 (
-   user_id              bigint(20) not null comment 'ÓÃ»§ID',
-   role_id              bigint(20) not null comment '½ÇÉ«ID',
+   user_id              bigint(20) not null comment 'ç”¨æˆ·ID',
+   role_id              bigint(20) not null comment 'è§’è‰²ID',
    primary key (role_id, user_id)
 )
 engine = InnoDB;
@@ -380,41 +380,41 @@ create unique index Index_user_id on ct_user_role_relationships
 /*==============================================================*/
 create table ct_userrole
 (
-   id                   bigint(20) not null comment '½ÇÉ«ID',
-   mark                 varchar(20) comment '½ÇÉ«±ê¼Ç',
-   name                 varchar(20) comment '½ÇÉ«Ãû',
-   type                 varchar(10) comment '½ÇÉ«ÀàĞÍ',
+   id                   bigint(20) not null comment 'è§’è‰²ID',
+   mark                 varchar(20) comment 'è§’è‰²æ ‡è®°',
+   name                 varchar(20) comment 'è§’è‰²å',
+   type                 varchar(10) comment 'è§’è‰²ç±»å‹',
    primary key (id)
 )
 engine = InnoDB;
 
-alter table ct_userrole comment '1. ¼¸ÖÖ¹ÜÀíÔ±£º
-     a. ×ÊÑ¶±à¼­Ô±
-     b. ×ÊÑ¶ÉóºËÔ±
+alter table ct_userrole comment '1. å‡ ç§ç®¡ç†å‘˜ï¼š
+     a. èµ„è®¯ç¼–è¾‘å‘˜
+     b. èµ„è®¯å®¡æ ¸å‘˜
     ';
 
 /*
-1. ¼¸ÖÖ¹ÜÀíÔ±£º
-     a. ³¬¼¶¹ÜÀíÔ±
-     b. ×ÊÑ¶±à¼­Ô±
-     c. ×ÊÑ¶ÉóºËÔ±
-     d. ×ÊÑ¶Î¬»¤Ô±
-     e. ×¢²áÓÃ»§ÉóºËÔ±
-     f. ½»Ò×ÉóºËÔ±
+1. å‡ ç§ç®¡ç†å‘˜ï¼š
+     a. è¶…çº§ç®¡ç†å‘˜
+     b. èµ„è®¯ç¼–è¾‘å‘˜
+     c. èµ„è®¯å®¡æ ¸å‘˜
+     d. èµ„è®¯ç»´æŠ¤å‘˜
+     e. æ³¨å†Œç”¨æˆ·å®¡æ ¸å‘˜
+     f. äº¤æ˜“å®¡æ ¸å‘˜
      
-2. ½»Ò×ÓÃ»§[¹©Ó¦ÉÌ,²É¹ºÉÌ]
-3. ²ÆÎñÓÃ»§
+2. äº¤æ˜“ç”¨æˆ·[ä¾›åº”å•†,é‡‡è´­å•†]
+3. è´¢åŠ¡ç”¨æˆ·
 */
 INSERT INTO ct_userrole(`id`, `name`, `mark`, `type`) VALUES
-(1, "³¬¼¶¹ÜÀíÔ±", "SUPER_ADMIN", "admin"),
-(2, "×ÊÑ¶±à¼­Ô±", "NEWS_EDITOR", "admin"),
-(3, "×ÊÑ¶ÉóºËÔ±", "NEWS_AUDITOR", "admin"),
-(4, "×ÊÑ¶Î¬»¤Ô±", "NEWS_MANAGER", "admin"),
-(5, "×¢²áÓÃ»§ÉóºËÔ±", "USER_REG_AUDITOR", "admin"),
-(6, "½»Ò×ÉóºËÔ±", "TRADE_AUDITOR", "admin"),
-(7, "¹©Ó¦ÉÌ", "USER_SALE", "user"),
-(8, "²É¹ºÉÌ", "USER_BUY", "user"),
-(9, "²ÆÎñÓÃ»§", "USER_MONEY", "user");
+(1, "è¶…çº§ç®¡ç†å‘˜", "SUPER_ADMIN", "admin"),
+(2, "èµ„è®¯ç¼–è¾‘å‘˜", "NEWS_EDITOR", "admin"),
+(3, "èµ„è®¯å®¡æ ¸å‘˜", "NEWS_AUDITOR", "admin"),
+(4, "èµ„è®¯ç»´æŠ¤å‘˜", "NEWS_MANAGER", "admin"),
+(5, "æ³¨å†Œç”¨æˆ·å®¡æ ¸å‘˜", "USER_REG_AUDITOR", "admin"),
+(6, "äº¤æ˜“å®¡æ ¸å‘˜", "TRADE_AUDITOR", "admin"),
+(7, "ä¾›åº”å•†", "USER_SALE", "user"),
+(8, "é‡‡è´­å•†", "USER_BUY", "user"),
+(9, "è´¢åŠ¡ç”¨æˆ·", "USER_MONEY", "user");
 
 /*==============================================================*/
 /* Index: Index_role_id                                         */
@@ -429,38 +429,38 @@ create index Index_role_id on ct_userrole
 /*==============================================================*/
 create table ct_users
 (
-   id                   bigint(20) not null auto_increment comment 'ÓÃ»§ID£¨Î¨Ò»£©',
-   login                varchar(20) not null comment 'µÇÂ¼Ãû£¨Î¨Ò»£©',
-   pass                 varchar(100) comment 'ÓÃ»§ÃÜÂë£º
-            Òª¾­¹ı¼ÓÃÜ',
-   nick                 varchar(20) comment 'ÓÃ»§êÇ³Æ',
-   email                varchar(20) not null comment 'ÓÃ»§ÓÊÏä£¨Î¨Ò»£©',
-   registered           datetime default CURRENT_TIMESTAMP comment '´´½¨Ê±¼ä',
-   status               smallint comment 'ÓÃ»§×´Ì¬
-            1. ÓÃ»§Î´¼¤»î
-            2. ÒÑ¼¤»î',
+   id                   bigint(20) not null auto_increment comment 'ç”¨æˆ·IDï¼ˆå”¯ä¸€ï¼‰',
+   login                varchar(20) not null comment 'ç™»å½•åï¼ˆå”¯ä¸€ï¼‰',
+   pass                 varchar(100) comment 'ç”¨æˆ·å¯†ç ï¼š
+            è¦ç»è¿‡åŠ å¯†',
+   nick                 varchar(20) comment 'ç”¨æˆ·æ˜µç§°',
+   email                varchar(20) not null comment 'ç”¨æˆ·é‚®ç®±ï¼ˆå”¯ä¸€ï¼‰',
+   registered           datetime default CURRENT_TIMESTAMP comment 'åˆ›å»ºæ—¶é—´',
+   status               smallint comment 'ç”¨æˆ·çŠ¶æ€
+            1. ç”¨æˆ·æœªæ¿€æ´»
+            2. å·²æ¿€æ´»',
    primary key (id)
 )
 engine = InnoDB;
 
-alter table ct_users comment '´æ´¢µÄÓÃ»§ÀàĞÍ£º
-1. ¹ÜÀíÔ±
-2. ½»Ò×ÓÃ»§
-3. ²ÆÎñÓÃ»§
+alter table ct_users comment 'å­˜å‚¨çš„ç”¨æˆ·ç±»å‹ï¼š
+1. ç®¡ç†å‘˜
+2. äº¤æ˜“ç”¨æˆ·
+3. è´¢åŠ¡ç”¨æˆ·
 ';
 
 INSERT INTO `ct_users` (`id`, `login`, `pass`, `nick`, `email`) 
 VALUES 
-(1, 'superadmin', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '³¬¼¶¹ÜÀíÔ±', "1@mail.com"),
-(2, 'newseditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '×ÊÑ¶±à¼­Ô±1', '2@mail.com'),
-(3, 'newsauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '×ÊÑ¶ÉóºËÔ±1', '3@mail.com'),
-(4, 'newsmanager1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '×ÊÑ¶Î¬»¤Ô±1', "4@mail.com"),
-(5, 'userregauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '×¢²áÓÃ»§ÉóºËÔ±1', "5@mail.com"),
-(6, 'tradeauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '½»Ò×ÉóºËÔ±1', "6@mail.com"),
-(7, 'saleuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '¹©Ó¦ÉÌÓÃ»§1', "7@mail.com"),
-(8, 'salemoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '¹©Ó¦ÉÌ²ÆÎñÓÃ»§1', "8@mail.com"),
-(9, 'buyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '²É¹ºÉÌÓÃ»§', "9@mail.com"),
-(10, 'buymoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '²É¹ºÉÌ²ÆÎñÓÃ»§1', "10@mail.com");
+(1, 'superadmin', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'è¶…çº§ç®¡ç†å‘˜', "1@mail.com"),
+(2, 'newseditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'èµ„è®¯ç¼–è¾‘å‘˜1', '2@mail.com'),
+(3, 'newsauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'èµ„è®¯å®¡æ ¸å‘˜1', '3@mail.com'),
+(4, 'newsmanager1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'èµ„è®¯ç»´æŠ¤å‘˜1', "4@mail.com"),
+(5, 'userregauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'æ³¨å†Œç”¨æˆ·å®¡æ ¸å‘˜1', "5@mail.com"),
+(6, 'tradeauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'äº¤æ˜“å®¡æ ¸å‘˜1', "6@mail.com"),
+(7, 'saleuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'ä¾›åº”å•†ç”¨æˆ·1', "7@mail.com"),
+(8, 'salemoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'ä¾›åº”å•†è´¢åŠ¡ç”¨æˆ·1', "8@mail.com"),
+(9, 'buyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'é‡‡è´­å•†ç”¨æˆ·', "9@mail.com"),
+(10, 'buymoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', 'é‡‡è´­å•†è´¢åŠ¡ç”¨æˆ·1', "10@mail.com");
 
 /*==============================================================*/
 /* Index: Index_user_login                                      */
@@ -483,17 +483,17 @@ create unique index Index_user_email on ct_users
 /*==============================================================*/
 create table ct_website_message
 (
-   id                   bigint(20) not null auto_increment comment 'ĞÂÎÅÖ÷¼ü',
-   title                varchar(50) comment 'Õ¾ÄÚĞÅ±êÌâ',
-   context              varchar(1024) comment 'Õ¾ÄÚĞÅÄÚÈİ',
-   modified             datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   msg_type             smallint comment 'ÏûÏ¢ÀàĞÍ£¨1.ÏµÍ³ÏûÏ¢£©',
-   created              datetime default CURRENT_TIMESTAMP comment '·¢ĞÅÊ±¼ä',
-   from_userid          bigint(20) comment '·¢ĞÅÈËÓÃ»§ID',
-   from_username        varchar(128) comment '·¢ĞÅÈËÓÃ»§Ãû',
-   to_userid            bigint(20) comment 'ÊÕĞÅÈËÓÃ»§ID',
-   to_username          varchar(128) comment 'ÊÕĞÅÈËÓÃ»§Ãû',
-   read_status          smallint not null default 1 comment 'ÊÇ·ñÒÑ¶Á£¨1. Î´¶Á£»2.ÒÑ¶Á£©',
+   id                   bigint(20) not null auto_increment comment 'æ–°é—»ä¸»é”®',
+   title                varchar(50) comment 'ç«™å†…ä¿¡æ ‡é¢˜',
+   context              varchar(1024) comment 'ç«™å†…ä¿¡å†…å®¹',
+   modified             datetime comment 'ä¿®æ”¹æ—¶é—´',
+   msg_type             smallint comment 'æ¶ˆæ¯ç±»å‹ï¼ˆ1.ç³»ç»Ÿæ¶ˆæ¯ï¼‰',
+   created              datetime default CURRENT_TIMESTAMP comment 'å‘ä¿¡æ—¶é—´',
+   from_userid          bigint(20) comment 'å‘ä¿¡äººç”¨æˆ·ID',
+   from_username        varchar(128) comment 'å‘ä¿¡äººç”¨æˆ·å',
+   to_userid            bigint(20) comment 'æ”¶ä¿¡äººç”¨æˆ·ID',
+   to_username          varchar(128) comment 'æ”¶ä¿¡äººç”¨æˆ·å',
+   read_status          smallint not null default 1 comment 'æ˜¯å¦å·²è¯»ï¼ˆ1. æœªè¯»ï¼›2.å·²è¯»ï¼‰',
    primary key (id)
 )
 engine = InnoDB;

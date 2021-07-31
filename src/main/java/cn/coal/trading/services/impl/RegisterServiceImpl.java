@@ -47,7 +47,7 @@ public class RegisterServiceImpl implements RegisterService {
     public int register(User user) {
 
         // 设置用户状态为基础注册状态
-        user.setStatus(1);
+        user.setStatus(2);
         return userMapper.insert(user);
     }
 }
