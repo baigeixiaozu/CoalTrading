@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/31 7:41:09                            */
+/* Created on:     2021/7/31 10:07:02                           */
 /*==============================================================*/
 
 
@@ -62,67 +62,44 @@ create unique index Index_com_name on ct_company
 );
 
 /*==============================================================*/
-/* Table: ct_finance_bargain_bind                               */
+/* Table: ct_finance                                            */
 /*==============================================================*/
-create table ct_finance_bargain_bind
+create table ct_finance
 (
-   bargain_id           bigint(20) not null comment '交易用户ID',
-   finance_id           bigint(20) not null comment '财务用户ID',
-   primary key (bargain_id, finance_id)
-)
-engine = InnoDB;
-
-alter table ct_finance_bargain_bind comment '财务用户与交易用户（采购商，供应商）绑定';
-
-INSERT INTO ct_finance_bargain_bind(`bargain_id`, `finance_id`) VALUES
-(7, 8),
-(9, 10);
-
-/*==============================================================*/
-/* Index: Index_bargain_id                                      */
-/*==============================================================*/
-create unique index Index_bargain_id on ct_finance_bargain_bind
-(
-   bargain_id,
-   finance_id
-);
-
-/*==============================================================*/
-/* Index: Index_fiance_id                                       */
-/*==============================================================*/
-create unique index Index_fiance_id on ct_finance_bargain_bind
-(
-   finance_id
-);
-
-/*==============================================================*/
-/* Table: ct_fund                                               */
-/*==============================================================*/
-create table ct_fund
-(
-   user_id              bigint(20) not null comment '财务用户ID',
+   main_userid          bigint(20) not null comment '交易用户ID',
+   finance_userid       bigint(20) not null comment '财务用户ID',
    com_name             varchar(20) comment '汇款单位名称',
    bank_name            varchar(20) comment '开户行名称',
    bank_acc             varchar(19) comment '银行账号',
-   total                decimal(10,2) comment '账户金额',
+   balance              decimal(10,2) comment '账户金额',
    freeze               decimal(10,2) comment '报价冻结金额',
    ao_permit_file       varchar(255) comment '开户许可证（文件）',
-   primary key (user_id)
+   primary key (main_userid, finance_userid)
 )
 engine = InnoDB;
 
-INSERT INTO ct_fund
-(`user_id`, `com_name`, `bank_name`, `bank_acc`, `total`, `freeze`, `ao_permit_file`) 
+alter table ct_finance comment '企业财务账户表';
+
+INSERT INTO ct_finance
+(`main_userid`, `finance_userid`, `com_name`, `bank_name`, `bank_acc`, `balance`, `freeze`, `ao_permit_file`) 
 VALUES
-(8 , "供应商公司1", "银行1", "123456789", 10000.00, 5000.55, "path/to/file"),
-(10, "采购商公司2", "银行1", "123456789", 10000.00, 5000.55, "path/to/file");
+(7, 8 , "供应商公司1", "银行1", "123456789", 10000.00, 5000.55, "path/to/file"),
+(9, 10, "采购商公司2", "银行1", "123456789", 10000.00, 5000.55, "path/to/file");
 
 /*==============================================================*/
-/* Index: Index_user_id                                         */
+/* Index: Index_finance_userid                                  */
 /*==============================================================*/
-create unique index Index_user_id on ct_fund
+create unique index Index_finance_userid on ct_finance
 (
-   user_id
+   finance_userid
+);
+
+/*==============================================================*/
+/* Index: Index_main_userid                                     */
+/*==============================================================*/
+create unique index Index_main_userid on ct_finance
+(
+   main_userid
 );
 
 /*==============================================================*/
@@ -472,7 +449,7 @@ VALUES
 (5, 'userregauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '注册用户审核员1', "5@mail.com", 2),
 (6, 'tradeauditor1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '交易审核员1', "6@mail.com", 2),
 (7, 'saleuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商用户1', "7@mail.com", 2),
-(8, 'salemoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商户1', "8@mail.com", 2),
+(8, 'salemoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '供应商财务用户1', "8@mail.com", 2),
 (9, 'buyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '采购商用户', "9@mail.com", 2),
 (10, 'buymoneyuser1', '$2a$10$.y9u24yrwyy6aw96ny/HVOgPxa.z/WuWzmBKVP0ELbE7w5U.9/EA2', '采购商财务用户1', "10@mail.com", 2);
 
@@ -523,13 +500,10 @@ create index Index_to_userid on ct_website_message
 alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
-alter table ct_finance_bargain_bind add constraint FK_FT_REF_USER_1 foreign key (bargain_id)
+alter table ct_finance add constraint FK_FU_REF_USER_1 foreign key (main_userid)
       references ct_users (id) on delete restrict on update restrict;
 
-alter table ct_finance_bargain_bind add constraint FK_FT_REF_USER_2 foreign key (finance_id)
-      references ct_users (id) on delete restrict on update restrict;
-
-alter table ct_fund add constraint FK_FU_REF_USER foreign key (user_id)
+alter table ct_finance add constraint FK_FU_REF_USER_2 foreign key (finance_userid)
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_fund_log add constraint FK_FL_REF_USER foreign key (user_id)
