@@ -31,11 +31,13 @@ public class Msg implements Serializable {
     private String title;
     // 消息内容
     private String context;
+    // 消息类型 1.系统消息
     private Integer msgType;
     private Date created;
     private Long fromUserid;
     private String fromUsername;
     private Long toUserid;
     private String toUsername;
+    // 读取状态 [1.未读 2.已读]
     private Integer readStatus;
 }

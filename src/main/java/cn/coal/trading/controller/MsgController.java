@@ -9,8 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author jiyec
@@ -39,14 +38,23 @@ public class MsgController {
     @GetMapping("/detail/{msg_id}")
     public ResponseData msgDetail(@PathVariable("msg_id") Integer msgId){
         ResponseData responseData = new ResponseData();
+        // 获取当前登录用户的ID
         TokenProfile profile = ProfileHolder.getProfile();
         long userId = Long.parseLong(profile.getId());
+
+        // 获取消息详情
         Msg msgDetail = msgService.getMsgDetail(msgId, userId);
+
         if(msgDetail == null){
             responseData.setCode(121404);
             responseData.setMsg("fail");
             responseData.setError("该消息不存在");
         }else{
+            // 未读标记为已读
+            if(msgDetail.getReadStatus() == 1)
+                msgService.markAsRead(new HashSet<Long>(){{
+                    add(msgDetail.getId());
+                }});
             responseData.setCode(200);
             responseData.setMsg("success");
             responseData.setData(msgDetail);

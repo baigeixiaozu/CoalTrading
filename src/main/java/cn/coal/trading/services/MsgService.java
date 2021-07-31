@@ -4,6 +4,7 @@ import cn.coal.trading.bean.Msg;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author jiyec
@@ -43,4 +44,12 @@ public interface MsgService {
      * @return Msg 消息数据实体
      */
     Msg getMsgDetail(long msgId, long userId);
+
+    /**
+     * 将消息标记为已读
+     *
+     * @param msg 消息实体
+     * @return boolean
+     */
+    boolean markAsRead(Set<Long> ids);
 }

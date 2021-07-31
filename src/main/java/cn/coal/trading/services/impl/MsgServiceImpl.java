@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * @Author jiyec
@@ -58,5 +60,15 @@ public class MsgServiceImpl implements MsgService {
             eq("id", msgId);
             eq("to_userid", userId);
         }});
+    }
+
+    @Override
+    public boolean markAsRead(Set<Long> ids) {
+        int count = msgMapper.update(new Msg() {{
+            setReadStatus(2);       // 标记消息为已读
+        }}, new QueryWrapper<Msg>() {{
+            in("id", ids);
+        }});
+        return count > 0;
     }
 }
