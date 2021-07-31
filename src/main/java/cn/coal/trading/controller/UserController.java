@@ -6,18 +6,18 @@ import cn.coal.trading.utils.TimeUtil;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Sorakado & jiyeme
@@ -36,18 +36,12 @@ public class UserController {
     LoginService loginService;
     @Resource
     RegisterService registerService;
-
-    // 邮箱检测用
-    @Bean
-    public Pattern emailPattern(){
-        return Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
-    }
-    @Autowired
-    Pattern emailPattern;
+    @Resource
+    FileService fileService;
 
     /**
      * 新增用户操作
-     *
+     * TODO: 设定超级管理员权限
      * @Author jiyeme
      * @param user 用户信息
      * @return ResponseData
@@ -58,18 +52,12 @@ public class UserController {
 
         ResponseData responseData = new ResponseData();
 
-        Matcher matcher = emailPattern.matcher(user.getEmail());
-        if(!matcher.matches()){
+        if (user.getLogin() == null) {
             responseData.setCode(105201);
-            responseData.setMsg("邮箱格式不正确");
+            responseData.setMsg("用户名不能为空");
             return responseData;
         }
-        if (user.getLogin() == null || user.getLogin().contains(" ")) {
-            responseData.setCode(105201);
-            responseData.setMsg("用户名格式不正确");
-            return responseData;
-        }
-        if (user.getPass() == null || user.getPass().contains(" ")) {
+        if (user.getPass() == null) {
             responseData.setCode(105201);
             responseData.setMsg("密码不能为空");
             return responseData;
@@ -85,8 +73,6 @@ public class UserController {
             return responseData;
         }
         if (user.getRole() == null) {
-            responseData.setCode(105201);
-            responseData.setMsg("角色数据错误");
             return responseData;
         }
         String ret = userService.newUser(user);
@@ -146,16 +132,6 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
-        // 邮箱检测
-        Matcher matcher = emailPattern.matcher(user.getEmail());
-        boolean isMatched = matcher.matches();
-        if(!isMatched){
-            response.setCode(102201);
-            response.setMsg("fail");
-            response.setError("邮箱格式有误");
-            return response;
-        }
-
         boolean userExist = registerService.isUserExist(user.getLogin());
         if(userExist){
             response.setCode(102201);
@@ -178,7 +154,6 @@ public class UserController {
         }
         return response;
     }
-
     /**
      * @Author Sorakado & jiyeme
      * @Date 2021/7/29 16:34
@@ -242,5 +217,16 @@ public class UserController {
 
         return result;
     }
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/31 22:26
+     * @Version 1.0
+     **/
 
+    @PostMapping("uploadFile")
+    public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
+
+        ResponseData result = fileService.uploadFiles(multipartFile);
+        return result;
+    }
 }

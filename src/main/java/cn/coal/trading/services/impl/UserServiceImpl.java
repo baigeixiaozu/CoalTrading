@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService {
     RoleMapper roleMapper;
 
 
+
+
     @Autowired
     private CompanyMapper companyMapper;
 
@@ -60,11 +62,30 @@ public class UserServiceImpl implements UserService {
         }});
     }
 
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/31 23:10
+     * @Version 1.0
+     **/
+
     @Override
     public ResponseData complete(CompanyInformation companyInformation) {
 
         ResponseData response = new ResponseData();
+        int insert = companyMapper.insert(companyInformation);
+        if(insert==1){
+            response.setCode(201);
+            response.setMsg("数据上传成功");
+            response.setError("无");
+            response.setData(companyInformation);
 
-        return null;
+        }else{
+            response.setData(null);
+            response.setError("资源冲突，或者资源被锁定");
+            response.setCode(409);
+            response.setMsg("该公司已注册！或者未知错误");
+        }
+
+        return response;
     }
 }

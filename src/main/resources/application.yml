@@ -1,4 +1,10 @@
 spring:
+  servlet:
+    multipart: #配置文件上传
+      max-file-size: 2MB #设置上传的单个文件最大值，单位可以是 MB、KB，默认为 1MB
+      max-request-size: 12MB #设置多文件上传时，单次内多个文件的总量的最大值，单位可以是 MB、KB，默认为 10 M
+      enabled: true
+
   # 数据库
   datasource:
     username: root
@@ -52,9 +58,15 @@ shaun:
     - /favicon.ico
     - /user/register
     - /user/getRoleList/user
+    - /user/uploadFile
   exclude-branch: # 排除以此路径开头
     - /webjars
   expire-time: 2d # 不设置默认永久有效
   header:
     name: Authorization
     prefix: Bear
+
+uploadFile:
+  location: E:/ #自定义上传文件本地保存路径。默认E盘下
+
+
