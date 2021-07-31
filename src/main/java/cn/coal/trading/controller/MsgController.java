@@ -54,11 +54,27 @@ public class MsgController {
             if(msgDetail.getReadStatus() == 1)
                 msgService.markAsRead(new HashSet<Long>(){{
                     add(msgDetail.getId());
-                }});
+                }}, userId);
             responseData.setCode(200);
             responseData.setMsg("success");
             responseData.setData(msgDetail);
         }
+        return responseData;
+    }
+
+    @PostMapping("/markAsRead")
+    public ResponseData markAsRead(@RequestBody HashSet<Long> ids){
+        log.info("{}", ids);
+        ResponseData responseData = new ResponseData();
+        if(ids.size() == 0)
+            return  responseData;
+        // 获取当前登录用户的ID
+        TokenProfile profile = ProfileHolder.getProfile();
+        long userId = Long.parseLong(profile.getId());
+
+        boolean b = msgService.markAsRead(ids, userId);
+        responseData.setCode(b?200:121201);
+        responseData.setMsg(b?"success":"fail");
         return responseData;
     }
 }

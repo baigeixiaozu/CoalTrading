@@ -34,7 +34,7 @@ public class MsgServiceImpl implements MsgService {
     public Map<String, Object> getMsgByToId(long userId, int page, int limit) {
 
         Page<Msg> msgs = msgMapper.selectPage(new Page<>(page, limit), new QueryWrapper<Msg>() {{
-            select("id", "title", "msg_type", "created", "from_username");
+            select("id", "title", "msg_type", "created", "from_username", "read_status");
             eq("to_userid", userId);
         }});
         return new HashMap<String, Object>(){{
@@ -63,11 +63,12 @@ public class MsgServiceImpl implements MsgService {
     }
 
     @Override
-    public boolean markAsRead(Set<Long> ids) {
+    public boolean markAsRead(Set<Long> ids, long userId) {
         int count = msgMapper.update(new Msg() {{
             setReadStatus(2);       // 标记消息为已读
         }}, new QueryWrapper<Msg>() {{
             in("id", ids);
+            eq("to_userid", userId);
         }});
         return count > 0;
     }

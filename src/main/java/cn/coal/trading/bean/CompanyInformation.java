@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 @TableName("ct_company")
 public class CompanyInformation {
     private Long userId;

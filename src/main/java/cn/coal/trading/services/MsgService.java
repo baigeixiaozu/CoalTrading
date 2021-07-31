@@ -48,8 +48,8 @@ public interface MsgService {
     /**
      * 将消息标记为已读
      *
-     * @param msg 消息实体
+     * @param ids 消息实体
      * @return boolean
      */
-    boolean markAsRead(Set<Long> ids);
+    boolean markAsRead(Set<Long> ids, long userId);
 }
