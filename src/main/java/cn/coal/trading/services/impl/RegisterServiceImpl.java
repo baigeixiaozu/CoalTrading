@@ -34,6 +34,8 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     /**
+     * 基本注册
+     *
      * @Author Sorakado
      * @ReWrite jiyeme
      *
@@ -42,29 +44,10 @@ public class RegisterServiceImpl implements RegisterService {
      **/
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ResponseData register(User user) {
-        // TODO: 重写
-        ResponseData response = new ResponseData();
+    public int register(User user) {
 
-        // 设置用户状态为待审核
+        // 设置用户状态为基础注册状态
         user.setStatus(1);
-        int result = userMapper.insert(user);
-
-        if (result == 1) {
-            long userId = user.getId();
-
-            UserRoleBinding urb = new UserRoleBinding(user.getId(), user.getRole());
-            userRoleMapper.insert(urb);
-
-            response.setCode(201);
-            response.setMsg("创建成功");
-            response.setError("无");
-        } else {
-            response.setCode(409);
-            response.setMsg("创建失败，用户名已存在");
-            response.setError("资源冲突，或者资源被锁定");
-        }
-        response.setData(null);
-        return response;
+        return userMapper.insert(user);
     }
 }

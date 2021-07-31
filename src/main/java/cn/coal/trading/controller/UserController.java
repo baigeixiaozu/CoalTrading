@@ -118,7 +118,8 @@ public class UserController {
     }
 
     /**
-     * @Author Sorakado
+     *
+     * @Author jiyec
      * @Date 2021/7/29 14:34
      * @Version 2.0
      **/
@@ -129,13 +130,23 @@ public class UserController {
         if(userExist){
             response.setCode(102201);
             response.setMsg("fail");
-            response.setError("用户名已存在");
+            response.setError("用户名已被使用");
             return response;
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+        user.setPass(encoder.encode(user.getPass()));
 
-        ResponseData result = registerService.register(user);
+        int register = registerService.register(user);
 
-        return result;
+        if(register == 0){
+            response.setCode(102201);
+            response.setMsg("fail");
+            response.setError("注册失败，原因未知");
+        }else{
+            response.setCode(200);
+            response.setMsg("success");
+        }
+        return response;
     }
     /**
      * @Author Sorakado & jiyeme
@@ -151,12 +162,6 @@ public class UserController {
             response.setCode(101404);
             response.setMsg("fail");
             response.setError("用户不存在");
-            return response;
-        }else if(userInfo.getStatus() == 1){
-            //用户审核未通过
-            response.setCode(101403);
-            response.setMsg("fail");
-            response.setError("用户正在审核中");
             return response;
         }
 
