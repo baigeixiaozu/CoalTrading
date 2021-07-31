@@ -1,6 +1,6 @@
 package cn.coal.trading.mapper;
 
-import cn.coal.trading.bean.BaseUser;
+import cn.coal.trading.bean.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @Version 1.0
  **/
 @Repository
-public interface UserMapper extends BaseMapper<BaseUser>{
+public interface UserMapper extends BaseMapper<User>{
 }

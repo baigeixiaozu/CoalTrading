@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 /**
- * 基础用户实体，其它用户实体尽量在此基础上进行继承操作
+ * 基础用户实体
  *
  * @Author jiyec
  * @Date 2021/7/26 21:42
@@ -27,7 +27,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "ct_users")
-public class BaseUser implements Serializable {
+public class User implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long    id;
     private String  login;
@@ -38,4 +38,8 @@ public class BaseUser implements Serializable {
     private Integer status;
     @TableField(exist = false)
     private Integer role;
+    @TableField(exist = false)
+    private FinanceProperty financeInfo;
+    @TableField(exist = false)
+    private CompanyInformation comInfo;
 }

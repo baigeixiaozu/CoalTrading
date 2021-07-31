@@ -22,7 +22,7 @@ public interface UserService {
      * @param user 要新增的用户
      * @return String null成功|”***“错误信息
      */
-    String newUser(BaseUser user);
+    String newUser(User user);
 
     /**
      * 获取指定角色类型的角色列表

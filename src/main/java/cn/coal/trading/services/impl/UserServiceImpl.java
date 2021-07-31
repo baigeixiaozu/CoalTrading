@@ -4,16 +4,11 @@ import cn.coal.trading.bean.*;
 import cn.coal.trading.mapper.*;
 import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.shaun.core.mgt.SecurityManager;
-import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author jiyec
@@ -36,9 +31,9 @@ public class UserServiceImpl implements UserService {
     private CompanyMapper companyMapper;
 
     @Override
-    public String newUser(BaseUser user) {
+    public String newUser(User user) {
 
-        Integer count = userMapper.selectCount(new QueryWrapper<BaseUser>() {{
+        Integer count = userMapper.selectCount(new QueryWrapper<User>() {{
             eq("login", user.getLogin());
         }});
         if (count > 0) {

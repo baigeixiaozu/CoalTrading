@@ -1,7 +1,7 @@
 package cn.coal.trading.services;
 
+import cn.coal.trading.bean.User;
 import cn.coal.trading.bean.ResponseData;
-import cn.coal.trading.bean.TradeUser;
 
 /**
  * @Author jiyec
@@ -9,11 +9,12 @@ import cn.coal.trading.bean.TradeUser;
  * @Version 1.0
  **/
 public interface RegisterService {
+    boolean isUserExist(String login);
     /**
      * @Author Sorakado
      * @ReWrite jiyeme
      * @Date 2021/7/29 15:04
      * @Version 1.0
      **/
-    ResponseData register(TradeUser user);
+    ResponseData register(User user);
 }

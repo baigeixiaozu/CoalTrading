@@ -39,7 +39,7 @@ public class UserController {
      */
     @PostMapping("/new")
     @HasRole(value = {"SUPER_ADMIN"})
-    public ResponseData newUser(@RequestBody BaseUser user) {
+    public ResponseData newUser(@RequestBody User user) {
 
         ResponseData responseData = new ResponseData();
 
@@ -112,7 +112,15 @@ public class UserController {
      * @Version 2.0
      **/
     @PostMapping("/register")
-    public ResponseData register(@RequestBody TradeUser user) {
+    public ResponseData register(@RequestBody User user) {
+        ResponseData response = new ResponseData();
+        boolean userExist = registerService.isUserExist(user.getLogin());
+        if(userExist){
+            response.setCode(102201);
+            response.setMsg("fail");
+            response.setError("用户名已存在");
+            return response;
+        }
 
         ResponseData result = registerService.register(user);
 
@@ -124,9 +132,9 @@ public class UserController {
      * @Version 2.0
      **/
     @PostMapping("/login")
-    public ResponseData login(@RequestBody BaseUser user) {
+    public ResponseData login(@RequestBody User user) {
         ResponseData response = new ResponseData();
-        BaseUser userInfo = loginService.getUserInfo(user);
+        User userInfo = loginService.getUserInfo(user);
         if(userInfo == null){
             //用户不存在
             response.setCode(101404);

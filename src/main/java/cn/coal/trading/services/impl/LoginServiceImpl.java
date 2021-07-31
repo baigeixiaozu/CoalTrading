@@ -1,6 +1,6 @@
 package cn.coal.trading.services.impl;
 
-import cn.coal.trading.bean.BaseUser;
+import cn.coal.trading.bean.User;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRolePermitMapper;
 import cn.coal.trading.services.LoginService;
@@ -31,8 +31,8 @@ public class LoginServiceImpl implements LoginService {
     private SecurityManager securityManager;
 
     @Override
-    public BaseUser getUserInfo(BaseUser loginUser) {
-        QueryWrapper<BaseUser> wrapper = new QueryWrapper<>();
+    public User getUserInfo(User loginUser) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("login", loginUser.getLogin());
 
         return userMapper.selectOne(wrapper);
@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
      * @Version 2.0
      */
     @Override
-    public String login(BaseUser loginUser) {
+    public String login(User loginUser) {
         // 获取角色，权限
         final TokenProfile profile = new TokenProfile();
         profile.setId(loginUser.getId().toString());

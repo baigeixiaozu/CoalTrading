@@ -1,6 +1,6 @@
 package cn.coal.trading.services;
 
-import cn.coal.trading.bean.BaseUser;
+import cn.coal.trading.bean.User;
 
 /**
  * @Author jiyec
@@ -8,12 +8,12 @@ import cn.coal.trading.bean.BaseUser;
  * @Version 1.0
  **/
 public interface LoginService {
-    BaseUser getUserInfo(BaseUser user);
+    User getUserInfo(User user);
     /**
      * @Author Sorakado
      * @Date 2021/7/29 15:04
      * @Version 1.0
      *
      * @return*/
-    String login(BaseUser user);
+    String login(User user);
 }

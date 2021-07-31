@@ -1,11 +1,12 @@
 package cn.coal.trading.services.impl;
 
+import cn.coal.trading.bean.User;
 import cn.coal.trading.bean.ResponseData;
-import cn.coal.trading.bean.TradeUser;
 import cn.coal.trading.bean.UserRoleBinding;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRoleMapper;
 import cn.coal.trading.services.RegisterService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,14 @@ public class RegisterServiceImpl implements RegisterService {
     @Resource
     UserRoleMapper userRoleMapper;
 
+    @Override
+    public boolean isUserExist(String login) {
+        Integer count = userMapper.selectCount(new QueryWrapper<User>() {{
+            eq("login", login);
+        }});
+        return count != null && count > 0;
+    }
+
     /**
      * @Author Sorakado
      * @ReWrite jiyeme
@@ -33,7 +42,7 @@ public class RegisterServiceImpl implements RegisterService {
      **/
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ResponseData register(TradeUser user) {
+    public ResponseData register(User user) {
         // TODO: 重写
         ResponseData response = new ResponseData();
 
