@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/31 10:07:02                           */
+/* Created on:     2021/7/31 12:21:53                           */
 /*==============================================================*/
 
 
@@ -427,8 +427,9 @@ create table ct_users
    email                varchar(20) not null comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
    status               smallint not null default 1 comment '用户状态：
-            1. 待审核
-            2. 审核通过（可用）
+            1. 刚注册，未绑定角色
+            2. 选择注册角色，并填写相关信息等待审核
+            3. 审核通过（可用）
             ',
    primary key (id)
 )
