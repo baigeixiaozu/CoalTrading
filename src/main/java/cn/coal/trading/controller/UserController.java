@@ -39,18 +39,19 @@ public class UserController {
 
     // 邮箱检测用
     @Bean
-    public Pattern emailPattern(){
+    public Pattern emailPattern() {
         return Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
     }
+
     @Autowired
     Pattern emailPattern;
 
     /**
      * 新增用户操作
      *
-     * @Author jiyeme
      * @param user 用户信息
      * @return ResponseData
+     * @Author jiyeme
      */
     @PostMapping("/new")
     @HasRole(value = {"SUPER_ADMIN"})
@@ -59,7 +60,7 @@ public class UserController {
         ResponseData responseData = new ResponseData();
 
         Matcher matcher = emailPattern.matcher(user.getEmail());
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             responseData.setCode(105201);
             responseData.setMsg("邮箱格式不正确");
             return responseData;
@@ -106,18 +107,18 @@ public class UserController {
     /**
      * 获取角色列表
      *
-     * @Author jiyeme
      * @param type 角色类型
      * @return ResponseData
+     * @Author jiyeme
      */
     @GetMapping({"/getRoleList/{type}"})
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
-        if("admin".equals(type)) {
+        if ("admin".equals(type)) {
             TokenProfile profile = ProfileHolder.getProfile();
             Set<String> permissions = profile.getPermissions();
             boolean user_add = permissions.contains("USER_ADD");
-            if(!user_add){
+            if (!user_add) {
                 responseData.setCode(403);
                 return responseData;
             }
@@ -138,7 +139,6 @@ public class UserController {
     }
 
     /**
-     *
      * @Author jiyec
      * @Date 2021/7/29 14:34
      * @Version 2.0
@@ -149,7 +149,7 @@ public class UserController {
         // 邮箱检测
         Matcher matcher = emailPattern.matcher(user.getEmail());
         boolean isMatched = matcher.matches();
-        if(!isMatched){
+        if (!isMatched) {
             response.setCode(102201);
             response.setMsg("fail");
             response.setError("邮箱格式有误");
@@ -157,7 +157,7 @@ public class UserController {
         }
 
         boolean userExist = registerService.isUserExist(user.getLogin());
-        if(userExist){
+        if (userExist) {
             response.setCode(102201);
             response.setMsg("fail");
             response.setError("用户名已被使用");
@@ -168,11 +168,11 @@ public class UserController {
 
         int register = registerService.register(user);
 
-        if(register == 0){
+        if (register == 0) {
             response.setCode(102201);
             response.setMsg("fail");
             response.setError("注册失败，原因未知");
-        }else{
+        } else {
             response.setCode(200);
             response.setMsg("success");
         }
@@ -188,7 +188,7 @@ public class UserController {
     public ResponseData login(@RequestBody User user) {
         ResponseData response = new ResponseData();
         User userInfo = loginService.getUserInfo(user);
-        if(userInfo == null){
+        if (userInfo == null) {
             //用户不存在
             response.setCode(101404);
             response.setMsg("fail");
@@ -200,7 +200,7 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
         boolean isPassRight = encoder.matches(user.getPass(), userInfo.getPass());
 
-        if(!isPassRight){
+        if (!isPassRight) {
             //密码不正确
             response.setCode(101401);
             response.setMsg("fail");
@@ -209,14 +209,14 @@ public class UserController {
         }
 
         String token = loginService.login(userInfo);
-        if(token == null){
+        if (token == null) {
             response.setCode(101401);
             response.setMsg("fail");
             response.setError("登录失败，出现未知异常");
-        }else{
+        } else {
             response.setCode(200);
             response.setMsg("success");
-            response.setData(new HashMap<String, Object>(){{
+            response.setData(new HashMap<String, Object>() {{
                 put("access_token", token);
                 put("expire_time", TimeUtil.parse(expireTime));
             }});
@@ -225,11 +225,6 @@ public class UserController {
         return response;
     }
 
-    //        @GetMapping("/loginout")
-//        public ResponseData loginOut(@RequestBody BaseUser user){
-//       ResponseData result = userService.loginOut(user);
-//
-//            return result;
     /**
      * @Author Sorakado
      * @Date 2021/7/29 18:54
