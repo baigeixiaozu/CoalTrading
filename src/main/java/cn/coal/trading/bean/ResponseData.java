@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseData {
-    private Integer code;
-    private String msg;
-    private String error;
-    private Object data;
+    private Integer code;       // 响应状态码
+    private String msg;         // 响应信息
+    private String error;       // 异常信息
+    private Object data;        // 响应数据
 }

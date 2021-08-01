@@ -21,7 +21,7 @@ Version:v1.0
 @AllArgsConstructor//配置有参构造方法
 @TableName(value="ct_news")//配置对应数据库的表
 public class News implements Serializable {
-    private String id;              //资讯编号
+    private Long id;                //资讯编号
     private String title;           //资讯标题
     private String context;         //资讯内容
     private Date date;              //资讯日期

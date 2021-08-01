@@ -32,13 +32,13 @@ public class CompanyInformation {
     private String manageLicenseId;             // 经营许可证编号
     private String manageLicenseIdFile;         // 煤炭经营许可证（文件）[供应商]
     private String fax;                         // 传真
-    private String registeredCapital;           // 注册资金（万元）
+    private Double registeredCapital;           // 注册资金（万元）
     private String oibCode;                     // 组织机构代码
     private String oibCodeFile;                 // 组织机构代码证（文件）
     private String trCert;                      // 税务登记证代码
     private String trCertFile;                  // 税务登记证文件（路径）
     private String coalStoreSite;               // 煤炭存放地点[供应商]
-    private Integer coalQuantity;               // 煤炭数量[供应商]
+    private Double coalQuantity;                // 煤炭数量[供应商]
     private String coalQuality;                 // 煤炭质量[供应商]
     private String coalTransport;               // 运输方式及保障能力[供应商]
     private Integer status;                     // 信息状态[1.不可用| 2.审核阶段| 3.可用]
