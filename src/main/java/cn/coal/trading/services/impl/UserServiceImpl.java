@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseData complete(CompanyInformation companyInformation) {
 
+
         ResponseData response = new ResponseData();
         int insert = companyMapper.insert(companyInformation);
         if(insert==1){
