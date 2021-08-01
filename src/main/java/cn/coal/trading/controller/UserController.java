@@ -200,11 +200,7 @@ public class UserController {
         return response;
     }
 
-    //        @GetMapping("/loginout")
-//        public ResponseData loginOut(@RequestBody BaseUser user){
-//       ResponseData result = userService.loginOut(user);
-//
-//            return result;
+
     /**
      * @Author Sorakado
      * @Date 2021/7/29 18:54
@@ -223,7 +219,7 @@ public class UserController {
      * @Version 1.0
      **/
 
-    @PostMapping("uploadFile")
+    @PostMapping("/uploadFile")
     public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
 
         ResponseData result = fileService.uploadFiles(multipartFile);
