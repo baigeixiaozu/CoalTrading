@@ -49,6 +49,7 @@ public class LoginServiceImpl implements LoginService {
         // 获取角色，权限
         final TokenProfile profile = new TokenProfile();
         profile.setId(loginUser.getId().toString());
+        profile.setDisplayName(loginUser.getNick());
 
         List<Map<String, Object>> relation = userRolePermitMapper.getRelation(loginUser.getId());
 
