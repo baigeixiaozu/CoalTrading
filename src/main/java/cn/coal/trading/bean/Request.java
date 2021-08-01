@@ -21,7 +21,7 @@ public class Request {
     private Long userId;            // 用户ID
     private Date createdTime;       // 创建时间
     private Date endedTime;         // 结束时间
-    private Integer type;           // 购入/卖出
+    private Integer type;           // [ 1.卖出| 2.采购]
     private Integer status;         // 需求状态[1.草稿| 2.发布| 3.被摘取| 4.隐藏| 5.完成]
     private String detail;          // 需求信息(JSON)
 }

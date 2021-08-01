@@ -22,5 +22,5 @@ public class Order {
     private Long reqId;         // 对应需求ID
     private Long userId;        // 用户ID
     private Date createdTime;   // 创建时间
-    private Integer status;     // 订单状态[1.进行中| 2.超时| 3.完成| 4.取消]
+    private Integer status;     // 订单状态[ 1.进行中| 2.超时| 3.完成| 4.取消]
 }

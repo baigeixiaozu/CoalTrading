@@ -27,7 +27,7 @@ public class FLTests {
         FinanceLog log = new FinanceLog(){{
             setUserId(7L);
             setLogType(1);
-            setFundQuantity(10.53);
+            setQuantity(10.53);
             setCert(".././/.");
         }};
         financeLMapper.insert(log);

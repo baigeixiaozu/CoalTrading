@@ -1,5 +1,7 @@
 package cn.coal.trading.controller;
 
+import cn.coal.trading.bean.ResponseData;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,4 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/request")
 public class RequestController {
+
+    @GetMapping("/list")
+    public ResponseData getList(){
+        ResponseData responseData = new ResponseData();
+
+        return responseData;
+    }
 }
