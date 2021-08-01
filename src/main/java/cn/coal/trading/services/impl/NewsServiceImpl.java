@@ -13,6 +13,9 @@ import java.util.List;
  * Created by Heming233
  * Date:2021/7/29
  * Version:v1.0
+ *
+ * update:2021/7/31
+ * version:v1.1
  */
 
 @Service
@@ -31,4 +34,11 @@ public class NewsServiceImpl implements NewsService {
 
         return newsMapper.selectList(wrapper);
     }
+
+/*    @Override
+    public News getNewsByTitle(){
+        QueryWrapper<News> wrapper=new QueryWrapper<>();
+        wrapper.eq("title",)
+    }*/
+
 }

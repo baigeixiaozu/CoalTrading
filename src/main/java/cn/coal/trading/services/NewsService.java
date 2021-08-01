@@ -12,6 +12,10 @@ import java.util.List;
 
 public interface NewsService {
 
+    //刷新页面展示所有资讯
     List<News> getAllNews();
+
+    //点击单条资讯查看详细信息
+/*    News getNewsByTitle();*/
 
 }

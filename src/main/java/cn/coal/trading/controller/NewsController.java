@@ -17,6 +17,9 @@ import java.util.Map;
  *
  * update:2021/7/30
  * version:v1.1
+ *
+ * update:2021/7/31
+ * version:v1.2
  */
 
 /*@CrossOrigin//解决跨域请求授权问题*/
@@ -26,7 +29,7 @@ public class NewsController {
     @Resource
     NewsService newsService;
 
-    //接收打开页面时发送的请求，获取资讯标题和详细资讯路径
+    //接收打开页面时发送的请求，获取资讯标题
     @GetMapping("/show")
     public Map<String,Object> showNews(){
         try{
@@ -34,7 +37,7 @@ public class NewsController {
             return new HashMap<String,Object>(){{
                 put("code", 200);
                 put("msg", "success");
-                put("data", NewsList);
+                put("title", NewsList);
             }};
         }
         catch (Exception e){
@@ -47,10 +50,10 @@ public class NewsController {
     }
 
     //点击资讯查看详细内容
-/*    @GetMapping("/detail")
+  /*  @GetMapping("/detail")
     public Map<String,Object> detailNews(@RequestParam(value="url",defaultValue = "none") String url){
         try{
-            News news=newsService.getNewsByID(url);
+            News news=newsService.getNewsByTitle(url);
             return new HashMap<String,Object>(){{
                 put("code",200);
                 put("msg","success");
