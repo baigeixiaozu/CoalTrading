@@ -25,8 +25,8 @@ public class FinanceProperty implements Serializable {
     private String comName;         // 汇款单位名称
     private String bankName;        // 银行名称
     private String bankAcc;         // 银行账号
-    private String balance;         // 账户余额
-    private String freeze;          // 冻结金额
+    private Double balance;         // 账户余额
+    private Double freeze;          // 冻结金额
     private String aoPermitFile;    // 开户许可证（文件路径）
     private Integer status;         // 信息状态[1.不可用| 2.审核阶段| 3.可用]
     private String auditOpinion;    // 审核意见
