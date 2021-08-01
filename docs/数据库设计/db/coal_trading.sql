@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/7/31 18:29:06                           */
+/* Created on:     2021/8/2 6:49:46                             */
 /*==============================================================*/
 
 
@@ -113,18 +113,18 @@ create unique index Index_main_userid on ct_finance
 );
 
 /*==============================================================*/
-/* Table: ct_fund_log                                           */
+/* Table: ct_finance_log                                        */
 /*==============================================================*/
-create table ct_fund_log
+create table ct_finance_log
 (
    user_id              bigint(20) not null comment '用户ID',
-   date                 datetime comment '变动时间',
-   type                 bigint comment '变动操作：
+   date                 datetime default CURRENT_TIMESTAMP comment '变动时间',
+   log_type             smallint comment '变动操作：
             1. 预存（增加）
             2. 缴纳给平台（冻结）
             3. 平台扣除指定额度的冻结款项（减少）
             ',
-   fund_quantity        decimal(10,2) comment '金额数量',
+   quantity             decimal(10,2) comment '金额数量',
    cert                 varchar(255) comment '交易凭证（文件）',
    primary key (user_id)
 )
@@ -133,7 +133,7 @@ engine = InnoDB;
 /*==============================================================*/
 /* Index: Index_user_id                                         */
 /*==============================================================*/
-create index Index_user_id on ct_fund_log
+create index Index_user_id on ct_finance_log
 (
    user_id
 );
@@ -141,9 +141,9 @@ create index Index_user_id on ct_fund_log
 /*==============================================================*/
 /* Index: Index_log_type                                        */
 /*==============================================================*/
-create index Index_log_type on ct_fund_log
+create index Index_log_type on ct_finance_log
 (
-   type
+   log_type
 );
 
 /*==============================================================*/
@@ -292,7 +292,8 @@ create table ct_request
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
-   type                 smallint(6) comment '购入/卖出',
+   type                 smallint(6) comment '1. 卖出
+            2. 采购',
    status               smallint not null comment '需求状态
             1. 草稿
             2. 发布
@@ -300,6 +301,8 @@ create table ct_request
             4. 隐藏
             5. 完成',
    deatil               text comment '需求信息(JSON)',
+   zp_id                bigint(20) comment '摘牌者ID',
+   contract_file        varchar(255),
    primary key (id)
 )
 engine = InnoDB;
@@ -436,7 +439,7 @@ create table ct_users
    nick                 varchar(20) comment '用户昵称',
    email                varchar(20) not null comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint not null comment '用户状态
+   status               smallint not null default 2 comment '用户状态
             1. 用户未激活
             2. 已激活',
    primary key (id)
@@ -515,7 +518,7 @@ alter table ct_finance add constraint FK_FU_REF_USER_1 foreign key (main_userid)
 alter table ct_finance add constraint FK_FU_REF_USER_2 foreign key (finance_userid)
       references ct_users (id) on delete restrict on update restrict;
 
-alter table ct_fund_log add constraint FK_FL_REF_USER foreign key (user_id)
+alter table ct_finance_log add constraint FK_FL_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_news add constraint FK_NEWS_REF_USER_1 foreign key (author_id)
