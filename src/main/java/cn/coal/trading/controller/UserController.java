@@ -240,7 +240,7 @@ public class UserController {
      //   TokenProfile profile=ProfileHolder.getProfile();
      //   fund.setUserId(Integer.parseInt(profile.getId()));
         finance.setFinanceUserid(7L);
-        finance.setMainUserid(7L);
+        finance.setMainUserid(8L);
         ResponseData result = userService.finance(finance);
         return result;
     }
