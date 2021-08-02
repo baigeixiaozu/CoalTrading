@@ -134,6 +134,12 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
+        if(user.getRole()==null){
+            response.setCode(102403);
+            response.setMsg("fail");
+            response.setError("角色数据异常");
+            return response;
+        }
         boolean userExist = registerService.isUserExist(user.getLogin());
         if(userExist){
             response.setCode(102201);

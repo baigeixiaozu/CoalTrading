@@ -1,7 +1,6 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.User;
-import cn.coal.trading.bean.ResponseData;
 
 /**
  * @Author jiyec
@@ -9,6 +8,11 @@ import cn.coal.trading.bean.ResponseData;
  * @Version 1.0
  **/
 public interface RegisterService {
+    /**
+     * 判断登录名是否被占用
+     * @param login 登录名
+     * @return  boolean true占用|false未占用
+     */
     boolean isUserExist(String login);
     /**
      * @Author Sorakado

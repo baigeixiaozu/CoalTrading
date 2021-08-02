@@ -23,7 +23,6 @@ import java.util.Date;
  * @Version 1.0
  **/
 @Data
-
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "ct_users")
