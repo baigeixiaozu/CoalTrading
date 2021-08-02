@@ -62,7 +62,8 @@ shaun:
     - /user/complete
   exclude-branch: # 排除以此路径开头
     - /webjars
-#  expire-time: 2d # 不设置默认永久有效
+    - /request
+  expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization
     prefix: Bear

@@ -23,5 +23,5 @@ public class Request {
     private Date endedTime;         // 结束时间
     private Integer type;           // [ 1.卖出| 2.采购]
     private Integer status;         // 需求状态[1.草稿| 2.发布| 3.被摘取| 4.隐藏| 5.完成]
-    private String detail;          // 需求信息(JSON)
+    private Object detail;          // 需求信息(JSON)
 }

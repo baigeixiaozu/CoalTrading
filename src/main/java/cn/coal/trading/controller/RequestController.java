@@ -1,9 +1,8 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.ResponseData;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.coal.trading.bean.reqdata.BuyPubData;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author jiyec
@@ -14,10 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/request")
 public class RequestController {
 
-    @GetMapping("/list")
+    @GetMapping("/list/{type}")
     public ResponseData getList(){
         ResponseData responseData = new ResponseData();
 
+        return responseData;
+    }
+
+    // TEST Ver
+    @PostMapping("/publish")
+    public ResponseData publish(@RequestBody BuyPubData data){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(data);
         return responseData;
     }
 }
