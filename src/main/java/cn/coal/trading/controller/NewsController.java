@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -52,10 +53,10 @@ public class NewsController {
     }
 
     //点击资讯查看详细内容
-  /*  @GetMapping("/detail")
-    public Map<String,Object> detailNews(@RequestParam(value="url",defaultValue = "none") String url){
+    @GetMapping("/detail/{newsId}")
+    public Map<String,Object> detailNews(@PathVariable("newsId") Long id){
         try{
-            News news=newsService.getNewsByTitle(url);
+            News news=newsService.getNewsById(id);
             return new HashMap<String,Object>(){{
                 put("code",200);
                 put("msg","success");
@@ -69,5 +70,5 @@ public class NewsController {
                 put("error","no news caught");
             }};
         }
-    }*/
+    }
 }

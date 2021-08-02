@@ -2,6 +2,7 @@ package cn.coal.trading.services;
 
 import cn.coal.trading.bean.News;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -16,6 +17,6 @@ public interface NewsService {
     List<News> getAllNews();
 
     //点击单条资讯查看详细信息
-/*    News getNewsByTitle();*/
+    News getNewsById(Long id);
 
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -38,10 +39,16 @@ public class NewsServiceImpl implements NewsService {
         return newsMapper.selectList(wrapper);
     }
 
-/*    @Override
-    public News getNewsByTitle(){
+    @Override
+    public News getNewsById(Long id){
         QueryWrapper<News> wrapper=new QueryWrapper<>();
-        wrapper.eq("title",)
-    }*/
+
+        //设置查询条件
+        wrapper.eq("id",id);
+        wrapper.eq("status","4");
+        wrapper.select("title","context","date");
+
+        return newsMapper.selectOne(wrapper);
+    }
 
 }

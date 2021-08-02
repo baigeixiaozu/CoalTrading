@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 /*
@@ -25,7 +26,7 @@ public class News implements Serializable {
     private String title;           //资讯标题
     private String context;         //资讯内容
     private Date date;              //资讯日期
-    private Integer status;         //状态：草稿：1；发布：2   -----   数据库规定[1.草稿| 2.审核中| 3.驳回（审核不通过）| 4.发布| 5.撤销（隐藏）| 删除（没有记录无状态）]
-    private String authorId;        //发布人员ID
-    private String auditorId;       //审核人员ID
+    private Integer status;         //数据库规定[1.草稿| 2.审核中| 3.驳回（审核不通过）| 4.发布| 5.撤销（隐藏）| 删除（没有记录无状态）]
+    private Long authorId;        //发布人员ID
+    private Long auditorId;       //审核人员ID
 }

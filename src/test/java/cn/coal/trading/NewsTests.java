@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,4 +27,8 @@ public class NewsTests {
         List<News> hashMap=newsService.getAllNews();
     }
 
+    @Test
+    void selectById(){
+        News news=newsService.getNewsById(4L);
+    }
 }
