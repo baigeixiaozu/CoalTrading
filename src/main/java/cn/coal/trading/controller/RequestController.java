@@ -1,8 +1,12 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.ResponseData;
-import cn.coal.trading.bean.reqdata.BuyPubData;
+import cn.coal.trading.bean.Request;
+import cn.coal.trading.mapper.ReqMapper;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
 
 /**
  * @Author jiyec
@@ -13,18 +17,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/request")
 public class RequestController {
 
+    @Resource
+    ReqMapper reqMapper;
+
     @GetMapping("/list/{type}")
-    public ResponseData getList(){
+    public ResponseData getList(@PathVariable("type")String type){
         ResponseData responseData = new ResponseData();
 
         return responseData;
     }
 
-    // TEST Ver
     @PostMapping("/publish")
-    public ResponseData publish(@RequestBody BuyPubData data){
+    public ResponseData publish(@RequestBody Request request){
+        // TODO: TEST Ver
         ResponseData responseData = new ResponseData();
-        responseData.setData(data);
+        // int insert = reqMapper.insert(request);
+        responseData.setData(new HashMap<String, Object>(){{
+            // put("insert", insert);
+            put("req-data", request);
+        }});
         return responseData;
     }
 }
