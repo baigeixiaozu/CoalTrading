@@ -53,18 +53,19 @@ public class LoginServiceImpl implements LoginService {
 
         List<Map<String, Object>> relation = userRolePermitMapper.getRelation(loginUser.getId());
 
-        // 角色只能一个
-        profile.addRole((String) relation.get(0).get("role_mark"));
+        if(relation.size() > 0) {
+            // 角色只能一个
+            profile.addRole((String) relation.get(0).get("role_mark"));
 
-        //profile.setRoles(roles:Set);
-        // 权限有多个
-        for (Map<String, Object> map : relation) {
-            profile.addPermission((String) map.get("permission"));
+            //profile.setRoles(roles:Set);
+            // 权限有多个
+            for (Map<String, Object> map : relation) {
+                profile.addPermission((String) map.get("permission"));
+            }
+            //profile.setPermissions(permissions:Set);
+            //profile.addAttribute("key","value");
+            //如果选择token存cookie里,securityManager.login会进行自动操作
         }
-        //profile.setPermissions(permissions:Set);
-        //profile.addAttribute("key","value");
-        //如果选择token存cookie里,securityManager.login会进行自动操作
-
         return securityManager.login(profile);
     }
 }
