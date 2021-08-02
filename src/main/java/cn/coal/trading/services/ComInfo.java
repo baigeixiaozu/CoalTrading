@@ -4,6 +4,6 @@ import cn.coal.trading.bean.CompanyInformation;
 
 import java.util.List;
 
-public interface Company_Information {
+public interface ComInfo {
     CompanyInformation getCompanyInfoById(Long userId);
 }

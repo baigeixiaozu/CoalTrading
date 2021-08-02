@@ -1,5 +1,7 @@
 package cn.coal.trading.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @TableName("ct_company")
 public class CompanyInformation {
+    @TableId(type = IdType.AUTO)
     private Long userId;                        // 企业主用户ID
     private String comName;                     // 企业名称
     private String comIntro;                    // 企业介绍

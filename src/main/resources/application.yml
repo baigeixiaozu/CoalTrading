@@ -64,6 +64,7 @@ shaun:
   exclude-branch: # 排除以此路径开头
     - /webjars
     - /request
+    - /info
   expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization

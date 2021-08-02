@@ -1,0 +1,119 @@
+2021-07-31 13:53:55.803 [restartedMain] INFO  cn.coal.trading.CTApplication - Starting CTApplication using Java 11.0.10 on songyandeMacBook-Air.local with PID 53359 (/Users/songyanbai/CoalTrading/target/classes started by songyanbai in /Users/songyanbai/CoalTrading)
+2021-07-31 13:53:55.815 [restartedMain] INFO  cn.coal.trading.CTApplication - No active profile set, falling back to default profiles: default
+2021-07-31 13:53:55.913 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-07-31 13:53:55.914 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-07-31 13:53:57.631 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration' of type [com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 13:53:57.637 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityInterceptor' of type [com.baomidou.shaun.core.aop.MethodSecurityInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 13:53:57.639 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityAdvisor' of type [com.baomidou.shaun.core.aop.MethodSecurityAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 13:53:58.237 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-07-31 13:53:58.249 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-07-31 13:53:58.250 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-07-31 13:53:58.250 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-07-31 13:53:58.326 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-07-31 13:53:58.330 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2415 ms
+2021-07-31 13:53:59.868 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-07-31 13:54:00.018 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-07-31 13:54:00.040 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-07-31 13:54:00.092 [restartedMain] INFO  cn.coal.trading.CTApplication - Started CTApplication in 5.309 seconds (JVM running for 7.152)
+2021-07-31 13:54:00.096 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state LivenessState changed to CORRECT
+2021-07-31 13:54:00.100 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-07-31 13:54:11.072 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-07-31 13:54:11.074 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-07-31 13:54:11.084 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 10 ms
+2021-07-31 15:12:36.169 [restartedMain] INFO  cn.coal.trading.CTApplication - Starting CTApplication using Java 11.0.10 on songyandeMacBook-Air.local with PID 54253 (/Users/songyanbai/CoalTrading/target/classes started by songyanbai in /Users/songyanbai/CoalTrading)
+2021-07-31 15:12:36.176 [restartedMain] INFO  cn.coal.trading.CTApplication - No active profile set, falling back to default profiles: default
+2021-07-31 15:12:36.254 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-07-31 15:12:36.255 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-07-31 15:12:38.173 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration' of type [com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:12:38.188 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityInterceptor' of type [com.baomidou.shaun.core.aop.MethodSecurityInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:12:38.189 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityAdvisor' of type [com.baomidou.shaun.core.aop.MethodSecurityAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:12:38.724 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-07-31 15:12:38.732 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-07-31 15:12:38.733 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-07-31 15:12:38.733 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-07-31 15:12:38.794 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-07-31 15:12:38.794 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2538 ms
+2021-07-31 15:12:40.030 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-07-31 15:12:40.167 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-07-31 15:12:40.183 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-07-31 15:12:40.218 [restartedMain] INFO  cn.coal.trading.CTApplication - Started CTApplication in 4.722 seconds (JVM running for 5.688)
+2021-07-31 15:12:40.221 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state LivenessState changed to CORRECT
+2021-07-31 15:12:40.223 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-07-31 15:13:14.284 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-07-31 15:13:14.290 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-07-31 15:13:14.294 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2021-07-31 15:13:14.321 [http-nio-8080-exec-1] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:15:49.085 [http-nio-8080-exec-5] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:16:28.807 [http-nio-8080-exec-6] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:26.765 [http-nio-8080-exec-9] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:27.527 [http-nio-8080-exec-10] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:45.855 [http-nio-8080-exec-2] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:46.946 [http-nio-8080-exec-1] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:54.156 [http-nio-8080-exec-4] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:54.975 [http-nio-8080-exec-5] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:20:55.452 [http-nio-8080-exec-6] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:21:03.458 [http-nio-8080-exec-7] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:21:04.236 [http-nio-8080-exec-8] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:21:04.880 [http-nio-8080-exec-9] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:21:05.642 [http-nio-8080-exec-10] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:23:11.708 [http-nio-8080-exec-3] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:23:12.539 [http-nio-8080-exec-4] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:23:36.960 [http-nio-8080-exec-5] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:23:38.048 [http-nio-8080-exec-6] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:23:39.187 [http-nio-8080-exec-7] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:24:08.006 [http-nio-8080-exec-8] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:25:07.169 [http-nio-8080-exec-10] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:33:12.039 [http-nio-8080-exec-6] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-07-31 15:33:27.800 [http-nio-8080-exec-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-07-31 15:33:35.028 [http-nio-8080-exec-8] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-07-31 15:39:18.941 [restartedMain] INFO  cn.coal.trading.CTApplication - Starting CTApplication using Java 11.0.10 on songyandeMacBook-Air.local with PID 54534 (/Users/songyanbai/CoalTrading/target/classes started by songyanbai in /Users/songyanbai/CoalTrading)
+2021-07-31 15:39:18.952 [restartedMain] INFO  cn.coal.trading.CTApplication - No active profile set, falling back to default profiles: default
+2021-07-31 15:39:19.009 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-07-31 15:39:19.010 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-07-31 15:39:20.406 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration' of type [com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:39:20.410 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityInterceptor' of type [com.baomidou.shaun.core.aop.MethodSecurityInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:39:20.412 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityAdvisor' of type [com.baomidou.shaun.core.aop.MethodSecurityAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:39:20.994 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-07-31 15:39:21.004 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-07-31 15:39:21.004 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-07-31 15:39:21.005 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-07-31 15:39:21.082 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-07-31 15:39:21.082 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2071 ms
+2021-07-31 15:39:22.497 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-07-31 15:39:22.740 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-07-31 15:39:22.765 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-07-31 15:39:22.806 [restartedMain] INFO  cn.coal.trading.CTApplication - Started CTApplication in 4.528 seconds (JVM running for 5.696)
+2021-07-31 15:39:22.810 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state LivenessState changed to CORRECT
+2021-07-31 15:39:22.812 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-07-31 15:39:47.333 [http-nio-8080-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-07-31 15:39:47.335 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-07-31 15:39:47.343 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 7 ms
+2021-07-31 15:39:47.370 [http-nio-8080-exec-2] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:39:50.925 [http-nio-8080-exec-3] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:39:51.603 [http-nio-8080-exec-4] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:39:52.049 [http-nio-8080-exec-5] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:39:52.418 [http-nio-8080-exec-6] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:39:52.726 [http-nio-8080-exec-7] INFO  com.baomidou.shaun.core.client.TokenClient - Failed to retrieve or validate credentials: Cannot decrypt / verify JWT
+2021-07-31 15:40:12.593 [restartedMain] INFO  cn.coal.trading.CTApplication - Starting CTApplication using Java 11.0.10 on songyandeMacBook-Air.local with PID 54556 (/Users/songyanbai/CoalTrading/target/classes started by songyanbai in /Users/songyanbai/CoalTrading)
+2021-07-31 15:40:12.602 [restartedMain] INFO  cn.coal.trading.CTApplication - No active profile set, falling back to default profiles: default
+2021-07-31 15:40:12.695 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-07-31 15:40:12.701 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-07-31 15:40:16.494 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration' of type [com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:40:16.502 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityInterceptor' of type [com.baomidou.shaun.core.aop.MethodSecurityInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:40:16.504 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityAdvisor' of type [com.baomidou.shaun.core.aop.MethodSecurityAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-07-31 15:40:17.128 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-07-31 15:40:17.138 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-07-31 15:40:17.138 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-07-31 15:40:17.138 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.46]
+2021-07-31 15:40:17.217 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-07-31 15:40:17.217 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4515 ms
+2021-07-31 15:40:18.725 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-07-31 15:40:18.888 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-07-31 15:40:18.908 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-07-31 15:40:18.960 [restartedMain] INFO  cn.coal.trading.CTApplication - Started CTApplication in 7.108 seconds (JVM running for 8.081)
+2021-07-31 15:40:18.964 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state LivenessState changed to CORRECT
+2021-07-31 15:40:18.969 [restartedMain] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-07-31 15:40:21.636 [http-nio-8080-exec-2] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-07-31 15:40:21.639 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-07-31 15:40:21.648 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 9 ms
+2021-07-31 15:48:37.565 [SpringContextShutdownHook] INFO  o.s.boot.availability.ApplicationAvailabilityBean - Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC

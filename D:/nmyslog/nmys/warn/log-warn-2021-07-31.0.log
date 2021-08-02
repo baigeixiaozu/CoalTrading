@@ -1,0 +1,63 @@
+2021-07-31 13:53:55.889 [background-preinit] WARN  o.s.h.converter.json.Jackson2ObjectMapperBuilder - For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2021-07-31 13:53:59.542 [restartedMain] WARN  org.pac4j.core.matching.matcher.PathMatcher - Be careful when using the 'excludeBranch' or 'excludeRegex' methods. They use regular expressions and their definitions may be error prone. You could exclude more URLs than expected.
+2021-07-31 13:54:11.098 [http-nio-8080-exec-1] WARN  org.springframework.web.servlet.PageNotFound - No mapping for GET /user
+2021-07-31 13:54:11.170 [http-nio-8080-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /user]
+2021-07-31 15:12:36.254 [background-preinit] WARN  o.s.h.converter.json.Jackson2ObjectMapperBuilder - For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2021-07-31 15:12:39.738 [restartedMain] WARN  org.pac4j.core.matching.matcher.PathMatcher - Be careful when using the 'excludeBranch' or 'excludeRegex' methods. They use regular expressions and their definitions may be error prone. You could exclude more URLs than expected.
+2021-07-31 15:13:14.397 [http-nio-8080-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:15:49.098 [http-nio-8080-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:16:28.812 [http-nio-8080-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:26.782 [http-nio-8080-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:27.534 [http-nio-8080-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:45.861 [http-nio-8080-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:46.953 [http-nio-8080-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:50.158 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
+2021-07-31 15:20:54.165 [http-nio-8080-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:54.987 [http-nio-8080-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:20:55.455 [http-nio-8080-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:21:03.466 [http-nio-8080-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:21:04.244 [http-nio-8080-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:21:04.884 [http-nio-8080-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:21:05.645 [http-nio-8080-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:23:11.718 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:23:12.551 [http-nio-8080-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:23:36.971 [http-nio-8080-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:23:38.052 [http-nio-8080-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:23:39.191 [http-nio-8080-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:24:08.012 [http-nio-8080-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:25:00.400 [http-nio-8080-exec-9] WARN  org.springframework.web.servlet.PageNotFound - No mapping for GET /info
+2021-07-31 15:25:00.409 [http-nio-8080-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /info]
+2021-07-31 15:25:07.178 [http-nio-8080-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:32:54.653 [http-nio-8080-exec-3] WARN  org.springframework.web.servlet.PageNotFound - No mapping for GET /login
+2021-07-31 15:32:54.661 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /login]
+2021-07-31 15:32:59.924 [http-nio-8080-exec-4] WARN  org.springframework.web.servlet.PageNotFound - No mapping for POST /login
+2021-07-31 15:32:59.927 [http-nio-8080-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for POST /login]
+2021-07-31 15:33:00.854 [http-nio-8080-exec-5] WARN  org.springframework.web.servlet.PageNotFound - No mapping for POST /login
+2021-07-31 15:33:00.861 [http-nio-8080-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for POST /login]
+2021-07-31 15:33:16.414 [http-nio-8080-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+### The error may exist in cn/coal/trading/mapper/UserMapper.java (best guess)
+### The error may involve cn.coal.trading.mapper.UserMapper.selectOne
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.]
+2021-07-31 15:33:22.684 [http-nio-8080-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+2021-07-31 15:33:56.003 [http-nio-8080-exec-9] WARN  org.springframework.web.servlet.PageNotFound - No mapping for POST /login
+2021-07-31 15:33:56.014 [http-nio-8080-exec-9] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for POST /login]
+2021-07-31 15:34:01.462 [http-nio-8080-exec-10] WARN  org.springframework.web.servlet.PageNotFound - No mapping for GET /login
+2021-07-31 15:34:01.470 [http-nio-8080-exec-10] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /login]
+2021-07-31 15:39:19.017 [background-preinit] WARN  o.s.h.converter.json.Jackson2ObjectMapperBuilder - For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2021-07-31 15:39:22.201 [restartedMain] WARN  org.pac4j.core.matching.matcher.PathMatcher - Be careful when using the 'excludeBranch' or 'excludeRegex' methods. They use regular expressions and their definitions may be error prone. You could exclude more URLs than expected.
+2021-07-31 15:39:47.461 [http-nio-8080-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:39:50.931 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:39:51.608 [http-nio-8080-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:39:52.054 [http-nio-8080-exec-5] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:39:52.422 [http-nio-8080-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:39:52.743 [http-nio-8080-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [#HttpAction# | code: 401 |]
+2021-07-31 15:40:12.682 [background-preinit] WARN  o.s.h.converter.json.Jackson2ObjectMapperBuilder - For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2021-07-31 15:40:18.315 [restartedMain] WARN  org.pac4j.core.matching.matcher.PathMatcher - Be careful when using the 'excludeBranch' or 'excludeRegex' methods. They use regular expressions and their definitions may be error prone. You could exclude more URLs than expected.
+2021-07-31 15:40:21.756 [http-nio-8080-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): cn.coal.trading.mapper.CompanyMapper.selectById]
+2021-07-31 15:40:26.597 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): cn.coal.trading.mapper.CompanyMapper.selectById]
