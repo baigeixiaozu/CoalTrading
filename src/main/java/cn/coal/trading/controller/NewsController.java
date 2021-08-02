@@ -5,12 +5,11 @@ import cn.coal.trading.services.NewsService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Heming233
@@ -36,10 +35,11 @@ public class NewsController {
     public Map<String,Object> showNews(){
         try{
             List<News> NewsList= newsService.getAllNews();
+
             return new HashMap<String,Object>(){{
                 put("code", 200);
                 put("msg", "success");
-                put("title", NewsList);
+                put("infoList", NewsList);
             }};
         }
         catch (Exception e){
