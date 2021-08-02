@@ -234,13 +234,12 @@ public class UserController {
         return result;
     }
 
-  //  @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+    @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
-     //   TokenProfile profile=ProfileHolder.getProfile();
-     //   fund.setUserId(Integer.parseInt(profile.getId()));
-        finance.setFinanceUserid(7L);
-        finance.setMainUserid(8L);
+        TokenProfile profile=ProfileHolder.getProfile();
+        finance.setMainUserid((long)Integer.parseInt(profile.getId()));
+
         ResponseData result = userService.finance(finance);
         return result;
     }
