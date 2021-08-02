@@ -60,7 +60,7 @@ shaun:
     - /user/getRoleList/user
     - /user/uploadFile
     - /user/finance
-    - /news/show
+    - /user/complete
   exclude-branch: # 排除以此路径开头
     - /webjars
     - /request

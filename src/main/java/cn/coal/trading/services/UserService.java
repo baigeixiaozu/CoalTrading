@@ -3,6 +3,7 @@ package cn.coal.trading.services;
 import cn.coal.trading.bean.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author jiyec
@@ -33,11 +34,20 @@ public interface UserService {
      */
     List<Role> getRoleList(String type);
     /**
-     * 生成财务用户
+     * 生成企业财务账务表
      * @Author Sorakado
      * @Date 2021/8/1 15:04
      * @Version 1.0
      **/
     ResponseData finance(FinanceProperty financeProperty);
+    /**
+     * 生成财务用户
+     * @Author Sorakado
+     * @Date 2021/8/1 15:04
+     * @Version 1.0
+     **/
+    Map<String,String> financeAccount();
+
+
 
 }
