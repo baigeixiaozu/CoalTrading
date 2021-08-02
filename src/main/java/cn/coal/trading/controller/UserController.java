@@ -41,10 +41,9 @@ public class UserController {
     @Resource
     FileService fileService;
 
-
     /**
      * 新增用户操作
-     * TODO: 设定超级管理员权限
+     *
      * @Author jiyeme
      * @param user 用户信息
      * @return ResponseData
@@ -145,12 +144,12 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
         user.setPass(encoder.encode(user.getPass()));
 
-        int register = registerService.register(user);
+        String register = registerService.register(user);
 
-        if(register == 0){
+        if(register != null){
             response.setCode(102201);
             response.setMsg("fail");
-            response.setError("注册失败，原因未知");
+            response.setError(register);
         }else{
             response.setCode(200);
             response.setMsg("success");

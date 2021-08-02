@@ -44,10 +44,20 @@ public class RegisterServiceImpl implements RegisterService {
      **/
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int register(User user) {
+    public String register(User user) {
 
         // 设置用户状态为基础注册状态
         user.setStatus(2);
-        return userMapper.insert(user);
+        int insert = userMapper.insert(user);
+        if(insert == 0){
+            int insert1 = userRoleMapper.insert(new UserRoleBinding(user.getId(), user.getRole()));
+            if(insert1 == 0){
+                userMapper.deleteById(user.getId());
+                return "角色绑定失败";
+            }
+        }else{
+            return "新增用户失败，原因未知";
+        }
+        return null;
     }
 }

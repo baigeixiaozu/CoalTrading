@@ -9,9 +9,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,24 +26,24 @@ import java.util.Date;
 @TableName(value = "ct_request", autoResultMap = true)
 public class Request {
     @TableId(type = IdType.AUTO)
-    private Long id;                    // 需求ID
-    private Long userId;                // 用户ID
-    private Date createdTime;           // 创建时间
-    private Integer type;               // 需求类型[ 1.卖出| 2.采购]
-    private Integer status;             // 需求状态[ 1.草稿| 2.发布| 3.被摘取| 4.隐藏| 5.完成]
-    private Long zpId;                  // 摘牌者ID
-    private Object zpDetail;            // 摘牌信息（JSON）
-    private String contractFile;        // 合同文件（路径）
+    private Long id;                        // 需求ID
+    private Long userId;                    // 用户ID
+    private Date createdTime;               // 创建时间
+    private Integer type;                   // 需求类型[ 1.卖出| 2.采购]
+    private Integer status;                 // 需求状态[ 1.草稿| 2.发布| 3.被摘取| 4.隐藏| 5.完成]
+    private Long zpId;                      // 摘牌者ID
+    private Object zpDetail;                // 摘牌信息（JSON）
+    private String contractFile;            // 合同文件（路径）
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Object detail;              // 需求（挂牌）详细[用户提交数据后需根据类型，手动设置挂牌信息]
+    private Object detail;                  // 需求（挂牌）详细
     @TableField(exist = false)
-    private BuyPubData buyPubData;          // 采购商挂牌信息
+    private BuyPubData buyPubData;          // 采购商挂牌信息（仅起到检查基本数据类型的作用）
     @TableField(exist = false)
-    private SalePubData salePubData;        // 供应商挂牌信息
+    private SalePubData salePubData;        // 供应商挂牌信息（仅起到检查基本数据类型的作用）
     @TableField(exist = false)
-    private BuyGetData buyGetData;          // 采购商摘牌信息
+    private BuyGetData buyGetData;          // 采购商摘牌信息（仅起到检查基本数据类型的作用）
     @TableField(exist = false)
-    private SaleGetData saleGetData;        // 供应商摘牌信息
+    private SaleGetData saleGetData;        // 供应商摘牌信息（仅起到检查基本数据类型的作用）
 
     // 采购商挂牌信息
     public void setBuyPubData(BuyPubData buyPub){
@@ -57,9 +54,6 @@ public class Request {
         detail = salePub;
     }
 
-    public SalePubData getSalePubData() {
-        return salePubData;
-    }
 
     // 采购商摘牌信息
     public void setBuyGetData(BuyGetData buyGetData) {
