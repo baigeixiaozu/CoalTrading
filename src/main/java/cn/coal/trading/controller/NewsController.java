@@ -2,6 +2,8 @@ package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.News;
 import cn.coal.trading.services.NewsService;
+import com.baomidou.shaun.core.context.ProfileHolder;
+import com.baomidou.shaun.core.profile.TokenProfile;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
 import org.springframework.web.bind.annotation.*;
 
