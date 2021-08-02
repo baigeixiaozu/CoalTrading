@@ -18,7 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class BuyPubData {
     private BaseData baseData;
-    private coalQuality coalQuality;
+    private CoalQuality coalQuality;
 }
 
 @Data
@@ -44,7 +44,7 @@ class BaseData{
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class coalQuality{
+class CoalQuality {
     private Double lowHeat;            // 收到基低位发热量
     private Double sdjql;       // 收到基全硫
     private Double qsf;       // 全水分

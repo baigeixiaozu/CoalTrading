@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/2 6:49:46                             */
+/* Created on:     2021/8/2 17:22:15                            */
 /*==============================================================*/
 
 
@@ -190,7 +190,7 @@ create unique index Index_news_id on ct_news
 create table ct_order
 (
    id                   bigint(20) not null auto_increment comment '订单ID',
-   num                  varchar(30) not null,
+   num                  varchar(30) not null comment '订单号',
    req_id               bigint(20) comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
@@ -300,9 +300,10 @@ create table ct_request
             3. 被摘取
             4. 隐藏
             5. 完成',
-   deatil               text comment '需求信息(JSON)',
+   detail               json comment '需求信息(JSON)',
    zp_id                bigint(20) comment '摘牌者ID',
-   contract_file        varchar(255),
+   zp_detail            json comment '摘牌信息（JSON）',
+   contract_file        varchar(255) comment '合同文件（路径）',
    primary key (id)
 )
 engine = InnoDB;
@@ -437,7 +438,7 @@ create table ct_users
    pass                 varchar(100) comment '用户密码：
             要经过加密',
    nick                 varchar(20) comment '用户昵称',
-   email                varchar(20) not null comment '用户邮箱（唯一）',
+   email                varchar(20) comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
    status               smallint not null default 2 comment '用户状态
             1. 用户未激活
@@ -533,7 +534,10 @@ alter table ct_order add constraint FK_ORDER_REF_REQ foreign key (req_id)
 alter table ct_order add constraint FK_ORDER_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
-alter table ct_request add constraint FK_REQ_REF_USER foreign key (user_id)
+alter table ct_request add constraint FK_REQ_REF_USER_1 foreign key (user_id)
+      references ct_users (id) on delete restrict on update restrict;
+
+alter table ct_request add constraint FK_REQ_REF_USER_2 foreign key (zp_id)
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_role_permission_relationships add constraint FK_RP_REF_PERMISSION foreign key (permission_id)

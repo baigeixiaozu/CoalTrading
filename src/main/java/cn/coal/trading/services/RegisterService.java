@@ -16,5 +16,5 @@ public interface RegisterService {
      * @Date 2021/7/29 15:04
      * @Version 1.0
      **/
-    int register(User user);
+    String register(User user);
 }
