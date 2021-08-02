@@ -233,6 +233,12 @@ public class UserController {
         return result;
     }
 
+    /**
+     * @Author Sorakado
+     * @Date 2021/8/2 18:47
+     * @Version 1.0
+     * 生成企业财务账户表和财务用户功能
+     **/
    // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
