@@ -65,6 +65,7 @@ shaun:
     - /webjars
     - /request
     - /update
+    - /info
   expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization
