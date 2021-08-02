@@ -17,14 +17,14 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BuyPubData {
-    private BaseData baseData;
-    private CoalQuality coalQuality;
+    private BaseData baseData;                  // 基础信息
+    private CoalQuality coalQuality;            // 煤质
 }
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class BaseData{
+class BaseData {
     private String applicant;                   // 申请人
     private String signer;                      // 签发人
     private Date reqDate;                       // 申请日期
@@ -45,25 +45,25 @@ class BaseData{
 @AllArgsConstructor
 @NoArgsConstructor
 class CoalQuality {
-    private Double lowHeat;            // 收到基低位发热量
-    private Double sdjql;       // 收到基全硫
-    private Double qsf;       // 全水分
-    private Double sdjhf;       // 收到基灰分
-    private Double sdjhff1;       // 收到基挥发分
-    private Double sdjhff2;       // 收到基挥发分
+    private Double lowHeat;             // 收到基低位发热量
+    private Double sdjql;               // 收到基全硫
+    private Double qsf;                 // 全水分
+    private Double sdjhf;               // 收到基灰分
+    private Double sdjhff1;             // 收到基挥发分
+    private Double sdjhff2;             // 收到基挥发分
 
-    private Double kgjsf;       // 空干基水分
-    private Double kgjql;// 空干基全硫
-    private Double kgjhff1;// 空干基挥发分
-    private Double kgjhff2;// 空干基挥发分
+    private Double kgjsf;               // 空干基水分
+    private Double kgjql;               // 空干基全硫
+    private Double kgjhff1;             // 空干基挥发分
+    private Double kgjhff2;             // 空干基挥发分
 
     private Double highHeat;            // 干基高位发热量
-    private Double gjql;// 干基全硫
-    private Double gzwhjhff1;// 干燥无灰基挥发分
-    private Double gzwhjhff2;// 干燥无灰基挥发分
+    private Double gjql;                // 干基全硫
+    private Double gzwhjhff1;           // 干燥无灰基挥发分
+    private Double gzwhjhff2;           // 干燥无灰基挥发分
 
     private Double granularity;         // 粒度
-    private Double hrd;// 灰熔点
-    private Double hskmxs;// 哈式可磨系数
+    private Double hrd;                 // 灰熔点
+    private Double hskmxs;              // 哈式可磨系数
     private String remark;              // 备注
 }

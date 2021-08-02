@@ -3,9 +3,7 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
 import cn.coal.trading.utils.TimeUtil;
-import com.baomidou.shaun.core.annotation.HasPermission;
 import com.baomidou.shaun.core.annotation.HasRole;
-import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -162,6 +158,7 @@ public class UserController {
         }
         return response;
     }
+
     /**
      * @Author Sorakado & jiyeme
      * @Date 2021/7/29 16:34
