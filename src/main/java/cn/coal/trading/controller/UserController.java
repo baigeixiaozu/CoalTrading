@@ -225,7 +225,7 @@ public class UserController {
      * @Version 1.0
      * 文件上传功能
      **/
-    @HasRole(value={"PUB_SALE"})
+   // @HasRole(value={"PUB_SALE"})
     @PostMapping("/uploadFile")
     public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
 

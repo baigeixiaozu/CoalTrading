@@ -100,13 +100,13 @@ public class UserServiceImpl implements UserService {
             userRoleMapper.insert(financeUser);
 
             Map map=new HashMap();
-            map.put("注册信息",financeProperty);
+            map.put("registerInfo",financeProperty);
 
 
 
 
-            map.put("你的财务账号",usermap.get("login"));
-            map.put("你的财务账号密码",usermap.get("pass"));
+            map.put("financeAccount",usermap.get("login"));
+            map.put("financePassword",usermap.get("pass"));
             response.setCode(201);
             response.setMsg("数据上传成功");
             response.setError("无");
