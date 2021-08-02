@@ -28,9 +28,9 @@ public class CompanyInformation {
     private String comContact;                  // 企业联系电话
     private String comZip;                      // 企业邮政编码
     private String businessLicenseId;           // 企业营业执照号
-    private String businessLicenseIdFile;       // 企业营业执照文件（路径）
+    private String businessLicenseFile;       // 企业营业执照文件（路径）
     private String manageLicenseId;             // 经营许可证编号
-    private String manageLicenseIdFile;         // 煤炭经营许可证（文件）[供应商]
+    private String manageLicenseFile;         // 煤炭经营许可证（文件）[供应商]
     private String fax;                         // 传真
     private Double registeredCapital;           // 注册资金（万元）
     private String oibCode;                     // 组织机构代码

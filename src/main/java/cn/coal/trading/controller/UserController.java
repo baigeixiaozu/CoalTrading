@@ -209,12 +209,12 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
-    @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
-        TokenProfile profile=ProfileHolder.getProfile();
-        info.setUserId((long)Integer.parseInt(profile.getId()));
-
+       // TokenProfile profile=ProfileHolder.getProfile();
+       // info.setUserId((long)Integer.parseInt(profile.getId()));
+        info.setUserId(7L);
         ResponseData result = userService.complete(info);
 
         return result;
@@ -233,12 +233,12 @@ public class UserController {
         return result;
     }
 
-    @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
-        TokenProfile profile=ProfileHolder.getProfile();
-        finance.setMainUserid((long)Integer.parseInt(profile.getId()));
-
+    //    TokenProfile profile=ProfileHolder.getProfile();
+     //   finance.setMainUserid((long)Integer.parseInt(profile.getId()));
+        finance.setMainUserid(8L);
         ResponseData result = userService.finance(finance);
         return result;
     }
