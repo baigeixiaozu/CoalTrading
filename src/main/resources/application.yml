@@ -59,7 +59,8 @@ shaun:
     - /user/register
     - /user/getRoleList/user
     - /user/uploadFile
-    - /user/complete
+    - /user/finance
+    - /news/show
   exclude-branch: # 排除以此路径开头
     - /webjars
     - /request

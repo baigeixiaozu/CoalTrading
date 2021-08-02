@@ -6,6 +6,7 @@ import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     RoleMapper roleMapper;
+
+    @Resource
+    FinanceMapper financeMapper;
 
 
 
@@ -64,10 +68,48 @@ public class UserServiceImpl implements UserService {
 
     /**
      * @Author Sorakado
+     * @Date 2021/8/1 16:10
+     * @Version 1.0
+     **/
+    @Override
+    public ResponseData finance(FinanceProperty financeProperty) {
+        ResponseData response=new ResponseData();
+
+        int insert = financeMapper.insert(financeProperty);
+        if(insert==1){
+            response.setCode(201);
+            response.setMsg("数据上传成功");
+            response.setError("无");
+            response.setData(financeProperty);
+
+
+
+
+        }else{
+            response.setData(null);
+            response.setError("资源冲突，或者资源被锁定");
+            response.setCode(409);
+            response.setMsg("该公司已注册！或者未知错误");
+        }
+
+        return response;
+
+
+
+
+    }
+
+
+
+
+
+
+    /**
+     * @Author Sorakado
      * @Date 2021/7/31 23:10
      * @Version 1.0
      **/
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData complete(CompanyInformation companyInformation) {
 
@@ -80,6 +122,11 @@ public class UserServiceImpl implements UserService {
             response.setError("无");
             response.setData(companyInformation);
 
+
+
+
+
+
         }else{
             response.setData(null);
             response.setError("资源冲突，或者资源被锁定");
@@ -89,4 +136,5 @@ public class UserServiceImpl implements UserService {
 
         return response;
     }
+
 }

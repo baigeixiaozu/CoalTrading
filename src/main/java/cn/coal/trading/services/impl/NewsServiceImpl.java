@@ -29,8 +29,11 @@ public class NewsServiceImpl implements NewsService {
         QueryWrapper<News> wrapper=new QueryWrapper<>();
 /*        wrapper.eq("title",);
         wrapper.eq("context",2);*/
+
+        //设置查询条件
         wrapper.isNotNull("title");
         wrapper.eq("status","4");
+        wrapper.select("title","id");
 
         return newsMapper.selectList(wrapper);
     }
