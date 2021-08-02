@@ -5,6 +5,7 @@ import cn.coal.trading.mapper.*;
 import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,12 +84,16 @@ public class UserServiceImpl implements UserService {
         long financeUserid= Long.parseLong(usermap.get("id"));
         financeProperty.setFinanceUserid(financeUserid);
 
+
+
+        //往企业用户财务表插入信息
         int insert = financeMapper.insert(financeProperty);
         if(insert==1){
 
             //准备往用户角色表插入数据
             UserRoleBinding financeUser=new UserRoleBinding();
             financeUser.setUserId(financeUserid);
+
             //查询财务用的roleid
             QueryWrapper wrapper=new QueryWrapper();
             wrapper.eq("name","财务用户");
@@ -99,12 +104,8 @@ public class UserServiceImpl implements UserService {
 
             userRoleMapper.insert(financeUser);
 
-            Map map=new HashMap();
+            Map map=new HashMap<String,Object>();
             map.put("registerInfo",financeProperty);
-
-
-
-
             map.put("financeAccount",usermap.get("login"));
             map.put("financePassword",usermap.get("pass"));
             response.setCode(201);
@@ -153,7 +154,12 @@ public class UserServiceImpl implements UserService {
             User user = new User();
 
             user.setLogin(login);
-            user.setPass(pass);
+
+             //密码加密
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+            String password = encoder.encode(pass);
+            user.setPass(password);
+
             int insert = userMapper.insert(user);
             if (insert == 1) {
             map.put("id",""+user.getId());
