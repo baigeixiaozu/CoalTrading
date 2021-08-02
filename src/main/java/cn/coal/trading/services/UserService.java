@@ -11,6 +11,7 @@ import java.util.List;
  **/
 public interface UserService {
     /**
+     * 完善企业信息
      * @Author Sorakado
      * @Date 2021/7/29 15:04
      * @Version 1.0
@@ -31,4 +32,12 @@ public interface UserService {
      * @return 角色列表
      */
     List<Role> getRoleList(String type);
+    /**
+     * 生成财务用户
+     * @Author Sorakado
+     * @Date 2021/8/1 15:04
+     * @Version 1.0
+     **/
+    ResponseData finance(FinanceProperty financeProperty);
+
 }
