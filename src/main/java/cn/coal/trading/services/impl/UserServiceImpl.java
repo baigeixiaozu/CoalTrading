@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
             String password = encoder.encode(pass);
             user.setPass(password);
-
+            user.setStatus(2);
             int insert = userMapper.insert(user);
             if (insert == 1) {
             map.put("id",""+user.getId());
