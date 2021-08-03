@@ -3,10 +3,11 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.mapper.ReqMapper;
+import com.baomidou.shaun.core.context.ProfileHolder;
+import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 
 /**
  * @Author jiyec
@@ -27,15 +28,32 @@ public class RequestController {
         return responseData;
     }
 
+    /**
+     * 需求发布
+     *
+     */
     @PostMapping("/publish")
     public ResponseData publish(@RequestBody Request request){
-        // TODO: TEST Ver
         ResponseData responseData = new ResponseData();
-        // int insert = reqMapper.insert(request);
-        responseData.setData(new HashMap<String, Object>(){{
-            // put("insert", insert);
-            put("req-data", request);
-        }});
+
+        // 挂牌参数校验
+        if ( request.getId()!=null || request.getUserId()!=null || request.getZpId()!=null){
+            responseData.setError("参数非法");
+            responseData.setCode(21201);
+            responseData.setMsg("fail");
+            return responseData;
+        }
+        TokenProfile profile = ProfileHolder.getProfile();
+
+        request.setUserId(Long.parseLong(profile.getId()));
+        int affect = reqMapper.insert(request);
+        if(affect == 1){
+            responseData.setCode(200);
+            responseData.setMsg("success");
+        }else{
+            responseData.setCode(201);
+            responseData.setMsg("fail");
+        }
         return responseData;
     }
 }
