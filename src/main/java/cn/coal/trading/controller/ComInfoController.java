@@ -1,14 +1,7 @@
 package cn.coal.trading.controller;
 import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.mapper.CompanyMapper;
-import kotlin.io.path.ExperimentalPathApi;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import cn.coal.trading.bean.*;
-import cn.coal.trading.services.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

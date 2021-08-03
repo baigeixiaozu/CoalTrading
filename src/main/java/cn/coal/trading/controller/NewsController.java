@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -21,6 +22,9 @@ import java.util.*;
  *
  * update:2021/7/31
  * version:v1.2
+ *
+ * update:2021/8/2
+ * version:v1.3
  */
 
 /*@CrossOrigin//解决跨域请求授权问题*/
@@ -52,10 +56,10 @@ public class NewsController {
     }
 
     //点击资讯查看详细内容
-  /*  @GetMapping("/detail")
-    public Map<String,Object> detailNews(@RequestParam(value="url",defaultValue = "none") String url){
+    @GetMapping("/detail/{newsId}")
+    public Map<String,Object> detailNews(@PathVariable("newsId") Long id){
         try{
-            News news=newsService.getNewsByTitle(url);
+            News news=newsService.getNewsById(id);
             return new HashMap<String,Object>(){{
                 put("code",200);
                 put("msg","success");
@@ -69,5 +73,50 @@ public class NewsController {
                 put("error","no news caught");
             }};
         }
-    }*/
+    }
+
+    //查询资讯
+    @GetMapping("/more/{newsTitle}")
+    public Map<String,Object> moreNews(@PathVariable("newsTitle") String title){
+        try{
+            List<News> NewsList= newsService.getNewsByTitle(title);
+
+            return new HashMap<String,Object>(){{
+                put("code", 200);
+                put("msg", "success");
+                put("infoList", NewsList);
+            }};
+        }
+        catch (Exception e){
+            return new HashMap<String,Object>(){{
+                put("code", 204);//204代码：操作成功执行，但没有返回数据
+                put("msg", "error");
+                put("error","no news caught");
+            }};
+        }
+    }
+
+    //发布资讯
+    @GetMapping("/publish/{newsContent}")
+    public Map<String,Object> pushNews(@PathVariable("newsContent") String content){
+        try{
+            TokenProfile profile=ProfileHolder.getProfile();
+            Long authorId=Long.parseLong(profile.getId());
+            News news= newsService.setOneNews(content,authorId);
+
+            return new HashMap<String,Object>(){{
+                put("code", 200);
+                put("msg", "success");
+                put("infoList", news);
+            }};
+        }
+        catch (Exception e){
+            return new HashMap<String,Object>(){{
+                put("code", 204);//204代码：操作成功执行，但没有返回数据
+                put("msg", "error");
+                put("error","push news failed");
+            }};
+        }
+    }
+
 }

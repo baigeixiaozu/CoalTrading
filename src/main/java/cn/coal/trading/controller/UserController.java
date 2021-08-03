@@ -3,7 +3,9 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
 import cn.coal.trading.utils.TimeUtil;
+import com.baomidou.shaun.core.annotation.HasPermission;
 import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +52,11 @@ public class UserController {
 
         ResponseData responseData = new ResponseData();
 
+        if(user.getId()!=null){
+            responseData.setCode(105201);
+            responseData.setMsg("参数非法");
+            return responseData;
+        }
         if (user.getLogin() == null) {
             responseData.setCode(105201);
             responseData.setMsg("用户名不能为空");
@@ -71,6 +78,8 @@ public class UserController {
             return responseData;
         }
         if (user.getRole() == null) {
+            responseData.setCode(105201);
+            responseData.setMsg("角色数据不能为空");
             return responseData;
         }
         String ret = userService.newUser(user);
@@ -130,6 +139,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
+        if(user.getId()!=null){
+            response.setCode(102201);
+            response.setMsg("参数非法");
+            return response;
+        }
         if(user.getRole()==null){
             response.setCode(102403);
             response.setMsg("fail");
@@ -212,12 +226,12 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
-   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+    @HasPermission(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
-       // TokenProfile profile=ProfileHolder.getProfile();
-       // info.setUserId((long)Integer.parseInt(profile.getId()));
-        info.setUserId(7L);
+        TokenProfile profile=ProfileHolder.getProfile();
+        info.setUserId((long)Integer.parseInt(profile.getId()));
+      //  info.setUserId(7L);
         ResponseData result = userService.complete(info);
 
         return result;
@@ -228,7 +242,7 @@ public class UserController {
      * @Version 1.0
      * 文件上传功能
      **/
-   // @HasRole(value={"PUB_SALE"})
+    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/uploadFile")
     public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
 
@@ -242,12 +256,12 @@ public class UserController {
      * @Version 1.0
      * 生成企业财务账户表和财务用户功能
      **/
-   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+    @HasPermission(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
-    //    TokenProfile profile=ProfileHolder.getProfile();
-     //   finance.setMainUserid((long)Integer.parseInt(profile.getId()));
-        finance.setMainUserid(8L);
+        TokenProfile profile=ProfileHolder.getProfile();
+        finance.setMainUserid((long)Integer.parseInt(profile.getId()));
+      //  finance.setMainUserid(8L);
         ResponseData result = userService.finance(finance);
         return result;
     }

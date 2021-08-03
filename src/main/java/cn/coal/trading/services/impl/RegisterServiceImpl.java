@@ -49,7 +49,7 @@ public class RegisterServiceImpl implements RegisterService {
         // 设置用户状态为基础注册状态
         user.setStatus(2);
         int insert = userMapper.insert(user);
-        if(insert == 0){
+        if(insert == 1){
             int insert1 = userRoleMapper.insert(new UserRoleBinding(user.getId(), user.getRole()));
             if(insert1 == 0){
                 userMapper.deleteById(user.getId());

@@ -9,9 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -36,6 +34,7 @@ public class Request {
     private String contractFile;            // 合同文件（路径）
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Object detail;                  // 需求（挂牌）详细
+
     @TableField(exist = false)
     private BuyPubData buyPubData;          // 采购商挂牌信息（仅起到检查基本数据类型的作用）
     @TableField(exist = false)
@@ -53,7 +52,6 @@ public class Request {
     public void setSalePubData(SalePubData salePub) {
         detail = salePub;
     }
-
 
     // 采购商摘牌信息
     public void setBuyGetData(BuyGetData buyGetData) {

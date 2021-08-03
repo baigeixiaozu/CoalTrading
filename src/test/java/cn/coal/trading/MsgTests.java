@@ -27,7 +27,7 @@ public class MsgTests {
             int finalI = i+1;
             Msg msg = new Msg(){{
                 setTitle("这是站内信标题" + finalI);
-                setContext("这是消息内容" + finalI);
+                setContent("这是消息内容" + finalI);
                 setFromUserid(null);    // 系统消息userid置空
                 setMsgType(1);
                 setFromUsername("系统消息");
