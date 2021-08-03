@@ -76,11 +76,11 @@ public class NewsServiceImpl implements NewsService {
     //发布资讯
     @Override
     public News setOneNews(String content,Long authorId) throws JsonProcessingException {
-        //QueryWrapper<News> wrapper=new QueryWrapper<>();
+        /*QueryWrapper<News> wrapper=new QueryWrapper<>();*/
         ObjectMapper mapper=new ObjectMapper();
         News news=mapper.readValue(content,News.class);
-        news.setStatus(2);
-        news.setAuditorId(3L);
+        news.setStatus(2);//刚发布的资讯还处于审查中状态
+        news.setAuditorId(0L);
         news.setAuthorId(authorId);
 
         newsMapper.insert(news);

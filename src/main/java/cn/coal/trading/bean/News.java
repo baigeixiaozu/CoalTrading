@@ -34,5 +34,5 @@ public class News implements Serializable {
     private Date date;              //资讯日期
     private Integer status;         //数据库规定[1.草稿| 2.审核中| 3.驳回（审核不通过）| 4.发布| 5.撤销（隐藏）| 删除（没有记录无状态）]
     private Long authorId;        //发布人员ID
-    private Long auditorId;       //审核人员ID
+    private Long auditorId;       //审核人员ID，0表示资讯审核人员待定，还未分配到具体的审核手上
 }
