@@ -19,4 +19,6 @@ public interface NewsService {
     //点击单条资讯查看详细信息
     News getNewsById(Long id);
 
+    //查询咨询
+    List<News> getNewsByTitle(String title);
 }

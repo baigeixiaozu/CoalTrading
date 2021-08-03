@@ -71,4 +71,25 @@ public class NewsController {
             }};
         }
     }
+
+    //接收打开页面时发送的请求，获取资讯标题
+    @GetMapping("/more/{newsTitle}")
+    public Map<String,Object> moreNews(@PathVariable("newsTitle") String title){
+        try{
+            List<News> NewsList= newsService.getNewsByTitle(title);
+
+            return new HashMap<String,Object>(){{
+                put("code", 200);
+                put("msg", "success");
+                put("infoList", NewsList);
+            }};
+        }
+        catch (Exception e){
+            return new HashMap<String,Object>(){{
+                put("code", 204);//204代码：操作成功执行，但没有返回数据
+                put("msg", "error");
+                put("error","no news caught");
+            }};
+        }
+    }
 }

@@ -51,4 +51,16 @@ public class NewsServiceImpl implements NewsService {
         return newsMapper.selectOne(wrapper);
     }
 
+    @Override
+    public List<News> getNewsByTitle(String title){
+        QueryWrapper<News> wrapper=new QueryWrapper<>();
+
+        //设置查询条件
+        wrapper.like("title",title);
+        wrapper.eq("status","4");
+        wrapper.select("title","id");
+
+        return newsMapper.selectList(wrapper);
+    }
+
 }
