@@ -58,13 +58,10 @@ shaun:
     - /favicon.ico
     - /user/register
     - /user/getRoleList/user
-
-
     - /news/show
+    - /request/list
   exclude-branch: # 排除以此路径开头
     - /webjars
-    - /request
-
     - /info
     - /news/detail
     - /news/more

@@ -2,13 +2,11 @@ package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Request;
-import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
-import com.baomidou.shaun.core.context.ProfileHolder;
-import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Author jiyec
@@ -22,10 +20,13 @@ public class RequestController {
     @Resource
     RequestService requestService;
 
-    @GetMapping("/list/{type}")
-    public ResponseData getList(@PathVariable("type")String type){
+    @GetMapping("/list")
+    public ResponseData getList(@RequestParam(defaultValue = "null", required = false) Integer type, @RequestParam int page, @RequestParam int limit){
         ResponseData responseData = new ResponseData();
-
+        Map<String, Object> list = requestService.list(null, page, limit);
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        responseData.setData(list);
         return responseData;
     }
 
