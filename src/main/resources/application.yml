@@ -66,12 +66,36 @@ shaun:
     - /request
     - /update
     - /info
+    - /fileSystemService
   expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization
     prefix: Bear
 
 uploadFile:
-  location: E:/ #自定义上传文件本地保存路径。默认E盘下
+  location: /Users/songyanbai #自定义上传文件本地保存路径。默认E盘下
 
-
+##sftp
+#  sftp.client.protocol=sftp
+#
+#  sftp.client.host=47.108.140.72
+#
+#  sftp.client.port=22
+#
+#  sftp.client.username=root
+#
+#  sftp.client.password=
+#
+#  sftp.client.root=/backup
+#
+#  sftp.client.privateKey=
+#
+#  sftp.client.passphrase=
+#
+#  sftp.client.sessionStrictHostKeyChecking=no
+#
+#  sftp.client.sessionConnectTimeout=15000
+#
+#  sftp.client.channelConnectedTimeout=15000
+#
+#
