@@ -61,11 +61,14 @@ shaun:
     - /user/uploadFile
     - /user/finance
     - /user/complete
+    - /news/show
   exclude-branch: # 排除以此路径开头
     - /webjars
     - /request
     - /update
     - /info
+    - /news/detail
+    - /news/more
   expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization
