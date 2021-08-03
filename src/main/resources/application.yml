@@ -58,14 +58,13 @@ shaun:
     - /favicon.ico
     - /user/register
     - /user/getRoleList/user
-    - /user/uploadFile
-    - /user/finance
-    - /user/complete
+
+
     - /news/show
   exclude-branch: # 排除以此路径开头
     - /webjars
     - /request
-    - /update
+
     - /info
     - /news/detail
     - /news/more

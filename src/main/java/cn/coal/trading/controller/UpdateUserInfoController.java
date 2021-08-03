@@ -6,6 +6,8 @@ import cn.coal.trading.bean.User;
 import cn.coal.trading.services.impl.UpdateServiceImpl;
 import com.baomidou.shaun.core.annotation.HasPermission;
 import com.baomidou.shaun.core.annotation.Logical;
+import com.baomidou.shaun.core.context.ProfileHolder;
+import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,12 +25,12 @@ public class UpdateUserInfoController {
      * @Version 1.0
      **/
 
-   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
-    @PostMapping("/userinfo")
+    @HasPermission(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
+    @PatchMapping("/userinfo")
     public ResponseData updateUser(@RequestBody User user){
-        // TokenProfile profile=ProfileHolder.getProfile();
-        // user.setId((long)Integer.parseInt(profile.getId()));
-        user.setId(15L);
+         TokenProfile profile= ProfileHolder.getProfile();
+         user.setId((long)Integer.parseInt(profile.getId()));
+        //user.setId(15L);
         ResponseData result = updateService.updateUser(user);
         return result;
     }

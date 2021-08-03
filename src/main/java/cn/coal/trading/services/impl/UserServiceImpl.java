@@ -186,6 +186,9 @@ public class UserServiceImpl implements UserService {
 
         ResponseData response = new ResponseData();
         int insert = companyMapper.insert(companyInformation);
+
+
+
         if(insert==1){
             response.setCode(201);
             response.setMsg("数据上传成功");
