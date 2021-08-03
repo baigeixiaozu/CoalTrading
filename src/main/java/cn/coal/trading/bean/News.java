@@ -24,7 +24,7 @@ Version:v1.0
 public class News implements Serializable {
     private Long id;                //资讯编号
     private String title;           //资讯标题
-    private String context;         //资讯内容
+    private String content;         //资讯内容
     private Date date;              //资讯日期
     private Integer status;         //数据库规定[1.草稿| 2.审核中| 3.驳回（审核不通过）| 4.发布| 5.撤销（隐藏）| 删除（没有记录无状态）]
     private Long authorId;        //发布人员ID
