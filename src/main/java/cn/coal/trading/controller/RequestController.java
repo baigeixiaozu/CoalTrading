@@ -3,6 +3,7 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.mapper.ReqMapper;
+import cn.coal.trading.services.RequestService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
 public class RequestController {
 
     @Resource
-    ReqMapper reqMapper;
+    RequestService requestService;
 
     @GetMapping("/list/{type}")
     public ResponseData getList(@PathVariable("type")String type){
@@ -29,7 +30,7 @@ public class RequestController {
     }
 
     /**
-     * 需求发布
+     * 需求发布，草稿
      *
      */
     @PostMapping("/publish")
@@ -43,15 +44,30 @@ public class RequestController {
             responseData.setMsg("fail");
             return responseData;
         }
-        TokenProfile profile = ProfileHolder.getProfile();
 
-        request.setUserId(Long.parseLong(profile.getId()));
-        int affect = reqMapper.insert(request);
+        int affect = requestService.newReq(request);
         if(affect == 1){
             responseData.setCode(200);
             responseData.setMsg("success");
         }else{
             responseData.setCode(201);
+            responseData.setMsg("fail");
+        }
+        return responseData;
+    }
+
+    /**
+     * 需求编辑
+     */
+    @PostMapping("/edit")
+    public ResponseData edit(@RequestBody Request request){
+        ResponseData responseData = new ResponseData();
+        int edit = requestService.edit(request);
+        if(edit == 1){
+            responseData.setCode(200);
+            responseData.setMsg("success");
+        }else{
+            responseData.setCode(31201);
             responseData.setMsg("fail");
         }
         return responseData;

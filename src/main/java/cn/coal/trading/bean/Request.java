@@ -34,6 +34,7 @@ public class Request {
     private String contractFile;            // 合同文件（路径）
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Object detail;                  // 需求（挂牌）详细
+
     @TableField(exist = false)
     private BuyPubData buyPubData;          // 采购商挂牌信息（仅起到检查基本数据类型的作用）
     @TableField(exist = false)
