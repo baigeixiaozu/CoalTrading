@@ -6,14 +6,10 @@ import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.shaded.json.JSONObject;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-
-import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 /**
  * Created by Heming233

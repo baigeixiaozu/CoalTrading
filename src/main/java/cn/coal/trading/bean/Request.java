@@ -9,9 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -53,7 +51,6 @@ public class Request {
     public void setSalePubData(SalePubData salePub) {
         detail = salePub;
     }
-
 
     // 采购商摘牌信息
     public void setBuyGetData(BuyGetData buyGetData) {
