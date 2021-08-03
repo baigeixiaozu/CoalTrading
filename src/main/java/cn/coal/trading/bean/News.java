@@ -1,5 +1,7 @@
 package cn.coal.trading.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +12,13 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
-/*
-Created by Heming233
-Date:2021/7/27
-Version:v1.0
+/**
+ * Created by Heming233
+ * Date:2021/7/27
+ * Version:v1.0
+ *
+ * update:2021/8/2
+ * version:v1.3
  */
 
 @Data//配置Setter、Getter方法
@@ -22,6 +27,7 @@ Version:v1.0
 @AllArgsConstructor//配置有参构造方法
 @TableName(value="ct_news")//配置对应数据库的表
 public class News implements Serializable {
+    @TableId(type= IdType.AUTO)
     private Long id;                //资讯编号
     private String title;           //资讯标题
     private String content;         //资讯内容
