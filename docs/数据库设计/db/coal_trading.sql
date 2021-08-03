@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/2 17:22:15                            */
+/* Created on:     2021/8/3 19:12:50                            */
 /*==============================================================*/
 
 
@@ -47,7 +47,7 @@ create table ct_company
    coal_quantity        bigint comment '煤源数量[供应商]',
    coal_quality         varchar(10) comment '煤源质量[供应商]',
    coal_transport       varchar(20) comment '运输方式及保障能力[供应商]',
-   status               smallint not null default 1 comment '信息状态
+   status               enum('1','2','3') not null default '1' comment '信息状态
             1. 不可用
             2. 审核阶段
             3. 可用',
@@ -79,7 +79,7 @@ create table ct_finance
    balance              decimal(10,2) comment '账户金额',
    freeze               decimal(10,2) comment '报价冻结金额',
    ao_permit_file       varchar(255) comment '开户许可证（文件）',
-   status               smallint not null default 1 comment '信息状态
+   status               enum('1','2','3') not null default '1' comment '信息状态
             1. 不可用
             2. 审核阶段
             3. 可用',
@@ -119,7 +119,7 @@ create table ct_finance_log
 (
    user_id              bigint(20) not null comment '用户ID',
    date                 datetime default CURRENT_TIMESTAMP comment '变动时间',
-   log_type             smallint comment '变动操作：
+   log_type             enum('1','2','3') comment '变动操作：
             1. 预存（增加）
             2. 缴纳给平台（冻结）
             3. 平台扣除指定额度的冻结款项（减少）
@@ -153,9 +153,9 @@ create table ct_news
 (
    id                   bigint(20) not null auto_increment comment '新闻ID',
    title                varchar(20) not null comment '新闻标题',
-   context              text not null comment '内容',
+   content              text not null comment '内容',
    date                 datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint not null comment '状态：
+   status               enum('1','2','3','4','5') not null comment '状态：
             1. 草稿
             2. 审核中
             3. 驳回（审核不通过）
@@ -164,11 +164,12 @@ create table ct_news
             删除（记录直接没了）',
    author_id            bigint(20) not null comment '编写人员',
    auditor_id           bigint(20) comment '审核人员',
+   audit_opinion        varchar(255) comment '审核意见',
    primary key (id)
 )
 engine = InnoDB;
 
-INSERT INTO ct_news(id, title, context, status, author_id, auditor_id)
+INSERT INTO ct_news(id, title, content, status, author_id, auditor_id)
 VALUES
 (1, "草稿资讯", "草稿资讯的内容", 1, 2, NULL),
 (2, "审核中资讯", "审核中资讯的内容", 2, 2, 3),
@@ -194,7 +195,7 @@ create table ct_order
    req_id               bigint(20) comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
-   status               smallint(6) not null comment '订单状态：
+   status               enum('1','2','3','4') not null comment '订单状态：
             1. 进行中
             2. 超时
             3. 完成
@@ -292,9 +293,9 @@ create table ct_request
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
-   type                 smallint(6) comment '1. 卖出
+   type                 enum('1','2') comment '1. 卖出
             2. 采购',
-   status               smallint not null comment '需求状态
+   status               enum('1','2','3','4','5') not null comment '需求状态
             1. 草稿
             2. 发布
             3. 被摘取
@@ -361,7 +362,7 @@ create table ct_user_role_relationships
 engine = InnoDB;
 
 INSERT INTO ct_user_role_relationships(`user_id`, `role_id`) 
-VALUES(1, 1),(2,2),(3,3),(4,4),(5,5),(6,6);
+VALUES(1, 1),(2,2),(3,3),(4,4),(5,5),(6,6),(7, 7),(8,9),(9,8),(10,9);
 
 /*==============================================================*/
 /* Index: Index_user_role                                       */
@@ -440,7 +441,7 @@ create table ct_users
    nick                 varchar(20) comment '用户昵称',
    email                varchar(20) comment '用户邮箱（唯一）',
    registered           datetime default CURRENT_TIMESTAMP comment '创建时间',
-   status               smallint not null default 2 comment '用户状态
+   status               enum('1','2') not null default '2' comment '用户状态
             1. 用户未激活
             2. 已激活',
    primary key (id)
@@ -477,7 +478,7 @@ create unique index Index_user_login on ct_users
 /*==============================================================*/
 /* Index: Index_user_email                                      */
 /*==============================================================*/
-create unique index Index_user_email on ct_users
+create index Index_user_email on ct_users
 (
    email
 );
@@ -489,7 +490,7 @@ create table ct_website_message
 (
    id                   bigint(20) not null auto_increment comment '新闻主键',
    title                varchar(50) not null comment '站内信标题',
-   context              varchar(1024) not null comment '站内信内容',
+   content              varchar(1024) not null comment '站内信内容',
    modified             datetime default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
    msg_type             smallint not null comment '消息类型（1.系统消息）',
    created              datetime default CURRENT_TIMESTAMP comment '发信时间',
@@ -497,7 +498,7 @@ create table ct_website_message
    from_username        varchar(128) comment '发信人用户名',
    to_userid            bigint(20) not null comment '收信人用户ID',
    to_username          varchar(128) comment '收信人用户名',
-   read_status          smallint not null default 1 comment '是否已读（1. 未读；2.已读）',
+   read_status          enum('1','2') not null default '1' comment '是否已读（1. 未读；2.已读）',
    primary key (id)
 )
 engine = InnoDB;
