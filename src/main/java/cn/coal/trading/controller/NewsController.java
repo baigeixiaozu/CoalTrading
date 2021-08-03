@@ -72,7 +72,7 @@ public class NewsController {
         }
     }
 
-    //接收打开页面时发送的请求，获取资讯标题
+    //查询资讯
     @GetMapping("/more/{newsTitle}")
     public Map<String,Object> moreNews(@PathVariable("newsTitle") String title){
         try{
