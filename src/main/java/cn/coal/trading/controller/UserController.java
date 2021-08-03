@@ -50,6 +50,11 @@ public class UserController {
 
         ResponseData responseData = new ResponseData();
 
+        if(user.getId()!=null){
+            responseData.setCode(105201);
+            responseData.setMsg("参数非法");
+            return responseData;
+        }
         if (user.getLogin() == null) {
             responseData.setCode(105201);
             responseData.setMsg("用户名不能为空");
@@ -71,6 +76,8 @@ public class UserController {
             return responseData;
         }
         if (user.getRole() == null) {
+            responseData.setCode(105201);
+            responseData.setMsg("角色数据不能为空");
             return responseData;
         }
         String ret = userService.newUser(user);
@@ -130,6 +137,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
+        if(user.getId()!=null){
+            response.setCode(102201);
+            response.setMsg("参数非法");
+            return response;
+        }
         if(user.getRole()==null){
             response.setCode(102403);
             response.setMsg("fail");
