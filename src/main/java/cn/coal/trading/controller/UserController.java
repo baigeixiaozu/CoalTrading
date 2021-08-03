@@ -3,7 +3,9 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
 import cn.coal.trading.utils.TimeUtil;
+import com.baomidou.shaun.core.annotation.HasPermission;
 import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.beans.factory.annotation.Value;
@@ -224,12 +226,12 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
-   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+    @HasPermission(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
-       // TokenProfile profile=ProfileHolder.getProfile();
-       // info.setUserId((long)Integer.parseInt(profile.getId()));
-        info.setUserId(7L);
+        TokenProfile profile=ProfileHolder.getProfile();
+        info.setUserId((long)Integer.parseInt(profile.getId()));
+      //  info.setUserId(7L);
         ResponseData result = userService.complete(info);
 
         return result;
@@ -240,7 +242,7 @@ public class UserController {
      * @Version 1.0
      * 文件上传功能
      **/
-   // @HasRole(value={"PUB_SALE"})
+    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/uploadFile")
     public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
 
@@ -254,12 +256,12 @@ public class UserController {
      * @Version 1.0
      * 生成企业财务账户表和财务用户功能
      **/
-   // @HasPermission(value={"PUB_SALE","PUB_BUY"},logical = Logical.ANY)
+    @HasPermission(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
-    //    TokenProfile profile=ProfileHolder.getProfile();
-     //   finance.setMainUserid((long)Integer.parseInt(profile.getId()));
-        finance.setMainUserid(8L);
+        TokenProfile profile=ProfileHolder.getProfile();
+        finance.setMainUserid((long)Integer.parseInt(profile.getId()));
+      //  finance.setMainUserid(8L);
         ResponseData result = userService.finance(finance);
         return result;
     }
