@@ -4,6 +4,7 @@ import cn.coal.trading.bean.News;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,5 +28,5 @@ public interface NewsService {
     List<News> getNewsByTitle(String title);
 
     //发布资讯
-    News setOneNews(String content,Long authorId) throws JsonProcessingException;
+    News setOneNews(HashMap<String,Object> content, Long authorId) throws JsonProcessingException;
 }

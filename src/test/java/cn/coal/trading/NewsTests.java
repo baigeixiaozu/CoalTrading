@@ -36,8 +36,8 @@ public class NewsTests {
         News news=newsService.getNewsById(4L);
     }
 
-    @Test
+/*    @Test
     void setOneNews() throws JsonProcessingException {
         News news=newsService.setOneNews("{\"title\":\"山西将建40座绿色开采煤矿\",\"content\":\"这是一些内容\"}",2L);
-    }
+    }*/
 }

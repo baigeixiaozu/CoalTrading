@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,6 +22,9 @@ import java.util.List;
  *
  * update:2021/8/2
  * version:v1.3
+ *
+ * update:2021/8/3
+ * version:v1.4
  */
 
 @Service
@@ -71,13 +75,16 @@ public class NewsServiceImpl implements NewsService {
 
     //发布资讯
     @Override
-    public News setOneNews(String content,Long authorId) throws JsonProcessingException {
+    public News setOneNews(HashMap<String,Object> content, Long authorId) throws JsonProcessingException {
         /*QueryWrapper<News> wrapper=new QueryWrapper<>();*/
         ObjectMapper mapper=new ObjectMapper();
-        News news=mapper.readValue(content,News.class);
+        News news=new News();
+        Long Id=2L;//测试用，接口跑通后删除
+        news.setTitle((String) content.get("title"));
+        news.setContent((String)content.get("content"));
         news.setStatus(2);//刚发布的资讯还处于审查中状态
         news.setAuditorId(0L);
-        news.setAuthorId(authorId);
+        news.setAuthorId(Id);
 
         newsMapper.insert(news);
         return news;
