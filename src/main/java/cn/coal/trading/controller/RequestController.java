@@ -27,8 +27,15 @@ public class RequestController {
     @Resource
     RequestService requestService;
 
+    /**
+     * 获取可用的需求
+     *
+     * @param userId    null全部|ID指定用户
+     * @param page      页码
+     * @param limit     每页数量
+     */
     @GetMapping("/list")
-    public ResponseData getList(@RequestParam(defaultValue = "", required = false) Integer userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+    public ResponseData getList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         Map<String, Object> list = requestService.listAvailable(userId, page, limit);
         responseData.setCode(200);
@@ -125,6 +132,19 @@ public class RequestController {
             responseData.setCode(31201);
             responseData.setMsg("fail");
         }
+        return responseData;
+    }
+
+    @GetMapping("/my")
+    @HasRole({"USER_SALE", "USER_BUY"})
+    public ResponseData my(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+        ResponseData responseData = new ResponseData();
+        TokenProfile profile = ProfileHolder.getProfile();
+        String userId = profile.getId();
+        Map<String, Object> myList = requestService.myList(Long.parseLong(userId), page, limit);
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        responseData.setData(myList);
         return responseData;
     }
 }

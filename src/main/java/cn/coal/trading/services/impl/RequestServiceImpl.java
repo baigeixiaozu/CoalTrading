@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author jiyec
@@ -26,7 +25,7 @@ public class RequestServiceImpl implements RequestService {
     ReqMapper reqMapper;
 
     @Override
-    public Map<String,Object> listAvailable(Integer userId, int page, int limit) {
+    public Map<String,Object> listAvailable(Long userId, int page, int limit) {
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             if(userId!=null){
                 eq("user_id",userId);
@@ -57,5 +56,17 @@ public class RequestServiceImpl implements RequestService {
             eq("user_id", Long.parseLong(profile.getId()));
             eq("id", request.getId());
         }});
+    }
+
+    @Override
+    public Map<String, Object> myList(Long userId, int page, int limit) {
+        Page<Request> requestPage = reqMapper.selectPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
+            eq("user_id", userId);
+        }});
+        return new HashMap<String,Object>(){{
+            put("rows", requestPage.getRecords());
+            put("current", requestPage.getCurrent());
+            put("pages", requestPage.getPages());
+        }};
     }
 }

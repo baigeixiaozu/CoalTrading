@@ -17,7 +17,7 @@ public interface RequestService {
      * @param limit     每页数量
      * @return          需求数据
      */
-    Map<String,Object> listAvailable(Integer userId, int page, int limit);
+    Map<String,Object> listAvailable(Long userId, int page, int limit);
 
     /**
      * 新建需求
@@ -34,4 +34,13 @@ public interface RequestService {
      * @return      影响行数
      */
     int edit(Request request);
+
+    /**
+     * 用户的需求
+     * @param userId
+     * @param page
+     * @param limit
+     * @return
+     */
+    Map<String,Object> myList(Long userId, int page, int limit);
 }
