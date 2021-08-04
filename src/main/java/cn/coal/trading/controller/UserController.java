@@ -147,7 +147,7 @@ public class UserController {
         if(user.getRole()==null){
             response.setCode(102403);
             response.setMsg("fail");
-            response.setError("角色数据异常");
+            response.setError("缺少角色参数");
             return response;
         }
         boolean userExist = registerService.isUserExist(user.getLogin());
