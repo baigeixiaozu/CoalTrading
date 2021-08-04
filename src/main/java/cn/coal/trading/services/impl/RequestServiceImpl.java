@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author jiyec
@@ -40,10 +41,10 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public int newReq(Request request) {
-        TokenProfile profile = ProfileHolder.getProfile();
-        request.setUserId(Long.parseLong(profile.getId()));
-        return reqMapper.insert(request);
+    public long newReq(Request request) {
+        int insert = reqMapper.insert(request);
+        if(insert == 1)return request.getId();
+        else return 0;
     }
 
     @Override

@@ -22,12 +22,14 @@ public interface RequestService {
     /**
      * 新建需求
      * @param request   需求数据
-     * @return      影响行数
+     * @return      需求ID
      */
-    int newReq(Request request);
+    long newReq(Request request);
 
     /**
      * 编辑需求
+     * 根据需求ID和用户ID（自动获取）定位
+     *
      * @param request   需求数据
      * @return      影响行数
      */
