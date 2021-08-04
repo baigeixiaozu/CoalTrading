@@ -1,5 +1,6 @@
 package cn.coal.trading.controller;
 import cn.coal.trading.bean.CompanyInformation;
+import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.CompanyMapper;
 import org.springframework.web.bind.annotation.*;
 
