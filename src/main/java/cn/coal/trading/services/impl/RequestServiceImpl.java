@@ -60,8 +60,9 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Map<String, Object> myList(Long userId, int page, int limit) {
-        Page<Request> requestPage = reqMapper.selectPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
+        Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             eq("user_id", userId);
+            select("id", "user_id", "created_time", "status");
         }});
         return new HashMap<String,Object>(){{
             put("rows", requestPage.getRecords());

@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/4 14:31:29                            */
+/* Created on:     2021/8/4 16:07:31                            */
 /*==============================================================*/
 
 
@@ -295,12 +295,13 @@ create table ct_request
    ended_time           datetime comment '结束时间',
    type                 enum('1','2') comment '1. 卖出
             2. 采购',
-   status               enum('1','2','3','4','5') not null comment '需求状态
+   status               enum('1','2','3','4','5','6') not null comment '需求状态
             1. 草稿
-            2. 发布
-            3. 被摘取
-            4. 隐藏
-            5. 完成',
+            2. 审核中
+            3. 发布
+            4. 被摘取
+            5. 隐藏
+            6. 完成',
    detail               json comment '需求信息(JSON)',
    zp_id                bigint(20) comment '摘牌者ID',
    zp_detail            json comment '摘牌信息（JSON）',
