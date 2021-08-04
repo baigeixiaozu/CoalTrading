@@ -59,7 +59,7 @@ public class RequestController {
         }
         TokenProfile profile = ProfileHolder.getProfile();
         Set<String> roles = profile.getRoles();
-        // 根据用户角色设定需求类型
+        // 根据用户角色设定需求类型，检查提交的数据类型是否正确
         if(roles.contains("USER_SALE") && request.getDetail() instanceof SalePubData){
             // 供应商, 卖出
             request.setType(1);
@@ -82,6 +82,7 @@ public class RequestController {
             responseData.setCode(200);
             responseData.setMsg("success");
             responseData.setData(new HashMap<String, Long>(){{
+                // 需求ID
                 put("reqId", id);
             }});
         }
@@ -104,6 +105,16 @@ public class RequestController {
             responseData.setError("参数非法");
             responseData.setCode(21201);
             responseData.setMsg("fail");
+            return responseData;
+        }
+        TokenProfile profile = ProfileHolder.getProfile();
+        Set<String> roles = profile.getRoles();
+        // 根据用户角色检查提交的数据类型是否正确
+        if(!((roles.contains("USER_SALE") && request.getDetail() instanceof SalePubData)
+                || (roles.contains("USER_BUY") && request.getDetail() instanceof BuyPubData))){
+            responseData.setCode(201);
+            responseData.setMsg("fail");
+            responseData.setError("提交的数据与用户类型不符");
             return responseData;
         }
         int edit = requestService.edit(request);
