@@ -11,5 +11,5 @@ import java.io.IOException;
  * @Version 1.0
  **/
 public interface FileService {
-    ResponseData uploadFiles(MultipartFile[] multipartFile) throws IOException;
+    ResponseData uploadFiles(MultipartFile[] multipartFile,long userId) throws IOException;
 }

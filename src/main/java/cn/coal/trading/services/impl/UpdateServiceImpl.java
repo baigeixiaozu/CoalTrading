@@ -23,10 +23,11 @@ public class UpdateServiceImpl implements UpdateService {
     @Override
     public ResponseData updateUser(User user) {
         ResponseData response = new ResponseData();
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-        String password = encoder.encode(user.getPass());
-
-        user.setPass(password);
+        if(user.getPass()!=null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+            String password = encoder.encode(user.getPass());
+            user.setPass(password);
+        }
         int i = userMapper.updateById(user);
 
         if(i==1){

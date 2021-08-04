@@ -1,11 +1,14 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.ResponseData;
+import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.services.FileService;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,11 +19,14 @@ import java.nio.file.Files;
  * @Version 1.0
  **/
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl<userId> implements FileService {
+
+    @Resource
+    CompanyMapper companyMapper;
     @Value("${uploadFile.location}")
     private String uploadFileLocation;//上传文件保存的本地目录，使用@Value获取全局配置文件中配置的属性值
     @Override
-    public ResponseData uploadFiles(MultipartFile[] multipartFile) throws IOException {
+    public ResponseData uploadFiles(MultipartFile[] multipartFile,long userId) throws IOException {
 
         ResponseData response=new ResponseData();
         if (multipartFile == null) {
@@ -31,15 +37,26 @@ public class FileServiceImpl implements FileService {
 
             return response;
         }
+        String basePath=uploadFileLocation+userId+"\\";
+        File basePathDir=new File(basePath);
+        if(!basePathDir.exists()){
+            basePathDir.mkdir();
+        }
+        System.out.println(basePath+"--------");
+
         for(MultipartFile file:multipartFile) {
             String fileName = file.getOriginalFilename();
+            String filePath = basePath + fileName;
 
+            System.out.println("filePath"+filePath);
 
-            String filePath = uploadFileLocation + fileName;
             File target = new File(filePath);
             Files.copy(file.getInputStream(), target.toPath());
+
             System.out.println(target.getPath());
+
         }
+
 //        File saveFile = new File(uploadFileLocation, fileName);
 //        System.out.println("文件保存成功：" + saveFile.getPath());
 //

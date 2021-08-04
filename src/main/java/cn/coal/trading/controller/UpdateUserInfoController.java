@@ -5,6 +5,7 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.User;
 import cn.coal.trading.services.impl.UpdateServiceImpl;
 import com.baomidou.shaun.core.annotation.HasPermission;
+import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
@@ -25,7 +26,7 @@ public class UpdateUserInfoController {
      * @Version 1.0
      **/
 
-    @HasPermission(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
+    @HasRole(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
     @PatchMapping("/userinfo")
     public ResponseData updateUser(@RequestBody User user){
          TokenProfile profile= ProfileHolder.getProfile();

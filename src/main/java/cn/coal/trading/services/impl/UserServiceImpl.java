@@ -4,6 +4,7 @@ import cn.coal.trading.bean.*;
 import cn.coal.trading.mapper.*;
 import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -126,6 +127,11 @@ public class UserServiceImpl implements UserService {
 
 
     }
+    /**
+     * @Author Sorakado
+     * @Date 2021/7/30 23:10
+     * @Version 1.0
+     **/
 
     @Override
     public Map<String,String> financeAccount() {
@@ -171,6 +177,42 @@ public class UserServiceImpl implements UserService {
                 return map;
             }
         return null;
+    }
+
+    /**
+     * @Author Sorakado
+     * @Date 2021/8/3 23:10
+     * @Version 1.0
+     **/
+    @Override
+    public ResponseData getInfo(long id) {
+        ResponseData response = new ResponseData();
+        User user = userMapper.selectById(id);
+        Map<String,Object> map = new HashMap<>(7);
+
+
+        map.put("login",user.getLogin());
+        map.put("pass",user.getPass());
+        map.put("nick",user.getNick());
+        map.put("email",user.getEmail());
+        map.put("comName",user.getComInfo().getComName());
+
+        Role role = roleMapper.selectById(user.getRole());
+        map.put("userType",role.getName());
+
+        if(user!=null){
+            response.setCode(200);
+            response.setError("无");
+            response.setMsg("获取数据成功");
+            response.setData(map);
+        }
+        else{
+            response.setCode(404);
+            response.setError("资源，服务未找到");
+            response.setMsg("获取失败");
+            response.setData(null);
+        }
+        return response;
     }
 
 
