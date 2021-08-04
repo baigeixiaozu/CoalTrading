@@ -71,6 +71,6 @@ shaun:
     prefix: Bear
 
 uploadFile:
-  location: E:/ #自定义上传文件本地保存路径。默认E盘下
+  location: E:\\ #自定义上传文件本地保存路径。默认E盘下
 
 

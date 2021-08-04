@@ -48,6 +48,14 @@ public interface UserService {
      **/
     Map<String,String> financeAccount();
 
+    /**
+     * 获取登录用户的基本信息
+     * @Author Sorakado
+     * @Date 2021/8/3 22:57
+     * @Version 1.0
+     **/
+    ResponseData getInfo(long id);
+
 
 
 }

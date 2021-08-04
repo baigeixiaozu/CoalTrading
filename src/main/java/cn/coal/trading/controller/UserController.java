@@ -226,7 +226,7 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
-    @HasPermission(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
+    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
         TokenProfile profile=ProfileHolder.getProfile();
@@ -245,8 +245,9 @@ public class UserController {
     @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/uploadFile")
     public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
+        TokenProfile profile=ProfileHolder.getProfile();
 
-        ResponseData result = fileService.uploadFiles(multipartFile);
+        ResponseData result = fileService.uploadFiles(multipartFile,Long.parseLong(profile.getId()));
         return result;
     }
 
@@ -256,7 +257,7 @@ public class UserController {
      * @Version 1.0
      * 生成企业财务账户表和财务用户功能
      **/
-    @HasPermission(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
+    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
         TokenProfile profile=ProfileHolder.getProfile();
@@ -265,6 +266,12 @@ public class UserController {
         ResponseData result = userService.finance(finance);
         return result;
     }
-
+    @HasRole(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
+    @GetMapping("info")
+    public ResponseData getUserInfo(){
+        TokenProfile profile=ProfileHolder.getProfile();
+        ResponseData result = userService.getInfo(Long.parseLong(profile.getId()));
+        return result;
+    }
 
 }
