@@ -17,7 +17,7 @@ public interface RequestService {
      * @param limit     每页数量
      * @return          需求数据
      */
-    Map<String,Object> list(Integer userId, int page, int limit);
+    Map<String,Object> listAvailable(Integer userId, int page, int limit);
 
     /**
      * 新建需求

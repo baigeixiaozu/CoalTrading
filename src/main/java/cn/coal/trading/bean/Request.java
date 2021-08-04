@@ -28,7 +28,7 @@ public class Request {
     private Long userId;                    // 用户ID
     private Date createdTime;               // 创建时间
     private Integer type;                   // 需求类型[ 1.卖出| 2.采购]
-    private Integer status;                 // 需求状态[ 1.草稿| 2.发布| 3.被摘取| 4.隐藏| 5.完成]
+    private Integer status;                 // 需求状态[ 1.草稿| 2.审核中| 3.发布| 4.被摘取| 5.隐藏| 6.完成]
     private Long zpId;                      // 摘牌者ID
     private Object zpDetail;                // 摘牌信息（JSON）
     private String contractFile;            // 合同文件（路径）

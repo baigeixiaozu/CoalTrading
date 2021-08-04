@@ -26,11 +26,13 @@ public class RequestServiceImpl implements RequestService {
     ReqMapper reqMapper;
 
     @Override
-    public Map<String,Object> list(Integer userId, int page, int limit) {
-        Page<Request> requestPage = reqMapper.selectPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
+    public Map<String,Object> listAvailable(Integer userId, int page, int limit) {
+        Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             if(userId!=null){
                 eq("user_id",userId);
             }
+            eq("status", 3);
+            select("id", "userId", "createdTime", "type", "detail");
         }});
 
         return new HashMap<String,Object>(){{
