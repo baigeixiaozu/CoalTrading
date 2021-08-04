@@ -22,4 +22,6 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
 
     @Update("update ct_company set status=#{i} where user_id=#{id}")
     int verify(Long id,int i);
+    @Select("select  com_zip from ct_company where id=#{id}")
+    String download(long id);
 }

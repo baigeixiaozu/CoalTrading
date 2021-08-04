@@ -90,6 +90,15 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.12.3</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.54</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 
 	</dependencies>
 	<pluginRepositories>
