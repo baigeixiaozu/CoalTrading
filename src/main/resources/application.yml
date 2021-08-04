@@ -58,11 +58,14 @@ shaun:
     - /favicon.ico
     - /user/register
     - /user/getRoleList/user
+
+
     - /news/show
-    - /request/list
+    - /news/publish
   exclude-branch: # 排除以此路径开头
     - /webjars
-    - /update
+    - /request
+
     - /info
     - /news/detail
     - /news/more
@@ -72,6 +75,6 @@ shaun:
     prefix: Bear
 
 uploadFile:
-  location: E:\\ #自定义上传文件本地保存路径。默认E盘下
+  location: E:/ #自定义上传文件本地保存路径。默认E盘下
 
 

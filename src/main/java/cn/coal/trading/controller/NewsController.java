@@ -97,8 +97,8 @@ public class NewsController {
     }
 
     //发布资讯
-    @GetMapping("/publish/{newsContent}")
-    public Map<String,Object> pushNews(@PathVariable("newsContent") String content){
+    @PostMapping("/publish")
+    public Map<String,Object> pushNews(@RequestBody HashMap<String,Object> content){
         try{
             TokenProfile profile=ProfileHolder.getProfile();
             Long authorId=Long.parseLong(profile.getId());
