@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/3 19:12:50                            */
+/* Created on:     2021/8/4 14:31:29                            */
 /*==============================================================*/
 
 
@@ -289,7 +289,7 @@ create unique index Index_pri on ct_permissions
 /*==============================================================*/
 create table ct_request
 (
-   id                   bigint(20) not null comment '需求ID',
+   id                   bigint(20) not null auto_increment comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
