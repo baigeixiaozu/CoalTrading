@@ -57,7 +57,6 @@ public class RequestController {
         if ( request.getId()!=null
                 || request.getUserId()!=null
                 || request.getZpId()!=null
-                || request.getZpDetail()!=null
                 || request.getType() != null){
             responseData.setError("参数非法");
             responseData.setCode(21201);
@@ -107,7 +106,6 @@ public class RequestController {
         if ( request.getId()==null
                 || request.getUserId()!=null
                 || request.getZpId()!=null
-                || request.getZpDetail()!=null
                 || request.getType() != null){
             responseData.setError("参数非法");
             responseData.setCode(21201);
