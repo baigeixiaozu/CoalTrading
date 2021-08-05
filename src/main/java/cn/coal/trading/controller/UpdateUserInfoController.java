@@ -2,6 +2,7 @@ package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.ResponseData;
+import cn.coal.trading.bean.Role;
 import cn.coal.trading.bean.User;
 import cn.coal.trading.services.impl.UpdateServiceImpl;
 import com.baomidou.shaun.core.annotation.HasPermission;
@@ -24,6 +25,7 @@ public class UpdateUserInfoController {
      * @Author Sorakado
      * @Date 2021/8/2 23:04
      * @Version 1.0
+     * 修改用户的基本信息
      **/
 
     @HasRole(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
@@ -32,6 +34,7 @@ public class UpdateUserInfoController {
          TokenProfile profile= ProfileHolder.getProfile();
          user.setId((long)Integer.parseInt(profile.getId()));
         //user.setId(15L);
+
         ResponseData result = updateService.updateUser(user);
         return result;
     }

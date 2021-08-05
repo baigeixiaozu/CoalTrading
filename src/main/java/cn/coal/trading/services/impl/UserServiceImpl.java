@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
 
 
+
     @Autowired
     private CompanyMapper companyMapper;
 
@@ -183,8 +184,11 @@ public class UserServiceImpl implements UserService {
      * @Author Sorakado
      * @Date 2021/8/3 23:10
      * @Version 1.0
+     * 获取用户基本信息
      **/
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseData getInfo(long id) {
         ResponseData response = new ResponseData();
         User user = userMapper.selectById(id);
@@ -192,12 +196,20 @@ public class UserServiceImpl implements UserService {
 
 
         map.put("login",user.getLogin());
-        map.put("pass",user.getPass());
+
         map.put("nick",user.getNick());
         map.put("email",user.getEmail());
-        map.put("comName",user.getComInfo().getComName());
 
-        Role role = roleMapper.selectById(user.getRole());
+
+
+
+
+        QueryWrapper<UserRoleBinding> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",id);
+        UserRoleBinding userRoleBinding = userRoleMapper.selectOne(wrapper);
+
+        Role role = roleMapper.selectById(userRoleBinding.getRoleId());
+
         map.put("userType",role.getName());
 
         if(user!=null){
@@ -220,6 +232,7 @@ public class UserServiceImpl implements UserService {
      * @Author Sorakado
      * @Date 2021/7/31 23:10
      * @Version 1.0
+     * 完善企业信息
      **/
     @Transactional(rollbackFor = Exception.class)
     @Override

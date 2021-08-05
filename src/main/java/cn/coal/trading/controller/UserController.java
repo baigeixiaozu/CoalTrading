@@ -266,6 +266,12 @@ public class UserController {
         ResponseData result = userService.finance(finance);
         return result;
     }
+    /**
+     * @Author Sorakado
+     * @Date 2021/8/4 10:47
+     * @Version 1.0
+     * 获取登录用户的基本信息
+     **/
     @HasRole(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
     @GetMapping("info")
     public ResponseData getUserInfo(){
