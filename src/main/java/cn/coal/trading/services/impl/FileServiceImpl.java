@@ -23,7 +23,7 @@ public class FileServiceImpl<userId> implements FileService {
 
     @Resource
     CompanyMapper companyMapper;
-    @Value("${uploadFile.location}")
+    @Value("${ct.uploadFile.location}")
     private String uploadFileLocation;//上传文件保存的本地目录，使用@Value获取全局配置文件中配置的属性值
     @Override
     public ResponseData uploadFiles(MultipartFile[] multipartFile,long userId) throws IOException {
