@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/4 16:07:31                            */
+/* Created on:     2021/8/5 18:16:48                            */
 /*==============================================================*/
 
 
@@ -289,7 +289,7 @@ create unique index Index_pri on ct_permissions
 /*==============================================================*/
 create table ct_request
 (
-   id                   bigint(20) not null auto_increment comment '需求ID',
+   id                   bigint(20) not null comment '需求ID',
    user_id              bigint(20) comment '用户ID',
    created_time         datetime comment '创建时间',
    ended_time           datetime comment '结束时间',
@@ -303,9 +303,10 @@ create table ct_request
             5. 隐藏
             6. 完成',
    detail               json comment '需求信息(JSON)',
-   zp_id                bigint(20) comment '摘牌者ID',
-   zp_detail            json comment '摘牌信息（JSON）',
+   zp_id                bigint(20) comment '最终摘牌信息ID（摘牌表--摘牌ID）',
    contract_file        varchar(255) comment '合同文件（路径）',
+   audit_opinion        varchar(255) comment '审核意见',
+   deposit              decimal(10,2) comment '挂牌保证金',
    primary key (id)
 )
 engine = InnoDB;
@@ -512,6 +513,39 @@ create index Index_to_userid on ct_website_message
    to_userid
 );
 
+/*==============================================================*/
+/* Table: ct_zp                                                 */
+/*==============================================================*/
+create table ct_zp
+(
+   id                   bigint(20) not null auto_increment comment '摘牌ID',
+   req_id               bigint(20) comment '需求ID',
+   user_id              bigint(20) comment '摘牌用户ID',
+   deposit              decimal(10,2) comment '摘牌保证金数额',
+   status               enum('1','2','3') comment '摘牌状态
+            1. 等待交保证金
+            2. 成功
+            3. 失败（被抢先摘牌）',
+   primary key (id)
+)
+engine = InnoDB;
+
+/*==============================================================*/
+/* Index: Index_ZP_USER_ID                                      */
+/*==============================================================*/
+create index Index_ZP_USER_ID on ct_zp
+(
+   user_id
+);
+
+/*==============================================================*/
+/* Index: Index_ZP_REQ_ID                                       */
+/*==============================================================*/
+create index Index_ZP_REQ_ID on ct_zp
+(
+   req_id
+);
+
 alter table ct_company add constraint FK_CU_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
@@ -536,11 +570,14 @@ alter table ct_order add constraint FK_ORDER_REF_REQ foreign key (req_id)
 alter table ct_order add constraint FK_ORDER_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
-alter table ct_request add constraint FK_REQ_REF_USER_1 foreign key (user_id)
+alter table ct_request add constraint FK_REQ_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_request add constraint FK_REQ_REF_USER_2 foreign key (zp_id)
       references ct_users (id) on delete restrict on update restrict;
+
+alter table ct_request add constraint FK_RZ_REF_ZP foreign key (zp_id)
+      references ct_zp (id) on delete restrict on update restrict;
 
 alter table ct_role_permission_relationships add constraint FK_RP_REF_PERMISSION foreign key (permission_id)
       references ct_permissions (id) on delete restrict on update restrict;
