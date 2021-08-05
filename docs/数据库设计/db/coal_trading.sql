@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/5 18:16:48                            */
+/* Created on:     2021/8/5 18:44:00                            */
 /*==============================================================*/
 
 
@@ -526,6 +526,7 @@ create table ct_zp
             1. 等待交保证金
             2. 成功
             3. 失败（被抢先摘牌）',
+   opinion              varchar(255) comment '审核意见',
    primary key (id)
 )
 engine = InnoDB;
