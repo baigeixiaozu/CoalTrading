@@ -199,10 +199,6 @@ public class UserServiceImpl implements UserService {
         map.put("nick",user.getNick());
         map.put("email",user.getEmail());
 
-
-
-
-
         QueryWrapper<UserRoleBinding> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",id);
         UserRoleBinding userRoleBinding = userRoleMapper.selectOne(wrapper);

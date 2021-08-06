@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/5 18:44:00                            */
+/* Created on:     2021/8/6 14:33:48                            */
 /*==============================================================*/
 
 
@@ -289,19 +289,20 @@ create unique index Index_pri on ct_permissions
 /*==============================================================*/
 create table ct_request
 (
-   id                   bigint(20) not null comment '需求ID',
+   id                   bigint(20) not null auto_increment comment '需求ID',
    user_id              bigint(20) comment '用户ID',
-   created_time         datetime comment '创建时间',
+   created_time         datetime default CURRENT_TIMESTAMP comment '创建时间',
    ended_time           datetime comment '结束时间',
    type                 enum('1','2') comment '1. 卖出
             2. 采购',
-   status               enum('1','2','3','4','5','6') not null comment '需求状态
+   status               enum('1','2','3','4','5','6', '7') not null comment '需求状态
             1. 草稿
             2. 审核中
             3. 发布
             4. 被摘取
             5. 隐藏
-            6. 完成',
+            6. 完成
+            7. 审核不通过（驳回）',
    detail               json comment '需求信息(JSON)',
    zp_id                bigint(20) comment '最终摘牌信息ID（摘牌表--摘牌ID）',
    contract_file        varchar(255) comment '合同文件（路径）',
