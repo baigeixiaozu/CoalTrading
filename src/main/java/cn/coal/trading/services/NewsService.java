@@ -29,4 +29,7 @@ public interface NewsService {
 
     //发布资讯
     News setOneNews(News content, Long authorId) throws JsonProcessingException;
+
+    //存草稿
+    News setOneDraft(News content, Long authorId);
 }

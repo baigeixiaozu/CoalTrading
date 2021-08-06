@@ -115,8 +115,30 @@ public class NewsController {
         }
     }
 
-    //审核资讯
-/*    @GetMapping("/audit")
+    //存草稿
+    @PostMapping("/draft")
+    public  Map<String,Object> saveDraft(@RequestBody News news){
+        try{
+            TokenProfile profile=ProfileHolder.getProfile();
+            Long authorId=Long.parseLong(profile.getId());
+            newsService.setOneDraft(news,authorId);
+
+            return new HashMap<String,Object>(){{
+                put("code", 200);
+                put("msg", "success");
+            }};
+        }
+        catch (Exception e){
+            return new HashMap<String,Object>(){{
+                put("code", 204);//204代码：操作成功执行，但没有返回数据
+                put("msg", "error");
+                put("error","save draft failed");
+            }};
+        }
+    }
+
+    //审核资讯通过
+/*    @GetMapping("/newsPass")
     public Map<String,Object> auditNews()*/
 
 }
