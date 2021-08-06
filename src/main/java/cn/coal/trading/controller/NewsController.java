@@ -95,16 +95,15 @@ public class NewsController {
 
     //发布资讯
     @PostMapping("/publish")
-    public Map<String,Object> pushNews(@RequestBody HashMap<String,Object> content){
+    public Map<String,Object> pushNews(@RequestBody News news){
         try{
             TokenProfile profile=ProfileHolder.getProfile();
             Long authorId=Long.parseLong(profile.getId());
-            News news= newsService.setOneNews(content,authorId);
+            newsService.setOneNews(news,authorId);
 
             return new HashMap<String,Object>(){{
-                put("code", 200);
+                put("code", 200);  
                 put("msg", "success");
-                put("infoList", news);
             }};
         }
         catch (Exception e){
@@ -115,5 +114,9 @@ public class NewsController {
             }};
         }
     }
+
+    //审核资讯
+/*    @GetMapping("/audit")
+    public Map<String,Object> auditNews()*/
 
 }

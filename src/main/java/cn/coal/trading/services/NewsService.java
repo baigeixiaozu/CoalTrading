@@ -28,5 +28,5 @@ public interface NewsService {
     List<News> getNewsByTitle(String title);
 
     //发布资讯
-    News setOneNews(HashMap<String,Object> content, Long authorId) throws JsonProcessingException;
+    News setOneNews(News content, Long authorId) throws JsonProcessingException;
 }

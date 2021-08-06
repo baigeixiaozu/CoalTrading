@@ -58,7 +58,6 @@ shaun:
     - /user/register
     - /user/getRoleList/user
     - /news/show
-    - /news/publish
     - /request/list   # 需求列表
   exclude-branch: # 排除以此路径开头
     - /webjars

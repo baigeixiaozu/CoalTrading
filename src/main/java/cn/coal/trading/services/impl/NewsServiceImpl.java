@@ -75,19 +75,16 @@ public class NewsServiceImpl implements NewsService {
 
     //发布资讯
     @Override
-    public News setOneNews(HashMap<String,Object> content, Long authorId) throws JsonProcessingException {
+    public News setOneNews(News content, Long authorId) throws JsonProcessingException {
         /*QueryWrapper<News> wrapper=new QueryWrapper<>();*/
         ObjectMapper mapper=new ObjectMapper();
-        News news=new News();
-        Long Id=2L;//测试用，接口跑通后删除
-        news.setTitle((String) content.get("title"));
-        news.setContent((String)content.get("content"));
-        news.setStatus(2);//刚发布的资讯还处于审查中状态
-        news.setAuditorId(0L);
-        news.setAuthorId(Id);
+        //Long Id=2L;//测试用，接口跑通后删除
+        content.setStatus(2);//刚发布的资讯还处于审查中状态
+        content.setAuditorId(3L);
+        content.setAuthorId(authorId);
 
-        newsMapper.insert(news);
-        return news;
+        newsMapper.insert(content);
+        return content;
     }
 
 }
