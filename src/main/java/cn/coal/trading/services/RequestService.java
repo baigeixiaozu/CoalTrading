@@ -60,7 +60,7 @@ public interface RequestService {
      * @param userId
      * @return
      */
-    Request auditDetail(long req_id, long userId);
+    Request auditDetail(long req_id);
     /**
      * 审核需求
      * @param request     需求信息

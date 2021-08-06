@@ -50,19 +50,14 @@ public class RequestController {
      */
     @PostMapping("/publish")
     @HasRole({"USER_SALE", "USER_BUY"})
-    public ResponseData publish(@RequestBody Request request){
+    public ResponseData publish(@RequestBody Request req){
         ResponseData responseData = new ResponseData();
 
-        // 挂牌参数校验
-        if ( request.getId()!=null
-                || request.getUserId()!=null
-                || request.getZpId()!=null
-                || request.getType() != null){
-            responseData.setError("参数非法");
-            responseData.setCode(21201);
-            responseData.setMsg("fail");
-            return responseData;
-        }
+        // 挂牌参数处理（为保证安全，仅提取需要的数据）
+        Request request = new Request(){{
+            setStatus(req.isPublish()?2:1);     // 1. 草稿  2. 发布待审核
+            setDetail(req.getDetail());
+        }};
         TokenProfile profile = ProfileHolder.getProfile();
         Set<String> roles = profile.getRoles();
         // 根据用户角色设定需求类型，检查提交的数据类型是否正确
@@ -100,18 +95,16 @@ public class RequestController {
      */
     @PostMapping("/edit")
     @HasRole({"USER_SALE", "USER_BUY"})
-    public ResponseData edit(@RequestBody Request request){
+    public ResponseData edit(@RequestBody Request req){
         ResponseData responseData = new ResponseData();
-        // 挂牌参数校验
-        if ( request.getId()==null
-                || request.getUserId()!=null
-                || request.getZpId()!=null
-                || request.getType() != null){
-            responseData.setError("参数非法");
-            responseData.setCode(21201);
-            responseData.setMsg("fail");
-            return responseData;
-        }
+
+        // 挂牌参数处理（为保证安全，仅提取需要的数据）
+        Request request = new Request(){{
+            setId(req.getId());
+            setStatus(req.isPublish()?2:1);     // 1. 草稿  2. 发布待审核
+            setDetail(req.getDetail());
+        }};
+
         TokenProfile profile = ProfileHolder.getProfile();
         Set<String> roles = profile.getRoles();
         // 根据用户角色检查提交的数据类型是否正确
@@ -169,12 +162,10 @@ public class RequestController {
 
     @GetMapping("/audit/detail/{request_id}")
     @HasRole("TRADE_AUDITOR")
-    public ResponseData auditDeatil(@PathVariable long request_id){
+    public ResponseData auditDetail(@PathVariable long request_id){
         ResponseData response = new ResponseData();
-        TokenProfile profile = ProfileHolder.getProfile();
-        String id = profile.getId();
 
-        Request request = requestService.auditDetail(request_id, Long.parseLong(id));
+        Request request = requestService.auditDetail(request_id);
         response.setData(request);
         response.setMsg("success");
         response.setCode(200);
@@ -183,7 +174,7 @@ public class RequestController {
     /**
      * 审核操作
      */
-    @GetMapping("/audit/do/{req_id}")
+    @PostMapping("/audit/do/{req_id}")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditDo(@RequestBody Map<String, Object> request, @PathVariable long req_id) {
         ResponseData response = new ResponseData();

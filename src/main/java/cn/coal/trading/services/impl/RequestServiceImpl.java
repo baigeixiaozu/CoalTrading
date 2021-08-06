@@ -32,7 +32,7 @@ public class RequestServiceImpl implements RequestService {
                 eq("user_id",userId);
             }
             eq("status", 3);
-            select("id", "userId", "createdTime", "type", "detail");
+            select("id", "user_id", "created_time", "type", "detail");
         }});
 
         return new HashMap<String,Object>(){{
@@ -87,10 +87,10 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Request auditDetail(long req_id, long userId) {
+    public Request auditDetail(long req_id) {
         return reqMapper.selectOne(new QueryWrapper<Request>() {{
             eq("id", req_id);
-            eq("user_id", userId);
+            eq("status", 2);        // 待审核状态
         }});
     }
 
