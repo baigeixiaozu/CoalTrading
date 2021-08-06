@@ -4,6 +4,7 @@ import cn.coal.trading.bean.Request;
 import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
@@ -55,6 +56,7 @@ public class RequestServiceImpl implements RequestService {
         return reqMapper.update(request, new QueryWrapper<Request>(){{
             eq("user_id", Long.parseLong(profile.getId()));
             eq("id", request.getId());
+            eq("status", 1);        // 草稿状态才能编辑
         }});
     }
 
@@ -69,5 +71,36 @@ public class RequestServiceImpl implements RequestService {
             put("current", requestPage.getCurrent());
             put("pages", requestPage.getPages());
         }};
+    }
+
+    @Override
+    public Map<String, Object> auditPending(int page, int limit) {
+        Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
+            eq("status", 2);
+            select("id", "created_time");
+        }});
+        return new HashMap<String,Object>(){{
+            put("rows", requestPage.getRecords());
+            put("current", requestPage.getCurrent());
+            put("pages", requestPage.getPages());
+        }};
+    }
+
+    @Override
+    public Request auditDetail(long req_id, long userId) {
+        return reqMapper.selectOne(new QueryWrapper<Request>() {{
+            eq("id", req_id);
+            eq("user_id", userId);
+        }});
+    }
+
+    @Override
+    public boolean doAudit(Request request) {
+        int i = reqMapper.update(request, new UpdateWrapper<Request>(){{
+            eq("id", request.getId());
+            eq("status", 2);        // 2 审核中
+
+        }});
+        return i == 1;
     }
 }

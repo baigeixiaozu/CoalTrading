@@ -194,7 +194,6 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectById(id);
         Map<String,Object> map = new HashMap<>(7);
 
-
         map.put("login",user.getLogin());
 
         map.put("nick",user.getNick());

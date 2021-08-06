@@ -43,4 +43,28 @@ public interface RequestService {
      * @return
      */
     Map<String,Object> myList(Long userId, int page, int limit);
+
+    /**
+     * 待审核需求列表
+     *
+     * @param page
+     * @param limit
+     * @return
+     */
+    Map<String, Object> auditPending(int page, int limit);
+
+    /**
+     * 未审核需求的详情
+     *
+     * @param req_id
+     * @param userId
+     * @return
+     */
+    Request auditDetail(long req_id, long userId);
+    /**
+     * 审核需求
+     * @param request     需求信息
+     * @return
+     */
+    boolean doAudit(Request request);
 }

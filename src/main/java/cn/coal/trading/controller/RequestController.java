@@ -28,7 +28,7 @@ public class RequestController {
     RequestService requestService;
 
     /**
-     * 获取可用的需求
+     * 首页获取可用的需求
      *
      * @param userId    null全部|ID指定用户
      * @param page      页码
@@ -45,7 +45,7 @@ public class RequestController {
     }
 
     /**
-     * 需求发布，草稿
+     * 需求发布（待审核），草稿
      *
      */
     @PostMapping("/publish")
@@ -133,6 +133,13 @@ public class RequestController {
         return responseData;
     }
 
+    /**
+     * 我的需求
+     *
+     * @param page
+     * @param limit
+     * @return
+     */
     @GetMapping("/my")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData my(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
@@ -145,4 +152,52 @@ public class RequestController {
         responseData.setData(myList);
         return responseData;
     }
+
+    /**
+     * 待审核需求列表
+     */
+    @GetMapping("/audit/pending")
+    @HasRole("TRADE_AUDITOR")
+    public ResponseData auditPending(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+        ResponseData response = new ResponseData();
+        Map<String, Object> auditList = requestService.auditPending(page, limit);
+        response.setCode(200);
+        response.setMsg("success");
+        response.setData(auditList);
+        return response;
+    }
+
+    @GetMapping("/audit/detail/{request_id}")
+    @HasRole("TRADE_AUDITOR")
+    public ResponseData auditDeatil(@PathVariable long request_id){
+        ResponseData response = new ResponseData();
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+
+        Request request = requestService.auditDetail(request_id, Long.parseLong(id));
+        response.setData(request);
+        response.setMsg("success");
+        response.setCode(200);
+        return response;
+    }
+    /**
+     * 审核操作
+     */
+    @GetMapping("/audit/do/{req_id}")
+    @HasRole("TRADE_AUDITOR")
+    public ResponseData auditDo(@RequestBody Map<String, Object> request, @PathVariable long req_id) {
+        ResponseData response = new ResponseData();
+        String opinion = (String) request.get("opinion");
+        boolean accept = (boolean) request.get("accept");
+        Request req = new Request(){{
+            setId(req_id);
+            setStatus(accept?3:7);
+            setOpinion(opinion);
+        }};
+        boolean b = requestService.doAudit(req);
+        response.setCode(b?200:151201);
+        response.setMsg(b?"success":"fail");
+        return response;
+    }
+
 }
