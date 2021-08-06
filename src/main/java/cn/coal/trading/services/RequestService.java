@@ -1,6 +1,7 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.Request;
+import cn.coal.trading.bean.ResponseData;
 
 import java.util.Map;
 
@@ -67,4 +68,21 @@ public interface RequestService {
      * @return
      */
     boolean doAudit(Request request);
+    /**
+     * 获取详细需求
+     * @param id    需求id
+     * @return
+     */
+    Request getReqDetails(int id);
+
+
+    /**
+     * 摘牌功能
+     * @param userId, requestId
+     * @return
+     */
+    ResponseData delist(long userId,int requestId);
+
+
+
 }

@@ -1,6 +1,7 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.Request;
+import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -102,5 +103,26 @@ public class RequestServiceImpl implements RequestService {
 
         }});
         return i == 1;
+    }
+
+    /**
+     * @author Sorakado
+     * @param id    需求id
+     * @return Request
+     */
+
+    @Override
+    public Request getReqDetails(int id) {
+        Request request = reqMapper.selectById(id);
+        return request;
+    }
+
+    @Override
+    public ResponseData delist(long id, int requestId){
+        ResponseData response = new ResponseData();
+
+
+
+        return response;
     }
 }

@@ -6,6 +6,7 @@ import cn.coal.trading.bean.reqdata.BuyPubData;
 import cn.coal.trading.bean.reqdata.SalePubData;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.web.bind.annotation.*;
@@ -189,6 +190,49 @@ public class RequestController {
         response.setCode(b?200:151201);
         response.setMsg(b?"success":"fail");
         return response;
+    }
+
+
+    /**
+     * @author Sorakado
+     * @time 2021/8/6/ 23:20
+     * @version 1.0
+     * 获取指定的详细需求
+     */
+    @PostMapping("/detail")
+    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
+    public ResponseData getDetail(@RequestParam int request_id){
+        ResponseData response = new ResponseData();
+
+        Request reqDetails = requestService.getReqDetails(request_id);
+        if(reqDetails!=null){
+            response.setData(reqDetails);
+            response.setCode(200);
+            response.setMsg("资源操作成功");
+            response.setError("无");
+        }else
+        {
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("不存在该订单的详细信息！");
+            response.setError("资源，服务未找到");
+        }
+        return response;
+    }
+    /**
+     * @author Sorakado
+     * @time 2021/8/6/ 23:20
+     * @version 1.0
+     * 摘牌功能
+     */
+    @PostMapping("/delist")
+    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
+    public ResponseData delistRequest(@RequestParam int requestId){
+        TokenProfile profile=ProfileHolder.getProfile();
+
+
+        ResponseData result = requestService.delist(Long.parseLong(profile.getId()), requestId);
+        return result;
     }
 
 }
