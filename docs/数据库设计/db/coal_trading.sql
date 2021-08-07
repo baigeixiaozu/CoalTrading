@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/6 16:26:36                            */
+/* Created on:     2021/8/8 7:55:01                             */
 /*==============================================================*/
 
 
@@ -117,18 +117,19 @@ create unique index Index_main_userid on ct_finance
 /*==============================================================*/
 create table ct_finance_log
 (
-   user_id              bigint(20) not null comment '用户ID',
+   user_id              bigint(20) not null comment '财务用户ID',
    date                 datetime default CURRENT_TIMESTAMP comment '变动时间',
-   log_type             enum('1','2','3') comment '变动操作：
+   type                 enum('1','2','3') comment '变动操作：
             1. 预存（增加）
             2. 缴纳给平台（冻结）
             3. 平台扣除指定额度的冻结款项（减少）
             ',
    quantity             decimal(10,2) comment '金额数量',
-   cert                 varchar(255) comment '交易凭证（文件）',
    primary key (user_id)
 )
 engine = InnoDB;
+
+alter table ct_finance_log comment '资金变动记录表';
 
 /*==============================================================*/
 /* Index: Index_user_id                                         */
@@ -143,7 +144,35 @@ create index Index_user_id on ct_finance_log
 /*==============================================================*/
 create index Index_log_type on ct_finance_log
 (
-   log_type
+   type
+);
+
+/*==============================================================*/
+/* Table: ct_finance_store                                      */
+/*==============================================================*/
+create table ct_finance_store
+(
+   id                   bigint(20) not null auto_increment comment '预存ID',
+   user_id              bigint(20) not null comment '财务用户ID',
+   date                 datetime default CURRENT_TIMESTAMP comment '变动时间',
+   quantity             decimal(10,2) comment '金额数量',
+   cert                 varchar(255) comment '交易凭证（文件）',
+   status               enum('1','2','3') comment '预存状态：
+            1. 待审核
+            2. 驳回（审核不通过）
+            3. 审核通过',
+   primary key (id)
+)
+engine = InnoDB;
+
+alter table ct_finance_store comment '资金预存表';
+
+/*==============================================================*/
+/* Index: Index_user_id                                         */
+/*==============================================================*/
+create index Index_user_id on ct_finance_store
+(
+   user_id
 );
 
 /*==============================================================*/
@@ -168,6 +197,8 @@ create table ct_news
    primary key (id)
 )
 engine = InnoDB;
+
+alter table ct_news comment '新闻资讯表';
 
 INSERT INTO ct_news(id, title, content, status, author_id, auditor_id)
 VALUES
@@ -203,6 +234,8 @@ create table ct_order
    primary key (id)
 )
 engine = InnoDB;
+
+alter table ct_order comment '订单表';
 
 /*==============================================================*/
 /* Index: Index_user_id                                         */
@@ -247,10 +280,10 @@ create table ct_permissions
 )
 engine = InnoDB;
 
-alter table ct_permissions comment '权限：
-1. 资讯编辑权限
-2. 资讯审核权限
-3. 资讯维护权限
+alter table ct_permissions comment '权限表：
+1. 超级管理员
+2. 资讯编辑权限
+3. 资讯审核权限
 4.';
 
 /*
@@ -264,7 +297,8 @@ alter table ct_permissions comment '权限：
 7. 用户创建权限
 8. 挂牌权限
 9. 挂牌权限
-10.信息编辑权限
+10.财务权限
+11.信息编辑权限
 */
 INSERT INTO ct_permissions VALUES(1, "SUPER_ADMIN"),
 (2, "NEWS_EDITOR"),
@@ -274,7 +308,8 @@ INSERT INTO ct_permissions VALUES(1, "SUPER_ADMIN"),
 (6, "TRADE_AUDITOR"),
 (7, "USER_ADD"),
 (8, "PUB_SALE"),
-(9, "PUB_BUY");
+(9, "PUB_BUY"),
+(10, "FINANCE_MAG");
 
 /*==============================================================*/
 /* Index: Index_pri                                             */
@@ -295,7 +330,7 @@ create table ct_request
    ended_time           datetime comment '结束时间',
    type                 enum('1','2') comment '1. 卖出
             2. 采购',
-   status               enum('1','2','3','4','6', '7','8','9','10','11') not null comment '需求状态
+   status               enum('1','2','3','4','6', '7','8','9','10','11','12') not null comment '需求状态
             1. 草稿
             2. 审核中
             3. 发布
@@ -305,7 +340,8 @@ create table ct_request
             8. 等待上传合同
             9. 合同已上传，等待确认
             10. 合同被拒绝
-            11. 合同被确认，同时生成订单',
+            11. 合同被确认，同时生成订单
+            12. 交易完成',
    detail               json comment '需求信息(JSON)',
    zp_id                bigint(20) comment '最终摘牌信息ID（摘牌表--摘牌ID）',
    contract_file        varchar(255) comment '合同文件（路径）',
@@ -314,6 +350,8 @@ create table ct_request
    primary key (id)
 )
 engine = InnoDB;
+
+alter table ct_request comment '挂牌需求表';
 
 /*==============================================================*/
 /* Index: Index_req_id                                          */
@@ -334,18 +372,20 @@ create table ct_role_permission_relationships
 )
 engine = InnoDB;
 
-alter table ct_role_permission_relationships comment '1个角色可以对应1个权限';
+alter table ct_role_permission_relationships comment '角色权限关联表
+1个角色可以对应多个权限';
 
 /*role_id, permission*/
-INSERT INTO ct_role_permission_relationships VALUES(1,1);
-INSERT INTO ct_role_permission_relationships VALUES(1,7);
-INSERT INTO ct_role_permission_relationships VALUES(2,2);
-INSERT INTO ct_role_permission_relationships VALUES(3,3);
-INSERT INTO ct_role_permission_relationships VALUES(4,4);
-INSERT INTO ct_role_permission_relationships VALUES(5,5);
-INSERT INTO ct_role_permission_relationships VALUES(6,6);
-INSERT INTO ct_role_permission_relationships VALUES(7,8);
-INSERT INTO ct_role_permission_relationships VALUES(8,9);
+INSERT INTO ct_role_permission_relationships VALUES(1,1),
+(1,7),
+(2,2),
+(3,3),
+(4,4),
+(5,5),
+(6,6),
+(7,8),
+(8,9),
+(9,10);
 
 /*==============================================================*/
 /* Index: Index_role_pri_id                                     */
@@ -366,6 +406,8 @@ create table ct_user_role_relationships
    primary key (role_id, user_id)
 )
 engine = InnoDB;
+
+alter table ct_user_role_relationships comment '用户角色关联表';
 
 INSERT INTO ct_user_role_relationships(`user_id`, `role_id`) 
 VALUES(1, 1),(2,2),(3,3),(4,4),(5,5),(6,6),(7, 7),(8,9),(9,8),(10,9);
@@ -399,10 +441,11 @@ create table ct_userrole
 )
 engine = InnoDB;
 
-alter table ct_userrole comment '1. 几种管理员：
+alter table ct_userrole comment '角色表
+1. 几种管理员：
      a. 资讯编辑员
      b. 资讯审核员
-    ';
+';
 
 /*
 1. 几种管理员：
@@ -454,7 +497,8 @@ create table ct_users
 )
 engine = InnoDB;
 
-alter table ct_users comment '存储的用户类型：
+alter table ct_users comment '用户表
+存储的用户类型：
 1. 管理员
 2. 交易用户
 3. 财务用户
@@ -561,6 +605,9 @@ alter table ct_finance add constraint FK_FU_REF_USER_2 foreign key (finance_user
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_finance_log add constraint FK_FL_REF_USER foreign key (user_id)
+      references ct_users (id) on delete restrict on update restrict;
+
+alter table ct_finance_store add constraint FK_UF_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
 alter table ct_news add constraint FK_NEWS_REF_USER_1 foreign key (author_id)
