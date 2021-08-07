@@ -49,7 +49,7 @@ shaun:
   stateless: true # 默认 true,表示是前后端分离的
   session-on: false # 默认 false,表示不用session(会影响pac4j的类对session的操作)
   login-url: /user/login # 如果配置,则会加入 exclude-path 内,前后端不分离下鉴权失败会被重定向到此
-  token-location: header # 默认 header,token 的存取位置
+  token-location: HEADER_OR_PARAMETER # 默认 header,token 的存取位置
   exclude-path: # 排除具体的路径
     - /v2/api-docs
     - /swagger-resources
@@ -67,10 +67,10 @@ shaun:
   expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization
-    prefix: Bear
+    prefix: Bearer
 
 ct:
   uploadFile:
-    location: E:/
+    location: D:/temp/
 
 

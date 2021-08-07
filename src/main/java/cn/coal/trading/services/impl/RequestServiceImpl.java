@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -125,4 +126,19 @@ public class RequestServiceImpl implements RequestService {
 
         return response;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateContract(long reqId, long userId, String contractPath) {
+        int update = reqMapper.update(new Request(), new UpdateWrapper<Request>() {{
+            eq("id", reqId);
+            eq("user_id", userId);
+            eq("status", "" + 8).or().eq("status", "" + 10);
+            set("contract_file", contractPath);
+            set("status", 9);
+        }});
+        return update == 1;
+    }
+
+
 }

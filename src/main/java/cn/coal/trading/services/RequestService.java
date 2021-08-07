@@ -62,12 +62,22 @@ public interface RequestService {
      * @return
      */
     Request auditDetail(long req_id);
+
     /**
      * 审核需求
      * @param request     需求信息
      * @return
      */
     boolean doAudit(Request request);
+
+    /**
+     * 更新合同文件路径
+     * @param reqId             需求ID
+     * @param contractPath      合同路径
+     * @return                  是否成功
+     */
+    boolean updateContract(long reqId, long userId, String contractPath);
+
     /**
      * 获取详细需求
      * @param id    需求id

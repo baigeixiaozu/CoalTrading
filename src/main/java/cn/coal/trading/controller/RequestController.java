@@ -9,9 +9,18 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +36,9 @@ public class RequestController {
 
     @Resource
     RequestService requestService;
+
+    @Value("${ct.uploadFile.location}")
+    private String BASE_STORE_PATH;
 
     /**
      * 首页获取可用的需求
@@ -172,6 +184,7 @@ public class RequestController {
         response.setCode(200);
         return response;
     }
+
     /**
      * 审核操作
      */
@@ -235,4 +248,134 @@ public class RequestController {
         return result;
     }
 
+    @PostMapping("/contract/upload/{req_id}")
+    @HasRole({"USER_SALE", "USER_BUY"})
+    public ResponseData contractUpload(@RequestParam MultipartFile contract, @PathVariable("req_id") long requestId){
+        ResponseData response = new ResponseData();
+        if(contract.isEmpty()){
+            response.setCode(201);
+            response.setMsg("fail");
+            response.setError("文件上传失败");
+            return response;
+        }
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+
+        String uploadName = contract.getOriginalFilename();
+        String suffix = StringUtils.substringAfter(uploadName, ".");
+
+        String dir = String.format("/request/contract/%d", requestId);
+        File file = new File(BASE_STORE_PATH + dir);
+        if(!file.isFile() && !file.exists()){
+            file.mkdirs();
+        }
+        String exactPath = dir + String.format("/contract_%s.%s", id, suffix);
+
+        // if(true){
+        //
+        //     response.setData(new HashMap<String, Object>(){{
+        //         put("reqId", requestId);
+        //         put("name", contract.getName());
+        //         put("originalName", contract.getOriginalFilename());
+        //         put("suffix", exactPath);
+        //     }});
+        //     return response;
+        // }
+        try {
+            contract.transferTo(new File(BASE_STORE_PATH + exactPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.setCode(500);
+            response.setMsg("fail");
+            response.setError("文件转存失败，请重试");
+            return response;
+        }
+        boolean b = requestService.updateContract(requestId, Long.parseLong(id), exactPath);
+        if(!b){
+            // 数据库更新失败
+            response.setCode(403);
+            response.setMsg("fail");
+            response.setError("数据更新失败。");
+            return response;
+        }
+        response.setCode(200);
+        response.setMsg("success");
+        response.setData(new HashMap<String, Object>(){{
+            put("path", exactPath);
+        }});
+        return response;
+    }
+
+    @GetMapping("/contract/file/{req_id}")
+    @HasRole({"USER_SALE", "USER_BUY"})
+    public ResponseData contractFile(HttpServletResponse response, @PathVariable("req_id") long requestId, @RequestParam String path){
+
+        ResponseData responseData = new ResponseData();
+
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+
+        // 文件路径前缀，唯一
+        String exactPath = String.format("/request/contract/%d/contract_%s.", requestId, id);
+
+        // 简单的合法性验证
+        if(path == null || !path.startsWith(exactPath)){
+            // 参数有误
+            responseData.setCode(201);
+            responseData.setMsg("fail");
+            responseData.setError("参数有误！");
+            return responseData;
+        }
+        ServletOutputStream outputStream = null;
+        BufferedInputStream bis = null;
+        try {
+            File file = new File(BASE_STORE_PATH + path);
+            // 文件存在性判定
+            if(!file.exists()){
+                responseData.setCode(404);
+                responseData.setMsg("fail");
+                responseData.setError("文件丢失！");
+                return responseData;
+            }
+
+            // 准备
+            outputStream = response.getOutputStream();
+            bis = new BufferedInputStream(new FileInputStream(file));
+            byte[] buff = new byte[1024];
+
+            // 开始
+            int read = bis.read(buff);
+            while (read != -1){
+                outputStream.write(buff, 0, read);
+                outputStream.flush();
+                read = bis.read(buff);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            responseData.setCode(500);
+            responseData.setMsg("fail");
+            responseData.setError(e.getMessage());
+            return responseData;
+        }finally {
+            // 关闭流
+            if(bis != null){
+                try {
+                    bis.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            if(outputStream != null){
+                try {
+                    outputStream.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        return responseData;
+    }
 }
