@@ -36,6 +36,8 @@ public class RequestController {
 
     @Resource
     RequestService requestService;
+    @Resource
+
 
     @Value("${ct.uploadFile.location}")
     private String BASE_STORE_PATH;
@@ -212,7 +214,7 @@ public class RequestController {
      * @version 1.0
      * 获取指定的详细需求
      */
-    @PostMapping("/detail")
+    @PostMapping("/detailRequest")
     @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
     public ResponseData getDetail(@RequestParam int request_id){
         ResponseData response = new ResponseData();
@@ -247,6 +249,11 @@ public class RequestController {
         ResponseData result = requestService.delist(Long.parseLong(profile.getId()), requestId);
         return result;
     }
+
+
+
+
+
 
     @PostMapping("/contract/upload/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
@@ -377,5 +384,49 @@ public class RequestController {
         responseData.setCode(200);
         responseData.setMsg("success");
         return responseData;
+    }
+    /**
+     * 获取所有摘牌信息
+     *
+     * @param userId    null全部|ID指定用户
+     * @param page      页码
+     * @param limit     每页数量
+     */
+
+    @GetMapping("/listDelist")
+    public ResponseData geDelistList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+        ResponseData responseData = new ResponseData();
+        Map<String, Object> list = requestService.listAvailable(userId, page, limit);
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        responseData.setData(list);
+        return responseData;
+    }
+    /**
+     * @author Sorakado
+     * @time 2021/8/7/ 23:20
+     * @version 1.0
+     * 获取指定的挂牌和摘牌信息
+     */
+    @GetMapping("/detailInfo")
+    @HasRole(value = {"TRADE_AUDITOR"})
+    public ResponseData getDetailInfo(@RequestParam long delistId){
+
+        ResponseData result=requestService.getDetailInfo(delistId);
+        return result;
+    }
+    /**
+     * @author Sorakado
+     * @time 2021/8/7/ 00:20
+     * @version 1.0
+     * 审核操作
+     */
+
+    @PostMapping("/examine")
+    @HasRole(value = {"TRADE_AUDITOR"})
+    public ResponseData examineTransaction(@RequestParam int zpId,@RequestBody String opinion){
+
+       ResponseData result = requestService.examine(zpId,opinion);
+       return result;
     }
 }

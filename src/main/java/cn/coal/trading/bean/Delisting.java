@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("ct_zp")
-public class ZhaiPai {
+public class Delisting {
     @TableId(type = IdType.AUTO)
     private Long id;            // 摘牌ID
     private Long reqId;         // 摘牌对应需求ID
