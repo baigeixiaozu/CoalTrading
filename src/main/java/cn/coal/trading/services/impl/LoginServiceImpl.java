@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
      * @Version 2.0
      */
     @Override
-    public String login(User loginUser) {
+    public Map<String, Object> login(User loginUser) {
         // 获取角色，权限
         final TokenProfile profile = new TokenProfile();
         profile.setId(loginUser.getId().toString());
@@ -54,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
         List<Map<String, Object>> relation = userRolePermitMapper.getRelation(loginUser.getId());
 
         if(relation.size() > 0) {
-            // 角色只能一个
+            // 角色暂时只能一个
             profile.addRole((String) relation.get(0).get("role_mark"));
 
             //profile.setRoles(roles:Set);
@@ -66,6 +67,11 @@ public class LoginServiceImpl implements LoginService {
             //profile.addAttribute("key","value");
             //如果选择token存cookie里,securityManager.login会进行自动操作
         }
-        return securityManager.login(profile);
+        String token = securityManager.login(profile);
+        if(token==null)return null;
+        return new HashMap<String, Object>(){{
+            put("access_token", token);
+            put("role", profile.getRoles());
+        }};
     }
 }

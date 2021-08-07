@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -202,18 +203,16 @@ public class UserController {
             return response;
         }
 
-        String token = loginService.login(userInfo);
-        if(token == null){
+        Map<String, Object> login = loginService.login(userInfo);
+        if(login == null){
             response.setCode(101401);
             response.setMsg("fail");
             response.setError("登录失败，出现未知异常");
         }else{
+            login.put("expire_time", TimeUtil.parse(expireTime));
             response.setCode(200);
             response.setMsg("success");
-            response.setData(new HashMap<String, Object>(){{
-                put("access_token", token);
-                put("expire_time", TimeUtil.parse(expireTime));
-            }});
+            response.setData(login);
         }
 
         return response;
