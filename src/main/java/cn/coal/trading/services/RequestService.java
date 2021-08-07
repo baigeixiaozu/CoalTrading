@@ -79,6 +79,7 @@ public interface RequestService {
     boolean updateContract(long reqId, long userId, String contractPath);
 
     /**
+     * @author Sorakado
      * 获取详细需求
      * @param id    需求id
      * @return
@@ -87,6 +88,7 @@ public interface RequestService {
 
 
     /**
+     * @author Sorakado
      * 摘牌功能
      * @param userId, requestId
      * @return
@@ -94,5 +96,28 @@ public interface RequestService {
     ResponseData delist(long userId,int requestId);
 
 
+    /**
+     * @author Sorakado
+     * 获取摘牌列表
+     * @param userId    用户ID|null(所有)
+     * @param page      页码
+     * @param limit     每页数量
+     * @return          需求数据
+     */
+    Map<String,Object> listDelist(Long userId, int page, int limit);
 
+    /**
+     * @author Sorakado
+     * 获取挂牌摘牌的详细信息
+     * @param delistId   挂牌id
+     * @return          需求数据
+     */
+    ResponseData getDetailInfo(long delistId);
+    /**
+     * @author Sorakado
+     * 审核功能
+     * @param delistId   挂牌id
+     * @return          需求数据
+     */
+    ResponseData examine(long delistId,String opinion);
 }
