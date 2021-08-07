@@ -2,6 +2,8 @@ package cn.coal.trading.services;
 
 import cn.coal.trading.bean.User;
 
+import java.util.Map;
+
 /**
  * @Author jiyec
  * @Date 2021/7/31 5:20
@@ -15,5 +17,5 @@ public interface LoginService {
      * @Version 1.0
      *
      * @return*/
-    String login(User user);
+    Map<String, Object> login(User user);
 }
