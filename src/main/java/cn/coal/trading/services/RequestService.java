@@ -104,7 +104,7 @@ public interface RequestService {
      * @param limit     每页数量
      * @return          需求数据
      */
-    Map<String,Object> listDelist(Long userId, int page, int limit);
+    Map<String,Object> listDelist( int page, int limit);
 
     /**
      * @author Sorakado
@@ -119,5 +119,5 @@ public interface RequestService {
      * @param delistId   挂牌id
      * @return          需求数据
      */
-    ResponseData examine(long delistId,String opinion);
+    ResponseData examine(long delistId, String opinion);
 }

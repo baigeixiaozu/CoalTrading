@@ -208,47 +208,7 @@ public class RequestController {
     }
 
 
-    /**
-     * @author Sorakado
-     * @time 2021/8/6/ 23:20
-     * @version 1.0
-     * 获取指定的详细需求
-     */
-    @PostMapping("/detailRequest")
-    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
-    public ResponseData getDetail(@RequestParam int request_id){
-        ResponseData response = new ResponseData();
 
-        Request reqDetails = requestService.getReqDetails(request_id);
-        if(reqDetails!=null){
-            response.setData(reqDetails);
-            response.setCode(200);
-            response.setMsg("资源操作成功");
-            response.setError("无");
-        }else
-        {
-            response.setData(null);
-            response.setCode(404);
-            response.setMsg("不存在该订单的详细信息！");
-            response.setError("资源，服务未找到");
-        }
-        return response;
-    }
-    /**
-     * @author Sorakado
-     * @time 2021/8/6/ 23:20
-     * @version 1.0
-     * 摘牌功能
-     */
-    @PostMapping("/delist")
-    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
-    public ResponseData delistRequest(@RequestParam int requestId){
-        TokenProfile profile=ProfileHolder.getProfile();
-
-
-        ResponseData result = requestService.delist(Long.parseLong(profile.getId()), requestId);
-        return result;
-    }
 
 
 
@@ -385,18 +345,63 @@ public class RequestController {
         responseData.setMsg("success");
         return responseData;
     }
+
+
+
+
+    /**
+     * @author Sorakado
+     * @time 2021/8/6/ 23:20
+     * @version 1.0
+     * 获取指定的详细需求
+     */
+    @PostMapping("/detailRequest")
+    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
+    public ResponseData getDetail(@RequestParam int request_id){
+        ResponseData response = new ResponseData();
+
+        Request reqDetails = requestService.getReqDetails(request_id);
+        if(reqDetails!=null){
+            response.setData(reqDetails);
+            response.setCode(200);
+            response.setMsg("资源操作成功");
+            response.setError("无");
+        }else
+        {
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("不存在该订单的详细信息！");
+            response.setError("资源，服务未找到");
+        }
+        return response;
+    }
+    /**
+     * @author Sorakado
+     * @time 2021/8/6/ 23:20
+     * @version 1.0
+     * 摘牌功能
+     */
+    @PostMapping("/delist")
+    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
+    public ResponseData delistRequest(@RequestParam int request_id){
+        TokenProfile profile=ProfileHolder.getProfile();
+
+
+        ResponseData result = requestService.delist(Long.parseLong(profile.getId()), request_id);
+        return result;
+    }
     /**
      * 获取所有摘牌信息
      *
-     * @param userId    null全部|ID指定用户
+     *
      * @param page      页码
      * @param limit     每页数量
      */
 
     @GetMapping("/listDelist")
-    public ResponseData geDelistList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+    public ResponseData geDelistList( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
-        Map<String, Object> list = requestService.listAvailable(userId, page, limit);
+        Map<String, Object> list = requestService.listDelist(page, limit);
         responseData.setCode(200);
         responseData.setMsg("success");
         responseData.setData(list);
@@ -424,7 +429,7 @@ public class RequestController {
 
     @PostMapping("/examine")
     @HasRole(value = {"TRADE_AUDITOR"})
-    public ResponseData examineTransaction(@RequestParam int zpId,@RequestBody String opinion){
+    public ResponseData examineTransaction(@RequestParam int zpId, @RequestBody String opinion){
 
        ResponseData result = requestService.examine(zpId,opinion);
        return result;

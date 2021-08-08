@@ -110,11 +110,25 @@ public class RequestServiceImpl implements RequestService {
         }});
         return i == 1;
     }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateContract(long reqId, long userId, String contractPath) {
+        int update = reqMapper.update(new Request(), new UpdateWrapper<Request>() {{
+            eq("id", reqId);
+            eq("user_id", userId);
+            eq("status", "" + 8).or().eq("status", "" + 10);
+            set("contract_file", contractPath);
+            set("status", 9);
+        }});
+        return update == 1;
+    }
+
 
     /**
      * @author Sorakado
      * @param id    需求id
      * @return Request
+     * 获取详细需求信息
      */
 
     @Override
@@ -122,6 +136,12 @@ public class RequestServiceImpl implements RequestService {
         Request request = reqMapper.selectById(id);
         return request;
     }
+    /**
+     * @author Sorakado
+     * @param id requestId    摘牌用户id，需求id
+     * @return ResponseData
+     * 摘牌操作
+     */
 
     @Override
     public ResponseData delist(long id, int requestId){
@@ -133,6 +153,11 @@ public class RequestServiceImpl implements RequestService {
 
         int insert = delistingMapper.insert(delist);
         if(insert==1) {
+
+            UpdateWrapper<Request> wrapper = new UpdateWrapper<>();
+            wrapper.set("zp_id",delist.getId());
+            reqMapper.update(reqMapper.selectById(requestId),wrapper);
+
             response.setCode(200);
             response.setMsg("提交摘牌申请成功！");
             response.setError("无");
@@ -148,30 +173,21 @@ public class RequestServiceImpl implements RequestService {
         return response;
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean updateContract(long reqId, long userId, String contractPath) {
-        int update = reqMapper.update(new Request(), new UpdateWrapper<Request>() {{
-            eq("id", reqId);
-            eq("user_id", userId);
-            eq("status", "" + 8).or().eq("status", "" + 10);
-            set("contract_file", contractPath);
-            set("status", 9);
-        }});
-        return update == 1;
-    }
 
-
+    /**
+     * 获取所有摘牌信息
+     * @param page      页码
+     * @param limit     每页数量
+     * @return
+     */
 
 
     @Override
-    public Map<String,Object> listDelist(Long userId, int page, int limit) {
+    public Map<String,Object> listDelist( int page, int limit) {
         Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
-            if(userId!=null){
-                eq("user_id",userId);
-            }
+
             eq("status", 1);
-            select("id", "req_id","user_id", "created_time",  "detail");
+            select("id", "req_id","user_id", "created_time",  "status");
         }});
 
         return new HashMap<String,Object>(){{
@@ -181,14 +197,20 @@ public class RequestServiceImpl implements RequestService {
         }};
     }
 
+    /**
+     * 获取摘牌和挂牌信息
+     * @param delistId   挂牌id
+     * @return
+     */
+
     @Override
     public ResponseData getDetailInfo(long delistId) {
 
         Delisting delist= delistingMapper.selectById(delistId);
         Request request = reqMapper.selectById(delist.getReqId());
         HashMap<String, Object> map = new HashMap<>();
-        map.put("挂牌信息",request);
-        map.put("摘牌信息",delist);
+        map.put("reqInfo",request);
+        map.put("delistInfo",delist);
         ResponseData response = new ResponseData();
         if(delist!=null&&request!=null) {
             response.setData(map);
@@ -217,7 +239,7 @@ public class RequestServiceImpl implements RequestService {
     public ResponseData examine(long delistId, String opinion) {
         ResponseData response = new ResponseData();
         Delisting delisting = delistingMapper.selectById(delistId);
-        delisting.setOpinion(opinion);
+
         UpdateWrapper<Delisting> wrapper = new UpdateWrapper<Delisting>();
         wrapper.set("opinion",opinion);
         int update = delistingMapper.update(delisting, wrapper);
