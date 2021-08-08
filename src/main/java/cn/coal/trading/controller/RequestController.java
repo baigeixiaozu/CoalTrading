@@ -208,14 +208,6 @@ public class RequestController {
         return response;
     }
 
-
-
-
-
-
-
-
-
     @PostMapping("/contract/upload/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData contractUpload(@RequestParam MultipartFile contract, @PathVariable("req_id") long requestId){

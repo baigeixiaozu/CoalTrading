@@ -24,4 +24,10 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     int verify(Long id,int i);
     @Select("select  com_zip from ct_company where id=#{id}")
     String download(long id);
+
+    @Insert("INSERT INTO `ct_company` (`user_id`, `${col}`) VALUES (#{uid},#{path})")
+    int insertCert(String col, long uid, String path);
+
+    @Insert("UPDATE `ct_company` SET `${col}`=#{path} WHERE `user_id`=#{uid})")
+    int updateCert(String col, String path, long uid);
 }

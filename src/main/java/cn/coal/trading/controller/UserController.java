@@ -3,7 +3,6 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.*;
 import cn.coal.trading.services.*;
 import cn.coal.trading.utils.TimeUtil;
-import com.baomidou.shaun.core.annotation.HasPermission;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,9 +40,9 @@ public class UserController {
     /**
      * 新增用户操作
      *
-     * @Author jiyeme
      * @param user 用户信息
      * @return ResponseData
+     * @Author jiyeme
      */
     @PostMapping("/new")
     @HasRole(value = {"SUPER_ADMIN"})
@@ -53,7 +50,7 @@ public class UserController {
 
         ResponseData responseData = new ResponseData();
 
-        if(user.getId()!=null){
+        if (user.getId() != null) {
             responseData.setCode(105201);
             responseData.setMsg("参数非法");
             return responseData;
@@ -100,18 +97,18 @@ public class UserController {
     /**
      * 获取角色列表
      *
-     * @Author jiyeme
      * @param type 角色类型
      * @return ResponseData
+     * @Author jiyeme
      */
     @GetMapping({"/getRoleList/{type}"})
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
-        if("admin".equals(type)) {
+        if ("admin".equals(type)) {
             TokenProfile profile = ProfileHolder.getProfile();
             Set<String> permissions = profile.getPermissions();
             boolean user_add = permissions.contains("USER_ADD");
-            if(!user_add){
+            if (!user_add) {
                 responseData.setCode(403);
                 return responseData;
             }
@@ -132,7 +129,6 @@ public class UserController {
     }
 
     /**
-     *
      * @Author jiyec
      * @Date 2021/7/29 14:34
      * @Version 2.0
@@ -140,19 +136,19 @@ public class UserController {
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
-        if(user.getId()!=null){
+        if (user.getId() != null) {
             response.setCode(102201);
             response.setMsg("参数非法");
             return response;
         }
-        if(user.getRole()==null){
+        if (user.getRole() == null) {
             response.setCode(102403);
             response.setMsg("fail");
             response.setError("缺少角色参数");
             return response;
         }
         boolean userExist = registerService.isUserExist(user.getLogin());
-        if(userExist){
+        if (userExist) {
             response.setCode(102201);
             response.setMsg("fail");
             response.setError("用户名已被使用");
@@ -163,11 +159,11 @@ public class UserController {
 
         String register = registerService.register(user);
 
-        if(register != null){
+        if (register != null) {
             response.setCode(102201);
             response.setMsg("fail");
             response.setError(register);
-        }else{
+        } else {
             response.setCode(200);
             response.setMsg("success");
         }
@@ -183,7 +179,7 @@ public class UserController {
     public ResponseData login(@RequestBody User user) {
         ResponseData response = new ResponseData();
         User userInfo = loginService.getUserInfo(user);
-        if(userInfo == null){
+        if (userInfo == null) {
             //用户不存在
             response.setCode(101404);
             response.setMsg("fail");
@@ -195,7 +191,7 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
         boolean isPassRight = encoder.matches(user.getPass(), userInfo.getPass());
 
-        if(!isPassRight){
+        if (!isPassRight) {
             //密码不正确
             response.setCode(101401);
             response.setMsg("fail");
@@ -204,11 +200,11 @@ public class UserController {
         }
 
         Map<String, Object> login = loginService.login(userInfo);
-        if(login == null){
+        if (login == null) {
             response.setCode(101401);
             response.setMsg("fail");
             response.setError("登录失败，出现未知异常");
-        }else{
+        } else {
             login.put("expire_time", TimeUtil.parse(expireTime));
             response.setCode(200);
             response.setMsg("success");
@@ -225,29 +221,57 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
-    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
+    @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
-        TokenProfile profile=ProfileHolder.getProfile();
-        info.setUserId((long)Integer.parseInt(profile.getId()));
-      //  info.setUserId(7L);
+        TokenProfile profile = ProfileHolder.getProfile();
+        info.setUserId((long) Integer.parseInt(profile.getId()));
+        //  info.setUserId(7L);
         ResponseData result = userService.complete(info);
 
         return result;
     }
+
     /**
      * @Author Sorakado
+     * @REFACTOR jiye
      * @Date 2021/7/31 22:26
      * @Version 1.0
      * 文件上传功能
      **/
-    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
+    @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/uploadFile")
-    public ResponseData uploadFiles(@RequestPart MultipartFile[] multipartFile) throws IOException {
-        TokenProfile profile=ProfileHolder.getProfile();
+    public ResponseData uploadFiles(@RequestPart("file") MultipartFile file, @RequestParam CertType type){
+        ResponseData response = new ResponseData();
+        if (file.isEmpty()) {
+            response.setCode(400);
+            response.setMsg("fail");
+            response.setError("文件上传失败！");
+            response.setData(null);
+            return response;
+        }
+        TokenProfile profile = ProfileHolder.getProfile();
+        long userId = Long.parseLong(profile.getId());
 
-        ResponseData result = fileService.uploadFiles(multipartFile,Long.parseLong(profile.getId()));
-        return result;
+        // 转存文件到服务器
+        String storePath = fileService.storeFile2Local(file, type, userId);
+        if(storePath == null ){
+            response.setCode(400);
+            response.setMsg("fail");
+            response.setError("文件转存失败！");
+            return response;
+        }
+
+        // 存储路径到数据库
+        boolean b = fileService.storeCert2DB(storePath, type, userId);
+        if(!b){
+            response.setCode(400);
+            response.setMsg("fail");
+            response.setError("文件数据存储失败");
+        }
+        response.setCode(200);
+        response.setMsg("success");
+        return response;
     }
 
     /**
@@ -256,25 +280,26 @@ public class UserController {
      * @Version 1.0
      * 生成企业财务账户表和财务用户功能
      **/
-    @HasRole(value={"USER_SALE","USER_BUY"},logical = Logical.ANY)
+    @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/finance")
-    public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance){
-        TokenProfile profile=ProfileHolder.getProfile();
-        finance.setMainUserid((long)Integer.parseInt(profile.getId()));
-      //  finance.setMainUserid(8L);
+    public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance) {
+        TokenProfile profile = ProfileHolder.getProfile();
+        finance.setMainUserid((long) Integer.parseInt(profile.getId()));
+        //  finance.setMainUserid(8L);
         ResponseData result = userService.finance(finance);
         return result;
     }
+
     /**
      * @Author Sorakado
      * @Date 2021/8/4 10:47
      * @Version 1.0
      * 获取登录用户的基本信息
      **/
-    @HasRole(value={"USER_SALE","USER_BUY","USER_MONEY"},logical = Logical.ANY)
+    @HasRole(value = {"USER_SALE", "USER_BUY", "USER_MONEY"}, logical = Logical.ANY)
     @GetMapping("info")
-    public ResponseData getUserInfo(){
-        TokenProfile profile=ProfileHolder.getProfile();
+    public ResponseData getUserInfo() {
+        TokenProfile profile = ProfileHolder.getProfile();
         ResponseData result = userService.getInfo(Long.parseLong(profile.getId()));
         return result;
     }
