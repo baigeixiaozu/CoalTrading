@@ -1,10 +1,8 @@
 package cn.coal.trading.services.impl;
 
-import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.Delisting;
-import cn.coal.trading.bean.Request;
-import cn.coal.trading.bean.ResponseData;
+import cn.coal.trading.bean.*;
 import cn.coal.trading.mapper.DelistingMapper;
+import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author jiyec
@@ -31,6 +30,8 @@ public class RequestServiceImpl implements RequestService {
     ReqMapper reqMapper;
     @Resource
     DelistingMapper delistingMapper;
+    @Resource
+    FinanceMapper financeMapper;
 
     @Override
     public Map<String,Object> listAvailable(Long userId, int page, int limit) {
@@ -181,8 +182,6 @@ public class RequestServiceImpl implements RequestService {
      * @param limit     每页数量
      * @return
      */
-
-
     @Override
     public Map<String,Object> listDelist( int page, int limit) {
         Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
@@ -259,5 +258,47 @@ public class RequestServiceImpl implements RequestService {
         }
         return response;
     }
+
+    /**
+     * @param profile    token 信息
+     * @param page  页码
+     * @param limit 每页数量
+     * @return 需求数据
+     * @author Sorakado
+     * 获取摘牌列表
+     */
+    @Override
+    public Map<String, Object> listDelistFinance(TokenProfile profile, int page, int limit) {
+
+        long queryId=0;
+        Set<String> roles = profile.getRoles();
+        for (String role : roles) {
+            if(role=="USER_MONEY"){
+                FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
+                    {
+                        eq("finance_userid", profile.getId());
+                    }
+                });
+                queryId=finance.getMainUserid();
+            }else{
+                queryId= Long.parseLong(profile.getId());
+            }
+        }
+
+
+        long finalQueryId = queryId;
+        Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
+            eq("user_id", finalQueryId);
+            eq("status", 1);
+            select("id", "req_id","user_id", "created_time",  "status");
+        }});
+
+        return new HashMap<String,Object>(){{
+            put("rows", delistPage.getRecords());
+            put("current", delistPage.getCurrent());
+            put("pages", delistPage.getPages());
+        }};
+    }
+
 
 }

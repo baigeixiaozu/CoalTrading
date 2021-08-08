@@ -3,6 +3,7 @@ package cn.coal.trading.services;
 import cn.coal.trading.bean.AuditOpinion;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
+import com.baomidou.shaun.core.profile.TokenProfile;
 
 import java.util.Map;
 
@@ -100,7 +101,7 @@ public interface RequestService {
     /**
      * @author Sorakado
      * 获取摘牌列表
-     * @param userId    用户ID|null(所有)
+     *
      * @param page      页码
      * @param limit     每页数量
      * @return          需求数据
@@ -121,4 +122,14 @@ public interface RequestService {
      * @return          需求数据
      */
     ResponseData examine(long delistId, AuditOpinion opinion);
+
+    /**
+     * @author Sorakado
+     * 获取摘牌列表
+     * @param id    用户ID
+     * @param page      页码
+     * @param limit     每页数量
+     * @return          需求数据
+     */
+    Map<String,Object> listDelistFinance(TokenProfile profile, int page, int limit);
 }
