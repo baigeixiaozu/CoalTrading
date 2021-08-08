@@ -3,6 +3,7 @@ package cn.coal.trading.services;
 import cn.coal.trading.bean.AuditOpinion;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
+import com.baomidou.shaun.core.profile.TokenProfile;
 
 import java.util.Map;
 
@@ -130,5 +131,5 @@ public interface RequestService {
      * @param limit     每页数量
      * @return          需求数据
      */
-    Map<String,Object> listDelistFinance(long id, int page, int limit);
+    Map<String,Object> listDelistFinance(TokenProfile profile, int page, int limit);
 }

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author jiyec
@@ -259,7 +260,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     /**
-     * @param id    用户ID
+     * @param profile    token 信息
      * @param page  页码
      * @param limit 每页数量
      * @return 需求数据
@@ -267,16 +268,27 @@ public class RequestServiceImpl implements RequestService {
      * 获取摘牌列表
      */
     @Override
-    public Map<String, Object> listDelistFinance(long id, int page, int limit) {
+    public Map<String, Object> listDelistFinance(TokenProfile profile, int page, int limit) {
 
-        FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
-            {
-                eq("finance_userid", id);
+        long queryId=0;
+        Set<String> roles = profile.getRoles();
+        for (String role : roles) {
+            if(role=="USER_MONEY"){
+                FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
+                    {
+                        eq("finance_userid", profile.getId());
+                    }
+                });
+                queryId=finance.getMainUserid();
+            }else{
+                queryId= Long.parseLong(profile.getId());
             }
-        });
+        }
 
+
+        long finalQueryId = queryId;
         Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
-            eq("user_id",finance.getMainUserid());
+            eq("user_id", finalQueryId);
             eq("status", 1);
             select("id", "req_id","user_id", "created_time",  "status");
         }});
