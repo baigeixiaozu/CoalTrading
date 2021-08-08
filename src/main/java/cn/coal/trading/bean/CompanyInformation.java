@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @TableName("ct_company")
 public class CompanyInformation {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.INPUT)
     private Long userId;                        // 企业主用户ID
     private String comName;                     // 企业名称
     private String comIntro;                    // 企业介绍

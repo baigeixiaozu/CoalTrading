@@ -1,9 +1,7 @@
 package cn.coal.trading.services;
 
-import cn.coal.trading.bean.ResponseData;
+import cn.coal.trading.bean.CertType;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * @Author Sorakado
@@ -11,5 +9,6 @@ import java.io.IOException;
  * @Version 1.0
  **/
 public interface FileService {
-    ResponseData uploadFiles(MultipartFile[] multipartFile,long userId) throws IOException;
+    String storeFile2Local(MultipartFile multipartFile, CertType type, long userId);
+    boolean storeCert2DB(String path, CertType type, long userId);
 }
