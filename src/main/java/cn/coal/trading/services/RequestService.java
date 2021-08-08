@@ -1,5 +1,6 @@
 package cn.coal.trading.services;
 
+import cn.coal.trading.bean.AuditOpinion;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
 
@@ -119,5 +120,5 @@ public interface RequestService {
      * @param delistId   挂牌id
      * @return          需求数据
      */
-    ResponseData examine(long delistId, String opinion);
+    ResponseData examine(long delistId, AuditOpinion opinion);
 }

@@ -1,5 +1,6 @@
 package cn.coal.trading.services.impl;
 
+import cn.coal.trading.bean.AuditOpinion;
 import cn.coal.trading.bean.Delisting;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
@@ -236,12 +237,12 @@ public class RequestServiceImpl implements RequestService {
      * 审核功能
      */
     @Override
-    public ResponseData examine(long delistId, String opinion) {
+    public ResponseData examine(long delistId, AuditOpinion opinion) {
         ResponseData response = new ResponseData();
         Delisting delisting = delistingMapper.selectById(delistId);
 
         UpdateWrapper<Delisting> wrapper = new UpdateWrapper<Delisting>();
-        wrapper.set("opinion",opinion);
+        wrapper.set("opinion",opinion.getOpinion());
         int update = delistingMapper.update(delisting, wrapper);
 
         if(update!=0){

@@ -1,5 +1,6 @@
 package cn.coal.trading.controller;
 
+import cn.coal.trading.bean.AuditOpinion;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.reqdata.BuyPubData;
@@ -429,7 +430,7 @@ public class RequestController {
 
     @PostMapping("/examine")
     @HasRole(value = {"TRADE_AUDITOR"})
-    public ResponseData examineTransaction(@RequestParam int zpId, @RequestBody String opinion){
+    public ResponseData examineTransaction(@RequestParam int zpId, @RequestBody AuditOpinion opinion){
 
        ResponseData result = requestService.examine(zpId,opinion);
        return result;
