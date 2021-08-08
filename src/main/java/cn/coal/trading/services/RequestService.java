@@ -100,7 +100,7 @@ public interface RequestService {
     /**
      * @author Sorakado
      * 获取摘牌列表
-     * @param userId    用户ID|null(所有)
+     *
      * @param page      页码
      * @param limit     每页数量
      * @return          需求数据
@@ -121,4 +121,14 @@ public interface RequestService {
      * @return          需求数据
      */
     ResponseData examine(long delistId, AuditOpinion opinion);
+
+    /**
+     * @author Sorakado
+     * 获取摘牌列表
+     * @param id    用户ID
+     * @param page      页码
+     * @param limit     每页数量
+     * @return          需求数据
+     */
+    Map<String,Object> listDelistFinance(long id, int page, int limit);
 }

@@ -391,6 +391,7 @@ public class RequestController {
         ResponseData result = requestService.delist(Long.parseLong(profile.getId()), request_id);
         return result;
     }
+
     /**
      * 获取所有摘牌信息
      *
@@ -398,9 +399,9 @@ public class RequestController {
      * @param page      页码
      * @param limit     每页数量
      */
-
     @GetMapping("/listDelist")
-    public ResponseData geDelistList( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+    @HasRole(value = {"TRADE_AUDITOR"})
+    public ResponseData getDelistList( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         Map<String, Object> list = requestService.listDelist(page, limit);
         responseData.setCode(200);
@@ -408,6 +409,7 @@ public class RequestController {
         responseData.setData(list);
         return responseData;
     }
+
     /**
      * @author Sorakado
      * @time 2021/8/7/ 23:20
@@ -415,7 +417,7 @@ public class RequestController {
      * 获取指定的挂牌和摘牌信息
      */
     @GetMapping("/detailInfo")
-    @HasRole(value = {"TRADE_AUDITOR"})
+    @HasRole(value = {"TRADE_AUDITOR","USER_MONEY"},logical = Logical.ANY)
     public ResponseData getDetailInfo(@RequestParam long delistId){
 
         ResponseData result=requestService.getDetailInfo(delistId);
@@ -434,5 +436,24 @@ public class RequestController {
 
        ResponseData result = requestService.examine(zpId,opinion);
        return result;
+    }
+    /**
+     * 获取所有摘牌信息
+     *
+     *
+     * @param page      页码
+     * @param limit     每页数量
+     */
+
+    @GetMapping("/financeDelist")
+    @HasRole(value = {"USER_MONEY"})
+    public ResponseData getDelistListFinance( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+        ResponseData responseData = new ResponseData();
+        TokenProfile profile=ProfileHolder.getProfile();
+        Map<String, Object> list = requestService.listDelistFinance(Long.parseLong(profile.getId()),page, limit);
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        responseData.setData(list);
+        return responseData;
     }
 }

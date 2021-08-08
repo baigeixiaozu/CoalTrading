@@ -1,10 +1,8 @@
 package cn.coal.trading.services.impl;
 
-import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.Delisting;
-import cn.coal.trading.bean.Request;
-import cn.coal.trading.bean.ResponseData;
+import cn.coal.trading.bean.*;
 import cn.coal.trading.mapper.DelistingMapper;
+import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -31,6 +29,8 @@ public class RequestServiceImpl implements RequestService {
     ReqMapper reqMapper;
     @Resource
     DelistingMapper delistingMapper;
+    @Resource
+    FinanceMapper financeMapper;
 
     @Override
     public Map<String,Object> listAvailable(Long userId, int page, int limit) {
@@ -181,8 +181,6 @@ public class RequestServiceImpl implements RequestService {
      * @param limit     每页数量
      * @return
      */
-
-
     @Override
     public Map<String,Object> listDelist( int page, int limit) {
         Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
@@ -259,5 +257,36 @@ public class RequestServiceImpl implements RequestService {
         }
         return response;
     }
+
+    /**
+     * @param id    用户ID
+     * @param page  页码
+     * @param limit 每页数量
+     * @return 需求数据
+     * @author Sorakado
+     * 获取摘牌列表
+     */
+    @Override
+    public Map<String, Object> listDelistFinance(long id, int page, int limit) {
+
+        FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
+            {
+                eq("finance_userid", id);
+            }
+        });
+
+        Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
+            eq("user_id",finance.getMainUserid());
+            eq("status", 1);
+            select("id", "req_id","user_id", "created_time",  "status");
+        }});
+
+        return new HashMap<String,Object>(){{
+            put("rows", delistPage.getRecords());
+            put("current", delistPage.getCurrent());
+            put("pages", delistPage.getPages());
+        }};
+    }
+
 
 }
