@@ -14,13 +14,13 @@ import java.util.*;
  * Created by Heming233
  * Date:2021/7/27
  * Version:v1.0
- *
+ * <p>
  * update:2021/7/30
  * version:v1.1
- *
+ * <p>
  * update:2021/7/31
  * version:v1.2
- *
+ * <p>
  * update:2021/8/2
  * version:v1.3
  */
@@ -34,18 +34,17 @@ public class NewsController {
 
     //接收打开页面时发送的请求，获取资讯标题
     @GetMapping("/show")
-    public ResponseData showNews(){
-        try{
-            List<News> NewsList= newsService.getAllNews();
+    public ResponseData showNews() {
+        try {
+            List<News> NewsList = newsService.getAllNews();
 
-            return new ResponseData(){{
+            return new ResponseData() {{
                 setCode(200);
                 setData(NewsList);
                 setMsg("success");
             }};
-        }
-        catch (Exception e){
-            return new ResponseData(){{
+        } catch (Exception e) {
+            return new ResponseData() {{
                 setCode(204);
                 setMsg("error");
                 setError("no news caught");
@@ -55,38 +54,34 @@ public class NewsController {
 
     //点击资讯查看详细内容
     @GetMapping("/detail/{newsId}")
-    public ResponseData detailNews(@PathVariable("newsId") Long id){
-        try{
-            News news=newsService.getNewsById(id);
-            return new ResponseData(){{
-                setCode(200);
-                setData(news);
-                setMsg("success");
-            }};
+    public ResponseData detailNews(@PathVariable("newsId") Long id) {
+        ResponseData response = new ResponseData();
+        News news = newsService.getNewsById(id);
+        if (news == null) {
+            response.setCode(404);
+            response.setMsg("fail");
+            response.setError("资讯不存在");
+        } else {
+            response.setCode(200);
+            response.setMsg("success");
+            response.setData(news);
         }
-        catch (Exception e){
-            return new ResponseData(){{
-                setData(204);
-                setMsg("error");
-                setError("no news caught");
-            }};
-        }
+        return response;
     }
 
     //查询资讯
     @GetMapping("/more/{newsTitle}")
-    public ResponseData moreNews(@PathVariable("newsTitle") String title){
-        try{
-            List<News> NewsList= newsService.getNewsByTitle(title);
+    public ResponseData moreNews(@PathVariable("newsTitle") String title) {
+        try {
+            List<News> NewsList = newsService.getNewsByTitle(title);
 
-            return new ResponseData(){{
+            return new ResponseData() {{
                 setCode(200);
                 setData(NewsList);
                 setMsg("success");
             }};
-        }
-        catch (Exception e){
-            return new ResponseData(){{
+        } catch (Exception e) {
+            return new ResponseData() {{
                 setCode(204);
                 setMsg("error");
                 setError("no news caught");
@@ -96,19 +91,18 @@ public class NewsController {
 
     //发布资讯
     @PostMapping("/publish/{type}")
-    public ResponseData pushNews(@RequestBody News news, @PathVariable String type){
-        try{
-            TokenProfile profile=ProfileHolder.getProfile();
-            Long authorId=Long.parseLong(profile.getId());
-            newsService.setOneNews(news,authorId);
+    public ResponseData pushNews(@RequestBody News news, @PathVariable String type) {
+        try {
+            TokenProfile profile = ProfileHolder.getProfile();
+            Long authorId = Long.parseLong(profile.getId());
+            newsService.setOneNews(news, authorId);
 
-            return new ResponseData(){{
+            return new ResponseData() {{
                 setCode(200);
                 setMsg("success");
             }};
-        }
-        catch (Exception e){
-            return new ResponseData(){{
+        } catch (Exception e) {
+            return new ResponseData() {{
                 setCode(204);
                 setMsg("error");
                 setError("push news failed");
@@ -118,19 +112,18 @@ public class NewsController {
 
     //存草稿
     @PostMapping("/draft")
-    public  ResponseData saveDraft(@RequestBody News news){
-        try{
-            TokenProfile profile=ProfileHolder.getProfile();
-            Long authorId=Long.parseLong(profile.getId());
-            newsService.setOneDraft(news,authorId);
+    public ResponseData saveDraft(@RequestBody News news) {
+        try {
+            TokenProfile profile = ProfileHolder.getProfile();
+            Long authorId = Long.parseLong(profile.getId());
+            newsService.setOneDraft(news, authorId);
 
-            return new ResponseData(){{
+            return new ResponseData() {{
                 setCode(200);
                 setMsg("success");
             }};
-        }
-        catch (Exception e){
-            return new ResponseData(){{
+        } catch (Exception e) {
+            return new ResponseData() {{
                 setCode(204);
                 setMsg("error");
                 setError("save draft failed");

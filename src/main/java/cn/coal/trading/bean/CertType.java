@@ -10,6 +10,6 @@ public enum CertType {
     OIB_CODE_FILE,              // 组织机构代码证（文件）
     TR_CERT_FILE,               // 税务登记证（文件）
     MANAGE_LICENSE_FILE,        // 煤炭经营许可证（文件）[供应商]
-    AO_PERMIT_FILE,             // 开户许可证
-    LEGAL_ID_FILE               // 法人身份证（文件）
+    LEGAL_ID_FILE,              // 法人身份证（文件）
+    AO_PERMIT_FILE              // 开户许可证
 }
