@@ -437,7 +437,7 @@ public class RequestController {
      */
 
     @GetMapping("/financeDelist")
-    @HasRole(value = {"USER_MONEY"})
+    @HasRole(value = {"USER_MONEY","USER_SALE","USER_BUY"},logical = Logical.ANY)
     public ResponseData getDelistListFinance( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         TokenProfile profile=ProfileHolder.getProfile();
