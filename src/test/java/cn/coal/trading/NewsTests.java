@@ -2,6 +2,7 @@ package cn.coal.trading;
 
 import cn.coal.trading.bean.News;
 import cn.coal.trading.services.NewsService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +29,7 @@ public class NewsTests {
 
     @Test
     void show(){
-        List<News> hashMap=newsService.getAllNews();
+        Page<News> hashMap=newsService.getAllNews(1,20);
     }
 
     @Test

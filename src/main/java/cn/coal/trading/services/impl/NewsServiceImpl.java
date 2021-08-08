@@ -4,6 +4,9 @@ import cn.coal.trading.bean.News;
 import cn.coal.trading.mapper.NewsMapper;
 import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,9 @@ import java.util.List;
  *
  * update:2021/8/3
  * version:v1.4
+ *
+ * update:2021/8/9
+ * version:v1.5
  */
 
 @Service
@@ -34,7 +40,8 @@ public class NewsServiceImpl implements NewsService {
 
     //浏览全部资讯
     @Override
-    public List<News> getAllNews(){
+    public Page<News> getAllNews(int current,int size){
+        Page<News> Page=new Page<>(current,size);
         QueryWrapper<News> wrapper=new QueryWrapper<>();
 /*        wrapper.eq("title",);
         wrapper.eq("context",2);*/
@@ -44,7 +51,19 @@ public class NewsServiceImpl implements NewsService {
         wrapper.eq("status","4");
         wrapper.select("title","id");
 
-        return newsMapper.selectList(wrapper);
+        return newsMapper.selectPage(Page,wrapper);
+    }
+
+    //展示所有待审核的资讯
+    @Override
+    public Page<News> getAuditingNews(int current,int size){
+        Page<News> page=new Page<>(current,size);
+        QueryWrapper<News> wrapper=new QueryWrapper<>();
+
+        wrapper.eq("status","2");
+        wrapper.select("title","id");
+
+        return newsMapper.selectPage(page,wrapper);
     }
 
     //点击资讯查看详细内容
@@ -96,6 +115,29 @@ public class NewsServiceImpl implements NewsService {
 
         newsMapper.insert(content);
         return content;
+    }
+
+    //审核资讯
+    public String newsAudit(String type,Long newsId){
+        UpdateWrapper<News> wrapper=new UpdateWrapper<>();
+        News news=new News();
+
+        wrapper.eq("id",newsId);
+        if("pass".equals(type)){
+            news.setStatus(4);
+
+            newsMapper.update(news,wrapper);
+            return "audit passed";
+        }
+        else if("reject".equals(type)){
+            news.setStatus(3);
+
+            newsMapper.update(news,wrapper);
+            return "audit reject";
+        }
+        else{
+            return "invalid operation";
+        }
     }
 
 }
