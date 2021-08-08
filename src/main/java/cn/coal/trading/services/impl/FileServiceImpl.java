@@ -19,16 +19,18 @@ import java.nio.file.Files;
  * @Version 1.0
  **/
 @Service
-public class FileServiceImpl<userId> implements FileService {
+public class FileServiceImpl implements FileService {
 
     @Resource
     CompanyMapper companyMapper;
+
     @Value("${ct.uploadFile.location}")
     private String uploadFileLocation;//上传文件保存的本地目录，使用@Value获取全局配置文件中配置的属性值
-    @Override
-    public ResponseData uploadFiles(MultipartFile[] multipartFile,long userId) throws IOException {
 
-        ResponseData response=new ResponseData();
+    @Override
+    public ResponseData uploadFiles(MultipartFile[] multipartFile, long userId) throws IOException {
+
+        ResponseData response = new ResponseData();
         if (multipartFile == null) {
             response.setCode(400);
             response.setMsg("文件为空");
@@ -37,24 +39,21 @@ public class FileServiceImpl<userId> implements FileService {
 
             return response;
         }
-        String basePath=uploadFileLocation+userId+"\\";
-        File basePathDir=new File(basePath);
-        if(!basePathDir.exists()){
-            basePathDir.mkdir();
+        String basePath = uploadFileLocation + "/userCert/" + userId + "/";
+        File basePathDir = new File(basePath);
+        if (!basePathDir.exists()) {
+            basePathDir.mkdirs();
         }
-        System.out.println(basePath+"--------");
+        System.out.println(basePath + "--------");
 
-        for(MultipartFile file:multipartFile) {
+        for (MultipartFile file : multipartFile) {
             String fileName = file.getOriginalFilename();
             String filePath = basePath + fileName;
 
-            System.out.println("filePath"+filePath);
+            System.out.println("filePath" + filePath);
 
             File target = new File(filePath);
-            Files.copy(file.getInputStream(), target.toPath());
-
-            System.out.println(target.getPath());
-
+            file.transferTo(target);        // 转移上传的文件
         }
 
 //        File saveFile = new File(uploadFileLocation, fileName);
