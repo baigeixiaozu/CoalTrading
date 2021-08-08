@@ -55,14 +55,22 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("number")
-    public ResponseData SecurityPayment(@RequestBody double number){
+    //输入需求量，计算出保证金并缴纳
+    @PostMapping("number/{requestId}")
+    public ResponseData SecurityPayment(@RequestBody double number, @PathVariable String requestId){
         try{
             TokenProfile profile= ProfileHolder.getProfile();
             Long id=Long.parseLong(profile.getId());
 
-            if(paymentService.setDeposit(id,number)){
+            if(paymentService.setDeposit(id,requestId,number)){
 
+            }
+            else{
+                return new ResponseData(){{
+                    setCode(403);
+                    setMsg("error");
+                    setError("This request has been occupied");
+                }};
             }
             return new ResponseData(){{
                 setCode(200);

@@ -21,5 +21,5 @@ public interface PaymentService {
     FinanceProperty getFinanceById(Long userId);
 
     //缴纳保证金
-    Boolean setDeposit(Long userId,double number);
+    Boolean setDeposit(Long userId,String requestId,double number);
 }
