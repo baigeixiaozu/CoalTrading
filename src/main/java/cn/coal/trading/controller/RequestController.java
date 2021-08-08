@@ -430,11 +430,10 @@ public class RequestController {
        return result;
     }
     /**
-     * 获取所有摘牌信息
-     *
-     *
+     * 获取财务用户的公司所有摘牌信息
      * @param page      页码
      * @param limit     每页数量
+     * @return ResponseData
      */
 
     @GetMapping("/financeDelist")
