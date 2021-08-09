@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Locale;
 
 /**
@@ -96,6 +100,29 @@ public class FileServiceImpl implements FileService {
             return i == 1;
         }
     }
+    public void download(String path) throws IOException{
+        int width=963;
+        int height=640;
+        BufferedImage image=null;
+        File f=null;
+        try{
+            f=new File("Users/songyanbai/Desktop/IMG_1802.JPG");
+            image=new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
+            image= ImageIO.read(f);
+            System.out.print("complete");
+        }
+        catch(IOException e){
+                System.out.println(e);
+        }
+        try{
+            f=new File("Users/songyanbai/Desktop/IMG_test");
+            ImageIO.write(image,"jpg",f);
+            System.out.print("yes");
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
 
+    }
 
 }

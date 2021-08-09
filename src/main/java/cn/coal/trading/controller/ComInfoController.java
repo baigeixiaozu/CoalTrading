@@ -2,9 +2,11 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.CompanyMapper;
+import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 @HasRole("NEWS_AUDITOR")
 @RestController
@@ -59,9 +61,11 @@ public class ComInfoController {
         companyMapper.verify(id);
     }
     @GetMapping("/download/{id}")
-    public ResponseData download(@PathVariable Long id){
+    public ResponseData download(@PathVariable Long id) throws IOException {
          String down=companyMapper.download(id);
          ResponseData responseData=new ResponseData();
+        FileServiceImpl fileService=new FileServiceImpl();
+        fileService.download(down);
          if(down==null)
          {
              responseData.setCode(400);
