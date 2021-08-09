@@ -7,6 +7,8 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.Set;
  * @veuserServiceion v2.0
  * @time 7.29 11:02
  */
+@Api(value = "用户管理",tags = "用户管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -44,6 +47,7 @@ public class UserController {
      * @return ResponseData
      * @Author jiyeme
      */
+    @ApiOperation(value = "newUser", notes = "新增用户")
     @PostMapping("/new")
     @HasRole(value = {"SUPER_ADMIN"})
     public ResponseData newUser(@RequestBody User user) {

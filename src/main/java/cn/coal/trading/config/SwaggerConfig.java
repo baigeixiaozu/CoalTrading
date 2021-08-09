@@ -36,7 +36,7 @@ public class SwaggerConfig {
                 // 选择那些路径和api会生成document
                 .select()
                 // 扫描展示api的路径包
-                .apis(RequestHandlerSelectors.basePackage("com.example.springbootswagger.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.coal.trading"))
                 // 对所有路径进行监控
                 .paths(PathSelectors.any())
                 // 构建
