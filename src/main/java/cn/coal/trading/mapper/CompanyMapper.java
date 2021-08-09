@@ -20,8 +20,10 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     @Update("update ct_company set audit_opinion=#{opinion} where user_id=#{id}")
     void Opinion(Long id,String opinion);
 
-    @Update("update ct_company set status=#{i} where user_id=#{id}")
-    int verify(Long id,int i);
+    @Update("update ct_company set status=4 where user_id=#{id}")
+    void verify(Long id);
+    @Update("update ct_company set status=3 where user_id=#{id}")
+    void reject(Long id);
     @Select("select  com_zip from ct_company where id=#{id}")
     String download(long id);
 
