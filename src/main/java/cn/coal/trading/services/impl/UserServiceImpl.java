@@ -264,7 +264,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (i == 1 && update1 ==1 && update == 1) {
-            response.setCode(201);
+            response.setCode(200);
             response.setMsg("数据上传成功");
             response.setError("无");
             response.setData(companyInformation);

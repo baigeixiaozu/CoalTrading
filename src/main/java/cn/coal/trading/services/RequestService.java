@@ -48,6 +48,14 @@ public interface RequestService {
     Map<String,Object> myList(Long userId, int page, int limit);
 
     /**
+     * 用户的需求详情
+     * @param userId 用户ID
+     * @param req_id 需求ID
+     * @return   Request 需求所有信息
+     */
+    Request myDetail(Long userId, long req_id);
+
+    /**
      * 待审核需求列表
      *
      * @param page
@@ -60,7 +68,6 @@ public interface RequestService {
      * 未审核需求的详情
      *
      * @param req_id
-     * @param userId
      * @return
      */
     Request auditDetail(long req_id);

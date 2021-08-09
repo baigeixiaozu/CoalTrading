@@ -1,19 +1,18 @@
 package cn.coal.trading.controller;
 
-import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.ResponseData;
-import cn.coal.trading.bean.Role;
 import cn.coal.trading.bean.User;
 import cn.coal.trading.services.impl.UpdateServiceImpl;
-import com.baomidou.shaun.core.annotation.HasPermission;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+@Api(value = "用户信息更新模块")
 @RestController
 @RequestMapping("/update")
 public class UpdateUserInfoController {

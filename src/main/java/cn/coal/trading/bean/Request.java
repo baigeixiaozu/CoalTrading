@@ -40,7 +40,7 @@ public class Request {
     private SalePubData salePubData;        // 供应商挂牌信息（仅起到检查基本数据类型的作用）
 
     @TableField(exist = false)
-    private boolean publish;                // 是否发布，不发布则为草稿
+    private Boolean publish;                // 是否发布，不发布则为草稿
 
     // 采购商挂牌信息
     public void setBuyPubData(BuyPubData buyPub){

@@ -6,6 +6,7 @@ import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,8 +29,7 @@ import java.util.*;
  * update:2021/8/9
  * version:v1.5
  */
-
-/*@CrossOrigin//解决跨域请求授权问题*/
+@Api(value = "新闻模块")
 @RestController//注释该类为Controller类，return返回值将被转换成json，字符串除外
 @RequestMapping("/news")
 public class NewsController {

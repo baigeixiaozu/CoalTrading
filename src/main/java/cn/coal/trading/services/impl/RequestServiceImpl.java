@@ -40,7 +40,7 @@ public class RequestServiceImpl implements RequestService {
                 eq("user_id",userId);
             }
             eq("status", 3);
-            select("id", "user_id", "created_time", "type", "detail");
+            select("id", "user_id", "created_time", "type");
         }});
 
         return new HashMap<String,Object>(){{
@@ -83,6 +83,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public Request myDetail(Long userId, long req_id) {
+        return reqMapper.selectOne(new QueryWrapper<Request>(){{
+            eq("user_id", userId);
+            eq("id", req_id);
+        }});
+    }
+
+    @Override
     public Map<String, Object> auditPending(int page, int limit) {
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             eq("status", 2);
@@ -112,6 +120,7 @@ public class RequestServiceImpl implements RequestService {
         }});
         return i == 1;
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean updateContract(long reqId, long userId, String contractPath) {
@@ -124,7 +133,6 @@ public class RequestServiceImpl implements RequestService {
         }});
         return update == 1;
     }
-
 
     /**
      * @author Sorakado
@@ -202,7 +210,6 @@ public class RequestServiceImpl implements RequestService {
      * @param delistId   挂牌id
      * @return
      */
-
     @Override
     public ResponseData getDetailInfo(long delistId) {
 

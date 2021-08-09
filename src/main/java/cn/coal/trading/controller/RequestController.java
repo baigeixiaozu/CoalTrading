@@ -10,6 +10,7 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ import java.util.Set;
  * @Date 2021/7/31 22:18
  * @Version 1.0
  **/
+@Api(value = "需求处理")
 @RestController
 @RequestMapping("/request")
 public class RequestController {
@@ -50,7 +52,7 @@ public class RequestController {
      * @param page      页码
      * @param limit     每页数量
      */
-    @GetMapping("/list")
+    @GetMapping("/all/list")
     public ResponseData getList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         Map<String, Object> list = requestService.listAvailable(userId, page, limit);
@@ -58,6 +60,45 @@ public class RequestController {
         responseData.setMsg("success");
         responseData.setData(list);
         return responseData;
+    }
+
+    /**
+     * 我的需求
+     *
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping("/my/list")
+    @HasRole({"USER_SALE", "USER_BUY"})
+    public ResponseData myList(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
+        ResponseData responseData = new ResponseData();
+        TokenProfile profile = ProfileHolder.getProfile();
+        String userId = profile.getId();
+        Map<String, Object> myList = requestService.myList(Long.parseLong(userId), page, limit);
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        responseData.setData(myList);
+        return responseData;
+    }
+
+    @GetMapping("/my/detail/{id}")
+    public ResponseData myDetail(@PathVariable long id){
+        ResponseData response = new ResponseData();
+        TokenProfile profile = ProfileHolder.getProfile();
+        String userId = profile.getId();
+
+        Request request = requestService.myDetail(Long.parseLong(userId), id);
+        if(request == null){
+            response.setCode(201);
+            response.setMsg("fail");
+            response.setError("挂牌信息不存在！");
+        }else{
+            response.setCode(200);
+            response.setMsg("success");
+            response.setData(request);
+        }
+        return response;
     }
 
     /**
@@ -71,7 +112,7 @@ public class RequestController {
 
         // 挂牌参数处理（为保证安全，仅提取需要的数据）
         Request request = new Request(){{
-            setStatus(req.isPublish()?2:1);     // 1. 草稿  2. 发布待审核
+            setStatus(req.getPublish()?2:1);     // 1. 草稿  2. 发布待审核
             setDetail(req.getDetail());
         }};
         TokenProfile profile = ProfileHolder.getProfile();
@@ -117,7 +158,7 @@ public class RequestController {
         // 挂牌参数处理（为保证安全，仅提取需要的数据）
         Request request = new Request(){{
             setId(req.getId());
-            setStatus(req.isPublish()?2:1);     // 1. 草稿  2. 发布待审核
+            setStatus(req.getPublish()?2:1);     // 1. 草稿  2. 发布待审核
             setDetail(req.getDetail());
         }};
 
@@ -139,26 +180,6 @@ public class RequestController {
             responseData.setCode(31201);
             responseData.setMsg("fail");
         }
-        return responseData;
-    }
-
-    /**
-     * 我的需求
-     *
-     * @param page
-     * @param limit
-     * @return
-     */
-    @GetMapping("/my")
-    @HasRole({"USER_SALE", "USER_BUY"})
-    public ResponseData my(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
-        ResponseData responseData = new ResponseData();
-        TokenProfile profile = ProfileHolder.getProfile();
-        String userId = profile.getId();
-        Map<String, Object> myList = requestService.myList(Long.parseLong(userId), page, limit);
-        responseData.setCode(200);
-        responseData.setMsg("success");
-        responseData.setData(myList);
         return responseData;
     }
 
@@ -339,9 +360,6 @@ public class RequestController {
         return responseData;
     }
 
-
-
-
     /**
      * @author Sorakado
      * @time 2021/8/6/ 23:20
@@ -386,12 +404,10 @@ public class RequestController {
 
     /**
      * 获取所有摘牌信息
-     *
-     *
      * @param page      页码
      * @param limit     每页数量
      */
-    @GetMapping("/listDelist")
+    @GetMapping("/all/listDelist")
     @HasRole(value = {"TRADE_AUDITOR"})
     public ResponseData getDelistList( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
@@ -406,7 +422,7 @@ public class RequestController {
      * @author Sorakado
      * @time 2021/8/7/ 23:20
      * @version 1.0
-     * 获取指定的挂牌和摘牌信息
+     * 获取指定的摘牌信息
      */
     @GetMapping("/detailInfo")
     @HasRole(value = {"TRADE_AUDITOR","USER_MONEY"},logical = Logical.ANY)
@@ -421,7 +437,6 @@ public class RequestController {
      * @version 1.0
      * 审核操作
      */
-
     @PostMapping("/examine")
     @HasRole(value = {"TRADE_AUDITOR"})
     public ResponseData examineTransaction(@RequestParam int zpId, @RequestBody AuditOpinion opinion){
@@ -429,13 +444,13 @@ public class RequestController {
        ResponseData result = requestService.examine(zpId,opinion);
        return result;
     }
+
     /**
      * 获取财务用户的公司所有摘牌信息
      * @param page      页码
      * @param limit     每页数量
      * @return ResponseData
      */
-
     @GetMapping("/financeDelist")
     @HasRole(value = {"USER_MONEY","USER_SALE","USER_BUY"},logical = Logical.ANY)
     public ResponseData getDelistListFinance( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
