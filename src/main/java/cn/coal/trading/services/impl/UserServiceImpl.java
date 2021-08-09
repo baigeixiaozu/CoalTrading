@@ -124,6 +124,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 随机生成财务账户
+     *
      * @Author Sorakado
      * @Date 2021/7/30 23:10
      * @Version 1.0
@@ -223,8 +225,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseData complete(CompanyInformation companyInformation) {
 
-        // TODO: 支持UPDATE（审核驳回修改）
         ResponseData response = new ResponseData();
+        // 企业信息存储更新
         int i = companyMapper.update(companyInformation, new UpdateWrapper<CompanyInformation>() {{
             eq("user_id", companyInformation.getUserId());
             set("status", 2);               // 置为审核阶段
@@ -233,6 +235,10 @@ public class UserServiceImpl implements UserService {
             i = companyMapper.insert(companyInformation);
         }
 
+        // TODO:财务信息存储更新
+        FinanceProperty financeInfo = companyInformation.getFinanceInfo();
+
+        // 财务邮件存储更新
         String financeEmail = companyInformation.getFinanceEmail();
         int update = userMetaMapper.update(new UserMeta() {{
             setMvalue(financeEmail);

@@ -49,4 +49,6 @@ public class CompanyInformation {
     private String auditOpinion;                // 审核意见
     @TableField(exist = false)
     private String financeEmail;
+    @TableField(exist = false)
+    private FinanceProperty financeInfo;
 }
