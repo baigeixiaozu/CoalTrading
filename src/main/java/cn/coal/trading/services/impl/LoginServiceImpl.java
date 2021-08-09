@@ -1,6 +1,8 @@
 package cn.coal.trading.services.impl;
 
+import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.User;
+import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRolePermitMapper;
 import cn.coal.trading.services.LoginService;
@@ -22,13 +24,15 @@ import java.util.Map;
  **/
 @Service
 public class LoginServiceImpl implements LoginService {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Resource
     private UserRolePermitMapper userRolePermitMapper;
 
-    @Autowired
+    @Resource
+    CompanyMapper companyMapper;
+    @Resource
     private SecurityManager securityManager;
 
     @Override
@@ -54,9 +58,14 @@ public class LoginServiceImpl implements LoginService {
 
         List<Map<String, Object>> relation = userRolePermitMapper.getRelation(loginUser.getId());
 
+        Boolean complete = null;
         if(relation.size() > 0) {
             // 角色暂时只能一个
-            profile.addRole((String) relation.get(0).get("role_mark"));
+            String roleMark = (String) relation.get(0).get("role_mark");
+            profile.addRole(roleMark);
+            if("USER_SALE".equals(roleMark) || "USER_SALE".equals(roleMark)){
+                complete = checkComplete(loginUser.getId());
+            }
 
             //profile.setRoles(roles:Set);
             // 权限有多个
@@ -69,9 +78,19 @@ public class LoginServiceImpl implements LoginService {
         }
         String token = securityManager.login(profile);
         if(token==null)return null;
+        Boolean finalComplete = complete;
         return new HashMap<String, Object>(){{
             put("access_token", token);
             put("role", profile.getRoles());
+            put("complete", finalComplete);
         }};
+    }
+
+    private boolean checkComplete(long userId){
+        Integer count = companyMapper.selectCount(new QueryWrapper<CompanyInformation>() {{
+            eq("user_id", userId);
+            eq("status", 3);        // 公司信息可用状态
+        }});
+        return count == 1;
     }
 }
