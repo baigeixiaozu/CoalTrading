@@ -48,7 +48,5 @@ public class CompanyInformation {
     private Integer status;                     // 信息状态[1.不可用| 2.审核阶段| 3.可用]
     private String auditOpinion;                // 审核意见
     @TableField(exist = false)
-    private String financeEmail;
-    @TableField(exist = false)
     private FinanceProperty financeInfo;
 }

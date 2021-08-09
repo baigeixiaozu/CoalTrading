@@ -247,7 +247,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 财务邮件存储更新
-        String financeEmail = companyInformation.getFinanceEmail();
+        String financeEmail = financeInfo.getEmail();
         int update = userMetaMapper.update(new UserMeta() {{
             setMvalue(financeEmail);
         }}, new UpdateWrapper<UserMeta>() {{

@@ -1,5 +1,6 @@
 package cn.coal.trading.bean;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,4 +31,6 @@ public class FinanceProperty implements Serializable {
     private String aoPermitFile;    // 开户许可证（文件路径）
     private Integer status;         // 信息状态[1.不可用| 2.审核阶段| 3.可用]
     private String auditOpinion;    // 审核意见
+    @TableField(exist = false)
+    private String email;
 }
