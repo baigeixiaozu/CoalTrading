@@ -11,9 +11,11 @@ public interface RegisterService {
     /**
      * 判断登录名是否被占用
      * @param login 登录名
+     * @param email
      * @return  boolean true占用|false未占用
      */
-    boolean isUserExist(String login);
+    boolean isUserExist(String login, String email);
+
     /**
      * @Author Sorakado
      * @ReWrite jiyeme

@@ -1,7 +1,6 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.User;
-import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.UserRoleBinding;
 import cn.coal.trading.mapper.UserMapper;
 import cn.coal.trading.mapper.UserRoleMapper;
@@ -20,15 +19,15 @@ import javax.annotation.Resource;
  **/
 @Service
 public class RegisterServiceImpl implements RegisterService {
-    @Autowired
+    @Resource
     UserMapper userMapper;
     @Resource
     UserRoleMapper userRoleMapper;
 
     @Override
-    public boolean isUserExist(String login) {
+    public boolean isUserExist(String login, String email) {
         Integer count = userMapper.selectCount(new QueryWrapper<User>() {{
-            eq("login", login);
+            eq("login", login).or().eq("email", email);
         }});
         return count != null && count > 0;
     }
