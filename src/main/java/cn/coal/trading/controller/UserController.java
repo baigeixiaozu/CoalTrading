@@ -151,11 +151,11 @@ public class UserController {
             response.setError("缺少角色参数");
             return response;
         }
-        boolean userExist = registerService.isUserExist(user.getLogin());
+        boolean userExist = registerService.isUserExist(user.getLogin(), user.getEmail());
         if (userExist) {
             response.setCode(102201);
             response.setMsg("fail");
-            response.setError("用户名已被使用");
+            response.setError("用户名或邮箱已被使用");
             return response;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
