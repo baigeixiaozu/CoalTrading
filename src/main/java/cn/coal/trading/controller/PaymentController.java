@@ -63,7 +63,10 @@ public class PaymentController {
             Long id=Long.parseLong(profile.getId());
 
             if(paymentService.setDeposit(id,requestId,number)){
-
+                return new ResponseData(){{
+                    setCode(200);
+                    setMsg("success");
+                }};
             }
             else{
                 return new ResponseData(){{
@@ -72,10 +75,6 @@ public class PaymentController {
                     setError("This request has been occupied");
                 }};
             }
-            return new ResponseData(){{
-                setCode(200);
-                setMsg("success");
-            }};
         }
         catch (Exception e){
             return new ResponseData(){{

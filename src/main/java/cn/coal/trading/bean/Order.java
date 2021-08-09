@@ -1,5 +1,7 @@
 package cn.coal.trading.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName("ct_order")
 public class Order {
+    @TableId(type= IdType.AUTO)//edit by Heming233
     private Long id;            // 系统订单ID
     private String num;         // 订单号
     private Long reqId;         // 对应需求ID
