@@ -1,6 +1,7 @@
 package cn.coal.trading.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -46,4 +47,6 @@ public class CompanyInformation {
     private String coalTransport;               // 运输方式及保障能力[供应商]
     private Integer status;                     // 信息状态[1.不可用| 2.审核阶段| 3.可用]
     private String auditOpinion;                // 审核意见
+    @TableField(exist = false)
+    private String financeEmail;
 }

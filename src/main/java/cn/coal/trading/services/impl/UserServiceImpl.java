@@ -4,6 +4,7 @@ import cn.coal.trading.bean.*;
 import cn.coal.trading.mapper.*;
 import cn.coal.trading.services.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,11 +36,10 @@ public class UserServiceImpl implements UserService {
     @Resource
     FinanceMapper financeMapper;
 
+    @Resource
+    UserMetaMapper userMetaMapper;
 
-
-
-
-    @Autowired
+    @Resource
     private CompanyMapper companyMapper;
 
     @Override
@@ -80,25 +80,23 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData finance(FinanceProperty financeProperty) {
-        ResponseData response=new ResponseData();
+        ResponseData response = new ResponseData();
         //生成并获取财务用户的账号和密码
-        Map<String,String> usermap= financeAccount();
-        long financeUserid= Long.parseLong(usermap.get("id"));
+        Map<String, String> usermap = financeAccount();
+        long financeUserid = Long.parseLong(usermap.get("id"));
         financeProperty.setFinanceUserid(financeUserid);
-
-
 
         //往企业用户财务表插入信息
         int insert = financeMapper.insert(financeProperty);
-        if(insert==1){
+        if (insert == 1) {
 
             //准备往用户角色表插入数据
-            UserRoleBinding financeUser=new UserRoleBinding();
+            UserRoleBinding financeUser = new UserRoleBinding();
             financeUser.setUserId(financeUserid);
 
             //查询财务用的roleid
-            QueryWrapper wrapper=new QueryWrapper();
-            wrapper.eq("name","财务用户");
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("name", "财务用户");
 
             Role role = roleMapper.selectOne(wrapper);
 
@@ -106,16 +104,16 @@ public class UserServiceImpl implements UserService {
 
             userRoleMapper.insert(financeUser);
 
-            Map map=new HashMap<String,Object>();
-            map.put("registerInfo",financeProperty);
-            map.put("financeAccount",usermap.get("login"));
-            map.put("financePassword",usermap.get("pass"));
+            Map map = new HashMap<String, Object>();
+            map.put("registerInfo", financeProperty);
+            map.put("financeAccount", usermap.get("login"));
+            map.put("financePassword", usermap.get("pass"));
             response.setCode(201);
             response.setMsg("数据上传成功");
             response.setError("无");
             response.setData(map);
 
-        }else{
+        } else {
             response.setData(null);
             response.setError("资源冲突，或者资源被锁定");
             response.setCode(409);
@@ -123,19 +121,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return response;
-
-
-
-
     }
+
     /**
      * @Author Sorakado
      * @Date 2021/7/30 23:10
      * @Version 1.0
      **/
-
     @Override
-    public Map<String,String> financeAccount() {
+    public Map<String, String> financeAccount() {
         HashMap<String, String> map = new HashMap<>();
 
         String login = "";
@@ -158,25 +152,24 @@ public class UserServiceImpl implements UserService {
                 pass += String.valueOf(random.nextInt(10));
             }
         }
-            User user = new User();
+        User user = new User();
 
-            user.setLogin(login);
+        user.setLogin(login);
 
-             //密码加密
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-            String password = encoder.encode(pass);
-            user.setPass(password);
-            user.setStatus(2);
-            int insert = userMapper.insert(user);
-            if (insert == 1) {
-            map.put("id",""+user.getId());
-            map.put("login",login);
-            map.put("pass",pass);
+        //密码加密
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+        String password = encoder.encode(pass);
+        user.setPass(password);
+        user.setStatus(2);
+        int insert = userMapper.insert(user);
+        if (insert == 1) {
+            map.put("id", "" + user.getId());
+            map.put("login", login);
+            map.put("pass", pass);
 
 
-
-                return map;
-            }
+            return map;
+        }
         return null;
     }
 
@@ -186,34 +179,32 @@ public class UserServiceImpl implements UserService {
      * @Version 1.0
      * 获取用户基本信息
      **/
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseData getInfo(long id) {
         ResponseData response = new ResponseData();
         User user = userMapper.selectById(id);
-        Map<String,Object> map = new HashMap<>(7);
+        Map<String, Object> map = new HashMap<>(7);
 
-        map.put("login",user.getLogin());
+        map.put("login", user.getLogin());
 
-        map.put("nick",user.getNick());
-        map.put("email",user.getEmail());
+        map.put("nick", user.getNick());
+        map.put("email", user.getEmail());
 
         QueryWrapper<UserRoleBinding> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id",id);
+        wrapper.eq("user_id", id);
         UserRoleBinding userRoleBinding = userRoleMapper.selectOne(wrapper);
 
         Role role = roleMapper.selectById(userRoleBinding.getRoleId());
 
-        map.put("userType",role.getName());
+        map.put("userType", role.getName());
 
-        if(user!=null){
+        if (user != null) {
             response.setCode(200);
             response.setError("无");
             response.setMsg("获取数据成功");
             response.setData(map);
-        }
-        else{
+        } else {
             response.setCode(404);
             response.setError("资源，服务未找到");
             response.setMsg("获取失败");
@@ -221,7 +212,6 @@ public class UserServiceImpl implements UserService {
         }
         return response;
     }
-
 
     /**
      * @Author Sorakado
@@ -233,23 +223,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseData complete(CompanyInformation companyInformation) {
 
-
         ResponseData response = new ResponseData();
         int insert = companyMapper.insert(companyInformation);
 
+        String financeEmail = companyInformation.getFinanceEmail();
+        int update = userMetaMapper.update(new UserMeta() {{
+            setMvalue(financeEmail);
+        }}, new UpdateWrapper<UserMeta>() {{
+            eq("user_id", companyInformation.getUserId());
+            eq("mkey", "finance_email");
+        }});
+        // update失败就insert
+        if(update == 0){
+            update = userMetaMapper.insert(new UserMeta() {{
+                setUserId(companyInformation.getUserId());
+                setMkey("finance_email");
+                setMvalue(financeEmail);
+            }});
+        }
 
-
-        if(insert==1){
+        if (insert == 1 && update == 1) {
             response.setCode(201);
             response.setMsg("数据上传成功");
             response.setError("无");
             response.setData(companyInformation);
-
-
-
-
-
-        }else{
+        } else {
             response.setData(null);
             response.setError("资源冲突，或者资源被锁定");
             response.setCode(409);
