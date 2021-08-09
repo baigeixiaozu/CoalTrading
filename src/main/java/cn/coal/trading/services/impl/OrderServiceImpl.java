@@ -6,6 +6,7 @@ import cn.coal.trading.services.OrderService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,5 +36,25 @@ public class OrderServiceImpl implements OrderService {
             put("pages", orders.getPages());
         }};
         return result;
+    }
+
+    //生成订单
+    @Override
+    public Order addNewOrder(Long userId,Long requestId){
+        QueryWrapper<Order> wrapper=new QueryWrapper<>();
+
+        Order order=new Order();
+        order.setReqId(requestId);
+        order.setUserId(userId);
+        order.setStatus(1);//状态码“1”表示订单进行中
+        order.setNum(String.valueOf((Math.random()*9+1)*100000));
+
+/*        List<Order> list=orderMapper.selectList(wrapper);
+        if( list.isEmpty()){
+            order.setId(1L);
+        }*/
+
+        orderMapper.insert(order);
+        return order;
     }
 }

@@ -14,4 +14,6 @@ import java.util.Map;
  **/
 public interface OrderService {
     Map<String, Object> list(Order order, int page, int limit);
+
+    Order addNewOrder(Long userId,Long requestId);
 }

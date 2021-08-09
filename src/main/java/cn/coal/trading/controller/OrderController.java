@@ -8,10 +8,7 @@ import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -44,5 +41,32 @@ public class OrderController {
         responseData.setData(result);
 
         return responseData;
+    }
+
+    /**
+     * Created by Heming233
+     * Date:2021/8/9
+     * version:v1.0
+     */
+    @PostMapping("/new")
+    public ResponseData newOrder(@PathVariable Long requestId){
+        try{
+            TokenProfile profile=ProfileHolder.getProfile();
+            Long userId=Long.parseLong(profile.getId());
+
+            Order order=orderService.addNewOrder(userId,requestId);
+            return new ResponseData(){{
+                setCode(200);
+                setMsg("success");
+                setData(order);
+            }};
+        }
+        catch(Exception e){
+            return new ResponseData(){{
+                setCode(403);
+                setMsg("error");
+                setError("add new order failed");
+            }};
+        }
     }
 }
