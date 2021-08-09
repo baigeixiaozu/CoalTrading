@@ -219,7 +219,6 @@ public class UserController {
         return response;
     }
 
-
     /**
      * @Author Sorakado
      * @Optimize jiye
@@ -307,7 +306,6 @@ public class UserController {
      * @Version 1.0
      * 获取登录用户的基本信息
      **/
-    @HasRole(value = {"USER_SALE", "USER_BUY", "USER_MONEY"}, logical = Logical.ANY)
     @GetMapping("info")
     public ResponseData getUserInfo() {
         TokenProfile profile = ProfileHolder.getProfile();
