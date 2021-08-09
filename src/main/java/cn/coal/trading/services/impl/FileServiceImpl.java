@@ -42,8 +42,8 @@ public class FileServiceImpl implements FileService {
     @Override
     public String storeFile2Local(MultipartFile file, CertType type, long userId){
 
-        String basePath = uploadFileLocation + "/userCert/" + userId + "/";
-        File basePathDir = new File(basePath);
+        String filePath = "/userCert/" + userId + "/";
+        File basePathDir = new File(uploadFileLocation + filePath);
         if (!basePathDir.exists()) {
             basePathDir.mkdirs();
         }
@@ -51,9 +51,9 @@ public class FileServiceImpl implements FileService {
         // 取后缀
         String suffix = StringUtils.substringAfter(file.getOriginalFilename(), ".");
         String fileName = type.name() + "_" + userId + "." + suffix;
-        String filePath = basePath + fileName;
+        filePath = filePath + fileName;
 
-        File target = new File(filePath);
+        File target = new File(uploadFileLocation + filePath);
         try {
             file.transferTo(target);        // 转移上传的文件
         } catch (IOException e) {
@@ -64,6 +64,7 @@ public class FileServiceImpl implements FileService {
         return filePath;
     }
 
+    @Override
     public boolean storeCert2DB(String path, CertType type, long userId){
 
         if(type == CertType.AO_PERMIT_FILE){
@@ -82,8 +83,7 @@ public class FileServiceImpl implements FileService {
             return i == 1;
         }else{
             // 企业信息
-            int i;
-            i = companyMapper.updateCert(type.name().toLowerCase(Locale.ROOT), path, userId);
+            int i = companyMapper.updateCert(type.name().toLowerCase(Locale.ROOT), path, userId);
             if(i == 0){
                 i = companyMapper.insertCert(type.name().toLowerCase(Locale.ROOT), userId, path);
             }

@@ -30,6 +30,6 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     @Insert("INSERT INTO `ct_company` (`user_id`, `${col}`) VALUES (#{uid},#{path})")
     int insertCert(String col, long uid, String path);
 
-    @Insert("UPDATE `ct_company` SET `${col}`=#{path} WHERE `user_id`=#{uid})")
+    @Insert("UPDATE `ct_company` SET `${col}`=#{path} WHERE `user_id`=#{uid}")
     int updateCert(String col, String path, long uid);
 }

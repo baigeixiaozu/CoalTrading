@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 随机生成财务账户
+     * 随机生成财务账户【审核通过时才会调用】
      *
      * @Author Sorakado
      * @Date 2021/7/30 23:10
@@ -235,8 +235,16 @@ public class UserServiceImpl implements UserService {
             i = companyMapper.insert(companyInformation);
         }
 
-        // TODO:财务信息存储更新
         FinanceProperty financeInfo = companyInformation.getFinanceInfo();
+        financeInfo.setMainUserid(null);
+        financeInfo.setFinanceUserid(null);
+        int update1 = financeMapper.update(financeInfo, new UpdateWrapper<FinanceProperty>() {{
+            eq("main_userid", companyInformation.getUserId());
+        }});
+        if(update1 == 0){
+            financeInfo.setMainUserid(companyInformation.getUserId());
+            update1 = financeMapper.insert(financeInfo);
+        }
 
         // 财务邮件存储更新
         String financeEmail = companyInformation.getFinanceEmail();
@@ -255,7 +263,7 @@ public class UserServiceImpl implements UserService {
             }});
         }
 
-        if (i == 1 && update == 1) {
+        if (i == 1 && update1 ==1 && update == 1) {
             response.setCode(201);
             response.setMsg("数据上传成功");
             response.setError("无");

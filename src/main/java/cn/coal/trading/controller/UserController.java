@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -246,7 +247,7 @@ public class UserController {
      **/
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/uploadFile")
-    public ResponseData uploadFiles(@RequestPart("file") MultipartFile file, @RequestParam CertType type){
+    public ResponseData uploadFile(@RequestPart("file") MultipartFile file, @RequestParam CertType type){
         ResponseData response = new ResponseData();
         if (file.isEmpty()) {
             response.setCode(400);
@@ -273,9 +274,14 @@ public class UserController {
             response.setCode(400);
             response.setMsg("fail");
             response.setError("文件数据存储失败");
+            return response;
         }
         response.setCode(200);
         response.setMsg("success");
+        response.setData(new HashMap<String, String>(){{
+            put("path", storePath);
+        }});
+
         return response;
     }
 

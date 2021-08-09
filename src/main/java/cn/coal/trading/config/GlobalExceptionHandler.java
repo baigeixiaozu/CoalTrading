@@ -48,13 +48,15 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public ResponseData defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    public ResponseData defaultErrorHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception {
         e.printStackTrace();
         ResponseData r = new ResponseData();
         r.setError(e.getMessage());
         if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
+            response.setStatus(404);
             r.setCode(404);
         } else {
+            response.setStatus(500);
             r.setCode(500);
         }
         r.setData(null);
