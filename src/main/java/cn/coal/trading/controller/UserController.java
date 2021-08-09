@@ -229,7 +229,7 @@ public class UserController {
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
         TokenProfile profile = ProfileHolder.getProfile();
-        info.setUserId((long) Integer.parseInt(profile.getId()));
+        info.setUserId(Long.parseLong(profile.getId()));
         //  info.setUserId(7L);
         ResponseData result = userService.complete(info);
 

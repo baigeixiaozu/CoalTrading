@@ -223,8 +223,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseData complete(CompanyInformation companyInformation) {
 
+        // TODO: 支持UPDATE（审核驳回修改）
         ResponseData response = new ResponseData();
-        int insert = companyMapper.insert(companyInformation);
+        int i = companyMapper.update(companyInformation, new UpdateWrapper<CompanyInformation>() {{
+            eq("user_id", companyInformation.getUserId());
+            set("status", 2);               // 置为审核阶段
+        }});
+        if (i == 0) {
+            i = companyMapper.insert(companyInformation);
+        }
 
         String financeEmail = companyInformation.getFinanceEmail();
         int update = userMetaMapper.update(new UserMeta() {{
@@ -234,7 +241,7 @@ public class UserServiceImpl implements UserService {
             eq("mkey", "finance_email");
         }});
         // update失败就insert
-        if(update == 0){
+        if (update == 0) {
             update = userMetaMapper.insert(new UserMeta() {{
                 setUserId(companyInformation.getUserId());
                 setMkey("finance_email");
@@ -242,7 +249,7 @@ public class UserServiceImpl implements UserService {
             }});
         }
 
-        if (insert == 1 && update == 1) {
+        if (i == 1 && update == 1) {
             response.setCode(201);
             response.setMsg("数据上传成功");
             response.setError("无");

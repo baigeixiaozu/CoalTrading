@@ -63,35 +63,25 @@ public class FileServiceImpl implements FileService {
     public boolean storeCert2DB(String path, CertType type, long userId){
 
         if(type == CertType.AO_PERMIT_FILE){
-            // 财务 - 开户许可证
-            FinanceProperty finUser = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {{
+            // i
+            int i = financeMapper.update(new FinanceProperty(), new UpdateWrapper<FinanceProperty>() {{
+                set("ao_permit_file", path);
                 eq("main_userid", userId);
             }});
-            if(finUser==null){
+            if(i == 0){
                 // insert
-                int insert = financeMapper.insert(new FinanceProperty() {{
+                i = financeMapper.insert(new FinanceProperty() {{
                     setMainUserid(userId);
                     setAoPermitFile(path);
                 }});
-                return insert == 1;
-            }else{
-                // update
-                int update = financeMapper.update(new FinanceProperty(), new UpdateWrapper<FinanceProperty>() {{
-                    set("ao_permit_file", path);
-                    eq("main_userid", userId);
-                }});
-                return update == 1;
             }
+            return i == 1;
         }else{
             // 企业信息
-            Integer count = companyMapper.selectCount(new QueryWrapper<CompanyInformation>() {{
-                eq("user_id", userId);
-            }});
             int i;
-            if(count == null || count == 0){
+            i = companyMapper.updateCert(type.name().toLowerCase(Locale.ROOT), path, userId);
+            if(i == 0){
                 i = companyMapper.insertCert(type.name().toLowerCase(Locale.ROOT), userId, path);
-            }else{
-                i = companyMapper.updateCert(type.name().toLowerCase(Locale.ROOT), path, userId);
             }
             return i == 1;
         }
