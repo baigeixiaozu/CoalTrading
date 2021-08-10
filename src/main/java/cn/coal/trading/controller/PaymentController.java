@@ -63,6 +63,7 @@ public class PaymentController {
     //输入需求量，计算出保证金并缴纳
     @ApiOperation(value = "securityPayment",notes = "缴纳保证金")
     @PostMapping("number/{requestId}")
+    @HasRole(value = "USER_MONEY",logical = Logical.ANY)
     public ResponseData SecurityPayment(@RequestBody double number, @PathVariable String requestId){
         try{
             TokenProfile profile= ProfileHolder.getProfile();
