@@ -6,6 +6,7 @@ import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,57 +21,62 @@ import java.util.List;
 @RequestMapping("/info")
 public class ComInfoController {
 
-    public ComInfoController(CompanyMapper companyMapper){
-        this.companyMapper=companyMapper;
+    public ComInfoController(CompanyMapper companyMapper) {
+        this.companyMapper = companyMapper;
     }
+
     private CompanyMapper companyMapper;
-    ResponseData responseData=new ResponseData();
-    FileServiceImpl fileService=new FileServiceImpl();
+    ResponseData responseData = new ResponseData();
+    FileServiceImpl fileService = new FileServiceImpl();
+
     @GetMapping("/{id}")
-    public ResponseData BasicInfo(@PathVariable Long id){
-        List<CompanyInformation> companyInformation=companyMapper.getInfo(id);
-         responseData.setData(companyInformation);
-         if(companyInformation==null){
-             responseData.setCode(400);
-             responseData.setMsg("没这个人");
-             responseData.setError("查无此人");
-         }
-         else{
-             responseData.setCode(200);
-             responseData.setMsg("对了");
-             responseData.setError("无");
-         }
+    @ApiOperation(value = "basicInfo", notes = "检查用户是否已完善企业信息")
+    public ResponseData BasicInfo(@PathVariable Long id) {
+        List<CompanyInformation> companyInformation = companyMapper.getInfo(id);
+        responseData.setData(companyInformation);
+        if (companyInformation == null) {
+            responseData.setCode(400);
+            responseData.setMsg("没这个人");
+            responseData.setError("查无此人");
+        } else {
+            responseData.setCode(200);
+            responseData.setMsg("对了");
+            responseData.setError("无");
+        }
         return responseData;
     }
+
     @GetMapping("/{id}/{opinion}")
-    public void Opinion(@PathVariable Long id,@PathVariable String opinion){
-            companyMapper.Opinion(id, opinion);
+    public void Opinion(@PathVariable Long id, @PathVariable String opinion) {
+        companyMapper.Opinion(id, opinion);
     }
+
     @GetMapping("/verify/{id}")
-    public void verify(@PathVariable Long id){
+    public void verify(@PathVariable Long id) {
         companyMapper.verify(id);
     }
+
     @GetMapping("/reject/{id}")
-    public void reject(@PathVariable Long id){
+    public void reject(@PathVariable Long id) {
         companyMapper.verify(id);
     }
+
     @GetMapping("/download/{id}/{name}")//legal_id_file
-    public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {
-         String down=companyMapper.download(id,name);
+    @ApiOperation(value = "download",notes = "下载企业资质文件")
+    public ResponseData download(@PathVariable Long id, @PathVariable String name) throws IOException {
+        String down = companyMapper.download(id, name);
         fileService.download(down);
-         if(down==null)
-         {
-             responseData.setCode(400);
-             responseData.setMsg("wu");
-             responseData.setError("无链接");
-         }
-         else{
-             responseData.setData(down);
-             responseData.setCode(201);
-             responseData.setError("无");
-             responseData.setMsg("wu");
-         }
-         return responseData;
+        if (down == null) {
+            responseData.setCode(400);
+            responseData.setMsg("wu");
+            responseData.setError("无链接");
+        } else {
+            responseData.setData(down);
+            responseData.setCode(201);
+            responseData.setError("无");
+            responseData.setMsg("wu");
+        }
+        return responseData;
     }
 
 }
