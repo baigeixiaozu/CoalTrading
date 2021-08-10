@@ -62,9 +62,10 @@ shaun:
     - /info
   exclude-branch: # 排除以此路径开头
     - /webjars
-    - /info
+#    - /info
     - /news/detail
     - /news/more
+#    - /fin
   expire-time: 99d # 不设置默认永久有效
   header:
     name: Authorization

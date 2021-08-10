@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 @Service
 public class DelistServiceImpl implements DelistService {
     /**
@@ -30,11 +31,6 @@ public class DelistServiceImpl implements DelistService {
     @Resource
     FinanceMapper financeMapper;
 
-    @Override
-    public Request getReqDetails(int id) {
-        Request request = reqMapper.selectById(id);
-        return request;
-    }
     /**
      * @author Sorakado
      * @param id requestId    摘牌用户id，需求id

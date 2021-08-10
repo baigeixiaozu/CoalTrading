@@ -1,10 +1,12 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.CertType;
+import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.services.FileService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.Buffer;
 import java.util.Locale;
 
 /**
@@ -86,29 +88,25 @@ public class FileServiceImpl implements FileService {
             return i == 1;
         }
     }
-    public void download(String path) throws IOException{
-        int width=963;
-        int height=640;
-        BufferedImage image=null;
-        File f=null;
-        try{
-            f=new File(path);
-            image=new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
-            image= ImageIO.read(f);
-            System.out.print("complete");
+        public void download(String path,String name) throws IOException{
+            FileOutputStream out = null;
+            FileInputStream in = null;
+            int cursor;
+            try{
+                in = new FileInputStream(path);
+                out = new FileOutputStream("/Users/songyanbai/Downloads/"+name+".jpg");
+                while((cursor = in.read())!=-1){
+                    out.write(cursor);
+                }
+            }
+            finally{
+                if(in!=null){
+                    in.close();
+                }
+                if(out!=null){
+                    out.close();
+                }
+                System.out.println("Read and Write complete");
+            }
         }
-        catch(IOException e){
-                System.out.println(e);
-        }
-        try{
-            f=new File(path);
-            ImageIO.write(image,"jpg",f);
-            System.out.print("yes");
-        }
-        catch (IOException e){
-            System.out.println(e);
-        }
-
-    }
-
 }

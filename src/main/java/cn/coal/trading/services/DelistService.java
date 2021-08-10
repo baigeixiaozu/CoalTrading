@@ -1,21 +1,12 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
 import com.baomidou.shaun.core.profile.TokenProfile;
 
 import java.util.Map;
 
 public interface DelistService {
-    /**
-     * @author Sorakado
-     * 获取详细需求
-     * @param id    需求id
-     * @return
-     */
-    Request getReqDetails(int id);
-
 
     /**
      * @author Sorakado

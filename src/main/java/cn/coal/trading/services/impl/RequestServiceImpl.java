@@ -1,6 +1,6 @@
 package cn.coal.trading.services.impl;
 
-import cn.coal.trading.bean.*;
+import cn.coal.trading.bean.Request;
 import cn.coal.trading.mapper.DelistingMapper;
 import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.mapper.ReqMapper;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author jiyec
@@ -48,6 +47,15 @@ public class RequestServiceImpl implements RequestService {
             put("current", requestPage.getCurrent());
             put("pages", requestPage.getPages());
         }};
+    }
+
+    // TODO:条件处理：审核通过的  - 3
+    @Override
+    public Request getPublicDetail(int id) {
+        return reqMapper.selectOne(new QueryWrapper<Request>(){{
+            eq("id", id);
+            eq("status", 3);
+        }});
     }
 
     @Override

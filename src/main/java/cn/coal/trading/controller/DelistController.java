@@ -1,7 +1,6 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.DelistService;
 import com.baomidou.shaun.core.annotation.HasRole;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
+
 @Api(tags="摘牌模块")
 @RestController
 @RequestMapping("/delist")
@@ -23,39 +23,12 @@ public class DelistController {
      * @author Sorakado
      * @time 2021/8/6/ 23:20
      * @version 1.0
-     * 获取指定的详细需求
-     */
-    @PostMapping("/detailRequest")
-    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
-    public ResponseData getDetail(@RequestParam int request_id){
-        ResponseData response = new ResponseData();
-
-        Request reqDetails = delistService.getReqDetails(request_id);
-        if(reqDetails!=null){
-            response.setData(reqDetails);
-            response.setCode(200);
-            response.setMsg("资源操作成功");
-            response.setError("无");
-        }else
-        {
-            response.setData(null);
-            response.setCode(404);
-            response.setMsg("不存在该订单的详细信息！");
-            response.setError("资源，服务未找到");
-        }
-        return response;
-    }
-    /**
-     * @author Sorakado
-     * @time 2021/8/6/ 23:20
-     * @version 1.0
      * 摘牌功能
      */
     @PostMapping("/delist")
     @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
     public ResponseData delistRequest(@RequestParam int request_id){
         TokenProfile profile= ProfileHolder.getProfile();
-
 
         ResponseData result =delistService.delist(Long.parseLong(profile.getId()), request_id);
         return result;

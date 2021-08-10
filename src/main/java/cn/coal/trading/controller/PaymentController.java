@@ -3,6 +3,8 @@ package cn.coal.trading.controller;
 import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.PaymentService;
+import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -35,6 +37,7 @@ public class PaymentController {
     //展示用户财产信息
     @ApiOperation(value = "showFinanceInfo",notes = "展示用户财务信息")
     @GetMapping("show")
+    @HasRole(value = "USER_MONEY",logical = Logical.ANY)
     public ResponseData showInformation(){
         try{
             TokenProfile profile= ProfileHolder.getProfile();
@@ -60,6 +63,7 @@ public class PaymentController {
     //输入需求量，计算出保证金并缴纳
     @ApiOperation(value = "securityPayment",notes = "缴纳保证金")
     @PostMapping("number/{requestId}")
+    @HasRole(value = "USER_MONEY",logical = Logical.ANY)
     public ResponseData SecurityPayment(@RequestBody double number, @PathVariable String requestId){
         try{
             TokenProfile profile= ProfileHolder.getProfile();
