@@ -5,6 +5,7 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.MsgService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.*;
  * @Date 2021/7/28 16:35
  * @Version 1.0
  **/
+@Api(value = "消息模块")
 @RestController
 @RequestMapping("/message")
 @Slf4j

@@ -4,10 +4,13 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+
+@Api(value = "???")
 @HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")

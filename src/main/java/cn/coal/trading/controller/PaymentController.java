@@ -6,6 +6,7 @@ import cn.coal.trading.services.PaymentService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import com.sun.xml.internal.ws.client.ResponseContext;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,8 +27,9 @@ import java.util.Map;
  * version:v1.3
  */
 
+@Api(value = "保证金模块")
 @RestController
-@RequestMapping("payment")
+@RequestMapping("/payment")
 public class PaymentController {
     @Resource
     PaymentService paymentService;

@@ -25,7 +25,7 @@ import java.util.Set;
  * @veuserServiceion v2.0
  * @time 7.29 11:02
  */
-@Api(value = "用户管理",tags = "用户管理")
+@Api(value = "用户管理", tags = "用户管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -290,6 +290,7 @@ public class UserController {
      * @Version 1.0
      * 生成企业财务账户表和财务用户功能
      **/
+    @Deprecated
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance) {
@@ -306,7 +307,7 @@ public class UserController {
      * @Version 1.0
      * 获取登录用户的基本信息
      **/
-    @GetMapping("info")
+    @GetMapping("/info")
     public ResponseData getUserInfo() {
         TokenProfile profile = ProfileHolder.getProfile();
         ResponseData result = userService.getInfo(Long.parseLong(profile.getId()));
