@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-@Api(value = "用户信息更新模块")
+@Api(tags = "用户信息更新模块")
 @RestController
 @RequestMapping("/update")
 public class UpdateUserInfoController {

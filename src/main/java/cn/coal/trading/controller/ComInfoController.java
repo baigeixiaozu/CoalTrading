@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
-@Api(value = "???")
+@Api(tags = "???")
 @HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")

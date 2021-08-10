@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date 2021/7/31 21:37
  * @Version 1.0
  **/
-@Api(value = "订单模块")
+@Api(tags = "订单模块")
 @RestController
 @RequestMapping("/order")
 @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)      // 部分功能需管理员？

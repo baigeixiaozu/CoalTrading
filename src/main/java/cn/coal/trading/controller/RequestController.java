@@ -32,7 +32,7 @@ import java.util.Set;
  * @Date 2021/7/31 22:18
  * @Version 1.0
  **/
-@Api(value = "挂牌模块")
+@Api(tags = "挂牌模块")
 @RestController
 @RequestMapping("/request")
 public class RequestController {

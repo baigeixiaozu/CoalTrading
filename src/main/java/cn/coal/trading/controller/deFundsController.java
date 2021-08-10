@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 import java.util.List;
 
-@Api(value = "资金预存模块")
+@Api(tags = "资金预存模块")
 @HasRole("USER_BUY")
 @RequestMapping("/fin")
 @RestController

@@ -29,7 +29,7 @@ import java.util.List;
  * update:2021/8/9
  * version:v1.5
  */
-@Api(value = "新闻模块")
+@Api(tags = "新闻模块")
 @RestController//注释该类为Controller类，return返回值将被转换成json，字符串除外
 @RequestMapping("/news")
 public class NewsController {

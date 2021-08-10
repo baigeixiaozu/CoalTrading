@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date 2021/7/28 16:35
  * @Version 1.0
  **/
-@Api(value = "消息模块")
+@Api(tags = "消息模块")
 @RestController
 @RequestMapping("/message")
 @Slf4j

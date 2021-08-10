@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  * version:v1.3
  */
 
-@Api(value = "保证金模块")
+@Api(tags = "保证金模块")
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
