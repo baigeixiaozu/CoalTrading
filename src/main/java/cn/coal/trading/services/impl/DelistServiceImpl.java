@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 @Service
 public class DelistServiceImpl implements DelistService {
     /**
