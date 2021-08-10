@@ -5,12 +5,10 @@ import cn.coal.trading.bean.FinanceStore;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.DeFundsMapper;
 import cn.coal.trading.services.impl.FileServiceImpl;
-import com.baomidou.shaun.core.annotation.HasAuthorization;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -18,9 +16,9 @@ import java.util.List;
 @HasRole("USER_BUY")
 @RequestMapping("/fin")
 @RestController
-public class deFundsController {
+public class DeFundsController {
     private DeFundsMapper deFundsMapper;
-    public deFundsController(DeFundsMapper deFundsMapper){
+    public DeFundsController(DeFundsMapper deFundsMapper){
         this.deFundsMapper=deFundsMapper;
     }
     @GetMapping("/info")
