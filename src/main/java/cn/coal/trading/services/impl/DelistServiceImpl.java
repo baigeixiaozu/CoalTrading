@@ -53,9 +53,9 @@ public class DelistServiceImpl implements DelistService {
         int insert = delistingMapper.insert(delist);
         if(insert==1) {
 
-            UpdateWrapper<Request> wrapper = new UpdateWrapper<>();
-            wrapper.set("zp_id",delist.getId());
-            reqMapper.update(reqMapper.selectById(requestId),wrapper);
+//            UpdateWrapper<Request> wrapper = new UpdateWrapper<>();
+//            wrapper.set("zp_id",delist.getId());
+//            reqMapper.update(reqMapper.selectById(requestId),wrapper);
 
             response.setCode(200);
             response.setMsg("提交摘牌申请成功！");

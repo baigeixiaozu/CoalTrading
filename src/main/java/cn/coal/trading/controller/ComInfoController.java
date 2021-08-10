@@ -19,7 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/info")
 public class ComInfoController {
-    public ComInfoController(CompanyMapper companyMapper){this.companyMapper=companyMapper;}
+
+    public ComInfoController(CompanyMapper companyMapper){
+        this.companyMapper=companyMapper;
+    }
     private CompanyMapper companyMapper;
     ResponseData responseData=new ResponseData();
     FileServiceImpl fileService=new FileServiceImpl();
