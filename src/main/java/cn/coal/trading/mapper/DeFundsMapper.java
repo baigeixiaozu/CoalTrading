@@ -20,4 +20,6 @@ public interface DeFundsMapper extends BaseMapper {
 
     @Insert("insert into ct_finance_store values(#{id},#{user_id},#{date},#{quantity},#{cert},#{status})")
     void TransInfo(FinanceStore financeStore);
+    @Update("update ct_finance_store set cert =#{path} where user_id=#{id}")
+    void updateF(String path,Long id);
 }

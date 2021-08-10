@@ -96,7 +96,7 @@ public class FileServiceImpl implements FileService {
         BufferedImage image=null;
         File f=null;
         try{
-            f=new File("Users/songyanbai/Desktop/IMG_1802.JPG");
+            f=new File(path);
             image=new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
             image= ImageIO.read(f);
             System.out.print("complete");
@@ -105,7 +105,7 @@ public class FileServiceImpl implements FileService {
                 System.out.println(e);
         }
         try{
-            f=new File("Users/songyanbai/Desktop/IMG_test");
+            f=new File(path);
             ImageIO.write(image,"jpg",f);
             System.out.print("yes");
         }

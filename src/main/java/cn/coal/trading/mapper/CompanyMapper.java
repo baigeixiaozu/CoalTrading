@@ -24,12 +24,13 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     void verify(Long id);
     @Update("update ct_company set status=3 where user_id=#{id}")
     void reject(Long id);
-    @Select("select  com_zip from ct_company where id=#{id}")
-    String download(long id);
+
 
     @Insert("INSERT INTO `ct_company` (`user_id`, `${col}`) VALUES (#{uid},#{path})")
     int insertCert(String col, long uid, String path);
 
     @Insert("UPDATE `ct_company` SET `${col}`=#{path} WHERE `user_id`=#{uid}")
     int updateCert(String col, String path, long uid);
+    @Select("select #{name} from ct_company where id=#{id}")
+    String download(long id,String name);//legal_id_file
 }

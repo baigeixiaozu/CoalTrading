@@ -8,32 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-@HasRole("NEWS_AUDITOR")
+@HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")
 public class ComInfoController {
-    //    @Autowired
-//    ComInfo comInfo;
     public ComInfoController(CompanyMapper companyMapper){this.companyMapper=companyMapper;}
     private CompanyMapper companyMapper;
-    //    @GetMapping("/{id}")
-//    public ResponseData getById(@PathVariable Long id){
-//        ResponseData responseData=new ResponseData();
-//        CompanyInformation companyInformation= comInfo.getCompanyInfoById(id);
-//        if (companyInformation != null) {
-//            responseData.setCode(200);
-//            responseData.setMsg("success");
-//            responseData.setData(companyInformation);
-//        } else {
-//            responseData.setCode(201);
-//            responseData.setMsg("fail");
-//            responseData.setError("未查询到此公司");
-//        }
-//        return responseData;
-//    }
+    ResponseData responseData=new ResponseData();
+    FileServiceImpl fileService=new FileServiceImpl();
     @GetMapping("/{id}")
     public ResponseData BasicInfo(@PathVariable Long id){
-        ResponseData responseData=new ResponseData();
         List<CompanyInformation> companyInformation=companyMapper.getInfo(id);
          responseData.setData(companyInformation);
          if(companyInformation==null){
@@ -60,11 +44,9 @@ public class ComInfoController {
     public void reject(@PathVariable Long id){
         companyMapper.verify(id);
     }
-    @GetMapping("/download/{id}")
-    public ResponseData download(@PathVariable Long id) throws IOException {
-         String down=companyMapper.download(id);
-         ResponseData responseData=new ResponseData();
-        FileServiceImpl fileService=new FileServiceImpl();
+    @GetMapping("/download/{id}/{name}")//legal_id_file
+    public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {
+         String down=companyMapper.download(id,name);
         fileService.download(down);
          if(down==null)
          {
@@ -80,4 +62,5 @@ public class ComInfoController {
          }
          return responseData;
     }
+
 }
