@@ -1,8 +1,8 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Request;
+import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.reqdata.BuyPubData;
 import cn.coal.trading.bean.reqdata.SalePubData;
 import cn.coal.trading.services.RequestService;

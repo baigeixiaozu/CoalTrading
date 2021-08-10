@@ -9,7 +9,6 @@ import cn.coal.trading.services.LoginService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.shaun.core.mgt.SecurityManager;
 import com.baomidou.shaun.core.profile.TokenProfile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

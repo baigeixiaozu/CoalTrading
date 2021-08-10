@@ -1,7 +1,10 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.*;
-import cn.coal.trading.services.*;
+import cn.coal.trading.services.FileService;
+import cn.coal.trading.services.LoginService;
+import cn.coal.trading.services.RegisterService;
+import cn.coal.trading.services.UserService;
 import cn.coal.trading.utils.TimeUtil;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;

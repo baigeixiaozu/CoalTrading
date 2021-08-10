@@ -1,6 +1,5 @@
 package cn.coal.trading.services;
 
-import cn.coal.trading.bean.FinanceLog;
 import cn.coal.trading.bean.FinanceProperty;
 
 /**

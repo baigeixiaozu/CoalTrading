@@ -1,11 +1,15 @@
 package cn.coal.trading.controller;
+
 import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
