@@ -75,4 +75,7 @@ ct:
   uploadFile:
     location: D:/temp/
 
+knife4j:
+  basic:
+    enable: true
 

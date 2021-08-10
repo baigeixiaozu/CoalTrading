@@ -833,3 +833,22 @@
 2021-08-10 16:21:21.545 [http-nio-8080-exec-3] INFO  org.pac4j.core.profile.ProfileHelper - Building user profile based on typedId: com.baomidou.shaun.core.profile.TokenProfile#9
 2021-08-10 16:22:33.155 [http-nio-8080-exec-6] INFO  org.pac4j.core.profile.ProfileHelper - Building user profile based on typedId: com.baomidou.shaun.core.profile.TokenProfile#9
 2021-08-10 16:28:06.247 [http-nio-8080-exec-1] INFO  org.pac4j.core.profile.ProfileHelper - Building user profile based on typedId: com.baomidou.shaun.core.profile.TokenProfile#9
+2021-08-10 17:44:20.262 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-08-10 17:44:20.277 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-08-10 17:45:24.384 [restartedMain] INFO  cn.coal.trading.CTApplication - Starting CTApplication using Java 11.0.10 on songyandeMacBook-Air.local with PID 6346 (/Users/songyanbai/CoalTrading/target/classes started by songyanbai in /Users/songyanbai/CoalTrading)
+2021-08-10 17:45:24.392 [restartedMain] INFO  cn.coal.trading.CTApplication - No active profile set, falling back to default profiles: default
+2021-08-10 17:45:24.448 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-08-10 17:45:24.448 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-08-10 17:45:25.957 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration' of type [com.baomidou.shaun.autoconfigure.ShaunAnnotationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-08-10 17:45:25.964 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityInterceptor' of type [com.baomidou.shaun.core.aop.MethodSecurityInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-08-10 17:45:25.966 [restartedMain] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'shaunMethodSecurityAdvisor' of type [com.baomidou.shaun.core.aop.MethodSecurityAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-08-10 17:45:26.479 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2021-08-10 17:45:26.486 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2021-08-10 17:45:26.486 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-08-10 17:45:26.486 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.48]
+2021-08-10 17:45:26.554 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-08-10 17:45:26.555 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2106 ms
+2021-08-10 17:45:28.011 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2021-08-10 17:45:28.232 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2021-08-10 17:45:28.248 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2021-08-10 17:45:28.709 [restartedMain] INFO  cn.coal.trading.CTApplication - Started CTApplication in 4.959 seconds (JVM running for 6.043)

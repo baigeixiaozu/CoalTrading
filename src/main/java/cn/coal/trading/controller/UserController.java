@@ -1,12 +1,16 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.*;
-import cn.coal.trading.services.*;
+import cn.coal.trading.services.FileService;
+import cn.coal.trading.services.LoginService;
+import cn.coal.trading.services.RegisterService;
+import cn.coal.trading.services.UserService;
 import cn.coal.trading.utils.TimeUtil;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +29,10 @@ import java.util.Set;
  * @veuserServiceion v2.0
  * @time 7.29 11:02
  */
-@Api(value = "用户管理",tags = "用户管理")
+@Api(value = "用户管理", tags = "用户管理")
 @RestController
 @RequestMapping("/user")
+@ApiSupport(author = "Sorakado & jiyeme")
 public class UserController {
 
     @Value("${shaun.expire-time}")
@@ -106,6 +111,7 @@ public class UserController {
      * @return ResponseData
      * @Author jiyeme
      */
+    @ApiOperation(value = "getRoleList",notes = "获取角色列表")
     @GetMapping({"/getRoleList/{type}"})
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
@@ -137,7 +143,9 @@ public class UserController {
      * @Author jiyec
      * @Date 2021/7/29 14:34
      * @Version 2.0
+     * 用户注册功能
      **/
+    @ApiOperation(value = "register",notes = "注册新用户（平台外）")
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
@@ -179,7 +187,9 @@ public class UserController {
      * @Author Sorakado & jiyeme
      * @Date 2021/7/29 16:34
      * @Version 2.0
+     * 用户登录功能
      **/
+    @ApiOperation(value = "login",notes = "用户登录")
     @PostMapping("/login")
     public ResponseData login(@RequestBody User user) {
         ResponseData response = new ResponseData();
@@ -226,6 +236,7 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
+    @ApiOperation(value = "completeCominfo",notes = "用户完善企业信息")
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
@@ -244,6 +255,7 @@ public class UserController {
      * @Version 1.0
      * 文件上传功能
      **/
+    @ApiOperation(value = "uploadFile",notes = "企业上传资质文件")
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/uploadFile")
     public ResponseData uploadFile(@RequestPart("file") MultipartFile file, @RequestParam CertType type){
@@ -290,6 +302,7 @@ public class UserController {
      * @Version 1.0
      * 生成企业财务账户表和财务用户功能
      **/
+    @Deprecated
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/finance")
     public ResponseData openFinancialAccount(@RequestBody FinanceProperty finance) {
@@ -306,7 +319,8 @@ public class UserController {
      * @Version 1.0
      * 获取登录用户的基本信息
      **/
-    @GetMapping("info")
+    @ApiOperation(value = "getUserInfo",notes = "获取登录用户的个人信息")
+    @GetMapping("/info")
     public ResponseData getUserInfo() {
         TokenProfile profile = ProfileHolder.getProfile();
         ResponseData result = userService.getInfo(Long.parseLong(profile.getId()));

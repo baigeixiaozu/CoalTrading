@@ -5,14 +5,13 @@ import cn.coal.trading.mapper.NewsMapper;
 import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -49,13 +48,14 @@ public class NewsServiceImpl implements NewsService {
         //设置查询条件
         wrapper.isNotNull("title");
         wrapper.eq("status","4");
-        wrapper.select("title","id");
+        wrapper.select("title","id","date");
 
         return newsMapper.selectPage(Page,wrapper);
     }
 
     //展示所有待审核的资讯
     @Override
+    @HasRole(value = "NEWS_AUDITOR",logical = Logical.ANY)
     public Page<News> getAuditingNews(int current,int size){
         Page<News> page=new Page<>(current,size);
         QueryWrapper<News> wrapper=new QueryWrapper<>();

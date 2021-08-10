@@ -4,8 +4,6 @@ import cn.coal.trading.bean.News;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.List;
 
 /**

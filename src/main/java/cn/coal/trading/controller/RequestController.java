@@ -1,16 +1,16 @@
 package cn.coal.trading.controller;
 
-import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.Request;
+import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.reqdata.BuyPubData;
 import cn.coal.trading.bean.reqdata.SalePubData;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.shaun.core.annotation.HasRole;
-import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +32,10 @@ import java.util.Set;
  * @Date 2021/7/31 22:18
  * @Version 1.0
  **/
-@Api(value = "需求处理")
+@Api(tags = "挂牌模块")
 @RestController
 @RequestMapping("/request")
+@ApiSupport(author = "jiyec")
 public class RequestController {
 
     @Resource
@@ -52,7 +53,8 @@ public class RequestController {
      * @param page      页码
      * @param limit     每页数量
      */
-    @GetMapping("/all/list")
+    @ApiOperation(value = "getRequestList",notes = "获取可用的需求列表")
+    @GetMapping("/public/list")
     public ResponseData getList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         Map<String, Object> list = requestService.listAvailable(userId, page, limit);
@@ -63,12 +65,38 @@ public class RequestController {
     }
 
     /**
+     * @author Sorakado
+     * @time 2021/8/6/ 23:20
+     * @version 1.0
+     * 获取指定的详细需求
+     */
+    @GetMapping("/public/detail")
+    public ResponseData getPublicDetail(@RequestParam int id){
+        ResponseData response = new ResponseData();
+
+        Request request = requestService.getPublicDetail(id);
+        if(request != null){
+            response.setData(request);
+            response.setCode(200);
+            response.setMsg("success");
+        }else
+        {
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("fail");
+            response.setError("资源，服务未找到");
+        }
+        return response;
+    }
+
+    /**
      * 我的需求
      *
      * @param page
      * @param limit
      * @return
      */
+    @ApiOperation(value = "getMyList",notes = "获取已发布的需求列表")
     @GetMapping("/my/list")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData myList(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
@@ -81,7 +109,7 @@ public class RequestController {
         responseData.setData(myList);
         return responseData;
     }
-
+    @ApiOperation(value = "getDetail",notes = "获取某已发布需求的详细信息")
     @GetMapping("/my/detail/{id}")
     public ResponseData myDetail(@PathVariable long id){
         ResponseData response = new ResponseData();
@@ -105,6 +133,7 @@ public class RequestController {
      * 需求发布（待审核），草稿
      *
      */
+    @ApiOperation(value = "publishRequest",notes = "发布新需求")
     @PostMapping("/publish")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData publish(@RequestBody Request req){
@@ -150,6 +179,7 @@ public class RequestController {
     /**
      * 需求编辑
      */
+    @ApiOperation(value = "editRequest",notes = "编辑需求")
     @PostMapping("/edit")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData edit(@RequestBody Request req){
@@ -186,6 +216,7 @@ public class RequestController {
     /**
      * 待审核需求列表
      */
+    @ApiOperation(value = "auditPending",notes = "获取待审核的需求列表")
     @GetMapping("/audit/pending")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditPending(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
@@ -197,6 +228,7 @@ public class RequestController {
         return response;
     }
 
+    @ApiOperation(value = "auditDetail",notes = "获取待审核需求列表中的某一详细需求信息")
     @GetMapping("/audit/detail/{request_id}")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditDetail(@PathVariable long request_id){
@@ -212,6 +244,7 @@ public class RequestController {
     /**
      * 审核操作
      */
+    @ApiOperation(value = "auditDo",notes = "审核需求")
     @PostMapping("/audit/do/{req_id}")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditDo(@RequestBody Map<String, Object> request, @PathVariable long req_id) {
@@ -229,6 +262,7 @@ public class RequestController {
         return response;
     }
 
+    @ApiOperation(value = "contractUpload",notes = "交易合同上传")
     @PostMapping("/contract/upload/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData contractUpload(@RequestParam MultipartFile contract, @PathVariable("req_id") long requestId){
@@ -286,7 +320,7 @@ public class RequestController {
         }});
         return response;
     }
-
+    @ApiOperation(value = "getContractFile",notes = "获取上传的交易合同")
     @GetMapping("/contract/file/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData contractFile(HttpServletResponse response, @PathVariable("req_id") long requestId, @RequestParam String path){
@@ -360,106 +394,5 @@ public class RequestController {
         return responseData;
     }
 
-    /**
-     * @author Sorakado
-     * @time 2021/8/6/ 23:20
-     * @version 1.0
-     * 获取指定的详细需求
-     */
-    @PostMapping("/detailRequest")
-    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
-    public ResponseData getDetail(@RequestParam int request_id){
-        ResponseData response = new ResponseData();
 
-        Request reqDetails = requestService.getReqDetails(request_id);
-        if(reqDetails!=null){
-            response.setData(reqDetails);
-            response.setCode(200);
-            response.setMsg("资源操作成功");
-            response.setError("无");
-        }else
-        {
-            response.setData(null);
-            response.setCode(404);
-            response.setMsg("不存在该订单的详细信息！");
-            response.setError("资源，服务未找到");
-        }
-        return response;
-    }
-    /**
-     * @author Sorakado
-     * @time 2021/8/6/ 23:20
-     * @version 1.0
-     * 摘牌功能
-     */
-    @PostMapping("/delist")
-    @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
-    public ResponseData delistRequest(@RequestParam int request_id){
-        TokenProfile profile=ProfileHolder.getProfile();
-
-
-        ResponseData result = requestService.delist(Long.parseLong(profile.getId()), request_id);
-        return result;
-    }
-
-    /**
-     * 获取所有摘牌信息
-     * @param page      页码
-     * @param limit     每页数量
-     */
-    @GetMapping("/all/listDelist")
-    @HasRole(value = {"TRADE_AUDITOR"})
-    public ResponseData getDelistList( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
-        ResponseData responseData = new ResponseData();
-        Map<String, Object> list = requestService.listDelist(page, limit);
-        responseData.setCode(200);
-        responseData.setMsg("success");
-        responseData.setData(list);
-        return responseData;
-    }
-
-    /**
-     * @author Sorakado
-     * @time 2021/8/7/ 23:20
-     * @version 1.0
-     * 获取指定的摘牌信息
-     */
-    @GetMapping("/detailInfo")
-    @HasRole(value = {"TRADE_AUDITOR","USER_MONEY"},logical = Logical.ANY)
-    public ResponseData getDetailInfo(@RequestParam long delistId){
-
-        ResponseData result=requestService.getDetailInfo(delistId);
-        return result;
-    }
-    /**
-     * @author Sorakado
-     * @time 2021/8/7/ 00:20
-     * @version 1.0
-     * 审核操作
-     */
-    @PostMapping("/examine")
-    @HasRole(value = {"TRADE_AUDITOR"})
-    public ResponseData examineTransaction(@RequestParam int zpId, @RequestBody AuditOpinion opinion){
-
-       ResponseData result = requestService.examine(zpId,opinion);
-       return result;
-    }
-
-    /**
-     * 获取财务用户的公司所有摘牌信息
-     * @param page      页码
-     * @param limit     每页数量
-     * @return ResponseData
-     */
-    @GetMapping("/financeDelist")
-    @HasRole(value = {"USER_MONEY","USER_SALE","USER_BUY"},logical = Logical.ANY)
-    public ResponseData getDelistListFinance( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
-        ResponseData responseData = new ResponseData();
-        TokenProfile profile=ProfileHolder.getProfile();
-        Map<String, Object> list = requestService.listDelistFinance(profile,page, limit);
-        responseData.setCode(200);
-        responseData.setMsg("success");
-        responseData.setData(list);
-        return responseData;
-    }
 }

@@ -6,11 +6,13 @@ import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by Heming233
@@ -29,16 +31,18 @@ import java.util.*;
  * update:2021/8/9
  * version:v1.5
  */
-@Api(value = "新闻模块")
+@Api(tags = "新闻模块")
 @RestController//注释该类为Controller类，return返回值将被转换成json，字符串除外
 @RequestMapping("/news")
+@ApiSupport(author = "Heming233")
 public class NewsController {
     @Resource
     NewsService newsService;
 
     //接收打开页面时发送的请求，获取资讯标题
+    @ApiOperation(value = "showNews",notes = "加载时获取咨询标题")
     @GetMapping("/show")
-    public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "50") int size,@RequestParam(value = "current",defaultValue = "1") int current){
+    public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
         try{
             //普通用户进入资讯页面可查看到所有资讯
             if("all".equals(type)){
@@ -76,6 +80,7 @@ public class NewsController {
     }
 
     //点击资讯查看详细内容
+    @ApiOperation(value = "detailNews",notes = "获取详细咨询内容" )
     @GetMapping("/detail/{newsId}")
     public ResponseData detailNews(@PathVariable("newsId") Long id){
         try{
@@ -96,6 +101,7 @@ public class NewsController {
     }
 
     //查询资讯
+    @ApiOperation(value = "moreNews",notes ="查询更多咨询" )
     @GetMapping("/more/{newsTitle}")
     public ResponseData moreNews(@PathVariable("newsTitle") String title){
         try{
@@ -117,6 +123,7 @@ public class NewsController {
     }
 
     //发布资讯
+    @ApiOperation(value = "pushNews",notes = "发布咨询")
     @PostMapping("/publish")
     public ResponseData pushNews(@RequestBody News news){
         try{
@@ -139,6 +146,7 @@ public class NewsController {
     }
 
     //存草稿
+    @ApiOperation(value = "saveDraft",notes = "发布咨询之存草稿")
     @PostMapping("/draft")
     public  ResponseData saveDraft(@RequestBody News news){
         try{
@@ -161,6 +169,7 @@ public class NewsController {
     }
 
     //审核资讯
+    @ApiOperation(value = "auditNews",notes = "审核咨询")
     @PostMapping("/audit/{type}")
     public ResponseData auditNews(@PathVariable String type,@RequestBody Long newsId){
         try{

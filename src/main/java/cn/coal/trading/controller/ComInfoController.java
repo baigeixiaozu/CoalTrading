@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-//@HasRole("USER_REG_AUDITOR")
-@HasRole("SUPER_ADMIN")
+@HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")
 public class ComInfoController {
@@ -46,11 +45,9 @@ public class ComInfoController {
         companyMapper.verify(id);
     }
     @GetMapping("/download/{id}/{name}")//legal_id_file
-    public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {//名字是想下载文件的键值
-        String down=companyMapper.download(id,name);
-//        String down=null;
-        fileService.download(down,name);//下载文件并输入想要下载的文件的名字
-//        fileService.download("/Users/songyanbai/Desktop/C57AD86F2C992341FC0E326DA2CCDEB4.png",name);
+    public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {
+         String down=companyMapper.download(id,name);
+        fileService.download(down,name);
          if(down==null)
          {
              responseData.setCode(400);
