@@ -50,7 +50,7 @@ public class RequestController {
      * @param page      页码
      * @param limit     每页数量
      */
-    @GetMapping("/all/list")
+    @GetMapping("/public/list")
     public ResponseData getList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         Map<String, Object> list = requestService.listAvailable(userId, page, limit);
@@ -58,6 +58,31 @@ public class RequestController {
         responseData.setMsg("success");
         responseData.setData(list);
         return responseData;
+    }
+
+    /**
+     * @author Sorakado
+     * @time 2021/8/6/ 23:20
+     * @version 1.0
+     * 获取指定的详细需求
+     */
+    @GetMapping("/public/detail")
+    public ResponseData getPublicDetail(@RequestParam int id){
+        ResponseData response = new ResponseData();
+
+        Request request = requestService.getPublicDetail(id);
+        if(request != null){
+            response.setData(request);
+            response.setCode(200);
+            response.setMsg("success");
+        }else
+        {
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("fail");
+            response.setError("资源，服务未找到");
+        }
+        return response;
     }
 
     /**
