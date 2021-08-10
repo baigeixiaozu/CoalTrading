@@ -6,6 +6,8 @@ import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,7 @@ public class NewsServiceImpl implements NewsService {
 
     //展示所有待审核的资讯
     @Override
+    @HasRole(value = "USER_AUDITOR",logical = Logical.ANY)
     public Page<News> getAuditingNews(int current,int size){
         Page<News> page=new Page<>(current,size);
         QueryWrapper<News> wrapper=new QueryWrapper<>();
