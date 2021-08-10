@@ -1,6 +1,5 @@
 package cn.coal.trading.services.impl;
 
-import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.User;
 import cn.coal.trading.mapper.UserMapper;

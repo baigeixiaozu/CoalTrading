@@ -5,15 +5,10 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.PaymentService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
-import com.sun.xml.internal.ws.client.ResponseContext;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.sql.PreparedStatement;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Created by Heming233
