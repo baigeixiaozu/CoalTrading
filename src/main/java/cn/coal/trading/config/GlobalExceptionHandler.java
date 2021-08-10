@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 
 /**
  * @Author jiyec
@@ -51,7 +52,7 @@ public class GlobalExceptionHandler {
     public ResponseData defaultErrorHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception {
         e.printStackTrace();
         ResponseData r = new ResponseData();
-        r.setError(e.getMessage());
+        r.setError(exception2error(e.getMessage()));
         if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
             response.setStatus(404);
             r.setCode(404);
@@ -66,4 +67,12 @@ public class GlobalExceptionHandler {
     // public String defaultErrorHandler(HttpServletResponse resp, RuntimeException e) throws Exception {
     //     return "error";
     // }
+
+    static Pattern inputJSONError = Pattern.compile("JSON.*?deserialize.*?from.*?not a valid.*?value.*?PushbackInputStream");
+    private static String exception2error(String message){
+        if(inputJSONError.matcher(message.replaceAll("\n", "")).find()){
+            return "提交数据有误，请检查";
+        }
+        return message;
+    }
 }
