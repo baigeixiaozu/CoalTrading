@@ -9,12 +9,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Service
 public class DelistServiceImpl implements DelistService {
     /**
      * @author Sorakado
