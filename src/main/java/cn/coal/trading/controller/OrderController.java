@@ -7,7 +7,9 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +25,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/order")
 @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)      // 部分功能需管理员？
+@ApiSupport(author = "jiyec & Heming233")
 @Slf4j
 public class OrderController {
     @Resource
     OrderService orderService;
     @GetMapping("/list")
+    @ApiOperation(value = "getOrderList",notes = "获取订单列表")
     public ResponseData orderList(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "1", required = false) int limit){
         log.info("{}, {}", page, limit);
         TokenProfile profile = ProfileHolder.getProfile();
@@ -49,6 +53,7 @@ public class OrderController {
      * Date:2021/8/9
      * version:v1.0
      */
+    @ApiOperation(value = "newOrder",notes = "创建新订单")
     @PostMapping("/new")
     public ResponseData newOrder(@PathVariable Long requestId){
         try{

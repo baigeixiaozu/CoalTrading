@@ -8,7 +8,9 @@ import cn.coal.trading.services.RequestService;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,7 @@ import java.util.Set;
 @Api(tags = "挂牌模块")
 @RestController
 @RequestMapping("/request")
+@ApiSupport(author = "jiyec")
 public class RequestController {
 
     @Resource
@@ -50,6 +53,7 @@ public class RequestController {
      * @param page      页码
      * @param limit     每页数量
      */
+    @ApiOperation(value = "getRequestList",notes = "获取可用的需求列表")
     @GetMapping("/public/list")
     public ResponseData getList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
@@ -92,6 +96,7 @@ public class RequestController {
      * @param limit
      * @return
      */
+    @ApiOperation(value = "getMyList",notes = "获取已发布的需求列表")
     @GetMapping("/my/list")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData myList(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
@@ -104,7 +109,7 @@ public class RequestController {
         responseData.setData(myList);
         return responseData;
     }
-
+    @ApiOperation(value = "getDetail",notes = "获取某已发布需求的详细信息")
     @GetMapping("/my/detail/{id}")
     public ResponseData myDetail(@PathVariable long id){
         ResponseData response = new ResponseData();
@@ -128,6 +133,7 @@ public class RequestController {
      * 需求发布（待审核），草稿
      *
      */
+    @ApiOperation(value = "publishRequest",notes = "发布新需求")
     @PostMapping("/publish")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData publish(@RequestBody Request req){
@@ -173,6 +179,7 @@ public class RequestController {
     /**
      * 需求编辑
      */
+    @ApiOperation(value = "editRequest",notes = "编辑需求")
     @PostMapping("/edit")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData edit(@RequestBody Request req){
@@ -209,6 +216,7 @@ public class RequestController {
     /**
      * 待审核需求列表
      */
+    @ApiOperation(value = "auditPending",notes = "获取待审核的需求列表")
     @GetMapping("/audit/pending")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditPending(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
@@ -220,6 +228,7 @@ public class RequestController {
         return response;
     }
 
+    @ApiOperation(value = "auditDetail",notes = "获取待审核需求列表中的某一详细需求信息")
     @GetMapping("/audit/detail/{request_id}")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditDetail(@PathVariable long request_id){
@@ -235,6 +244,7 @@ public class RequestController {
     /**
      * 审核操作
      */
+    @ApiOperation(value = "auditDo",notes = "审核需求")
     @PostMapping("/audit/do/{req_id}")
     @HasRole("TRADE_AUDITOR")
     public ResponseData auditDo(@RequestBody Map<String, Object> request, @PathVariable long req_id) {
@@ -252,6 +262,7 @@ public class RequestController {
         return response;
     }
 
+    @ApiOperation(value = "contractUpload",notes = "交易合同上传")
     @PostMapping("/contract/upload/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData contractUpload(@RequestParam MultipartFile contract, @PathVariable("req_id") long requestId){
@@ -309,7 +320,7 @@ public class RequestController {
         }});
         return response;
     }
-
+    @ApiOperation(value = "getContractFile",notes = "获取上传的交易合同")
     @GetMapping("/contract/file/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData contractFile(HttpServletResponse response, @PathVariable("req_id") long requestId, @RequestParam String path){

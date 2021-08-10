@@ -1,7 +1,6 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.AuditOpinion;
-import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.DelistService;
 import com.baomidou.shaun.core.annotation.HasRole;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Map;
 
-@Api(tags = "摘牌模块")
+@Api(tags="摘牌模块")
 @RestController
 @RequestMapping("/delist")
 public class DelistController {

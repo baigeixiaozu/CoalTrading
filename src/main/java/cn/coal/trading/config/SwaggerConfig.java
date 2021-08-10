@@ -57,7 +57,8 @@ public class SwaggerConfig {
                 // api名称
                 .title("SwaggerUI APIS")
                 // api 描述
-                .description("Simple Demo About SwaggerUI APIS")
+
+                .description("CoalTrading Project About SwaggerUI APIS")
                 // api 版本
                 .version("1.0")
                 // 构建
