@@ -5,13 +5,11 @@ import cn.coal.trading.bean.FinanceStore;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.DeFundsMapper;
 import cn.coal.trading.services.impl.FileServiceImpl;
+import com.baomidou.shaun.core.annotation.HasAuthorization;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -25,15 +23,17 @@ public class deFundsController {
     public deFundsController(DeFundsMapper deFundsMapper){
         this.deFundsMapper=deFundsMapper;
     }
-    @GetMapping("/{id}")
-    public ResponseData BasicInfo(@PathVariable Long id){
+    @GetMapping("/info")
+    public ResponseData BasicInfo(){//数据库中为int，不是long
         ResponseData responseData=new ResponseData();
+        TokenProfile profile = ProfileHolder.getProfile();
+        int id=Integer.parseInt(profile.getId());
         List<FinanceProperty> financeProperties=deFundsMapper.getFinInfo(id);
         responseData.setData(financeProperties);
         if(financeProperties==null){
             responseData.setCode(400);
-            responseData.setMsg("没");
-            responseData.setError("额");
+            responseData.setMsg("没了");
+            responseData.setError("没了");
         }
         else{
             responseData.setCode(200);
@@ -53,26 +53,49 @@ public class deFundsController {
 //        financeLog.setQuantity(quantity);
 //        deFundsMapper.TransInfo(financeLog);
 //    }
-    @GetMapping("/updateQ/{quantity}/{multipartFile}")//提交数量
-    public void setQuantity(@PathVariable Double quantity, @PathVariable MultipartFile multipartFile){
+    @PostMapping("/updateQ/{quantity}")//提交数量
+    public ResponseData setQuantity(@PathVariable Double quantity){
+        ResponseData responseData=new ResponseData();
         FinanceStore financeStore=new FinanceStore();
-        FileServiceImpl fileService=new FileServiceImpl();
         TokenProfile profile = ProfileHolder.getProfile();
         Long id=Long.parseLong(profile.getId());
         Date date=new Date();
-        financeStore.setUserId(Long.parseLong(profile.getId()));
+        financeStore.setUser_id(id);
         financeStore.setDate(date);
         financeStore.setCert(null);
         financeStore.setStatus(1);
         financeStore.setQuantity(quantity);
-        deFundsMapper.TransInfo(financeStore);
+        Boolean flag=deFundsMapper.TransInfo(financeStore);
+        if(!flag){
+            responseData.setCode(400);
+            responseData.setMsg("错误");
+            responseData.setError("错误");
+        }
+        else if(flag){
+            responseData.setCode(200);
+            responseData.setMsg("对了");
+            responseData.setError("无");
+        }
+        return responseData;
     }
-    @GetMapping("/updateF/{multipartFile}")//提交数量
-    public void upLoad(@PathVariable Double quantity, @PathVariable MultipartFile multipartFile){
+    @PostMapping("/updateF/{path}")//提交文件
+    public ResponseData upLoad(@PathVariable Double quantity, @PathVariable String path){
+        ResponseData responseData=new ResponseData();
         FileServiceImpl fileService=new FileServiceImpl();
         TokenProfile profile = ProfileHolder.getProfile();
         Long id=Long.parseLong(profile.getId());
-        String cert=fileService.storeFile2Local(multipartFile,null, id);
-        deFundsMapper.updateF(cert,id);
+        Boolean flag2=fileService.storeCert2DB(path,null, id);
+        Boolean flag1=deFundsMapper.updateF(path,id);
+        if(flag1&&flag2){
+            responseData.setCode(200);
+            responseData.setMsg("对了");
+            responseData.setError("无");
+        }
+        else{
+            responseData.setCode(400);
+            responseData.setMsg("错误");
+            responseData.setError("错误");
+        }
+        return responseData;
     }
 }

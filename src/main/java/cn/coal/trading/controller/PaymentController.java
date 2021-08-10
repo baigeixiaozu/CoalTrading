@@ -5,7 +5,7 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.PaymentService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
-import com.sun.xml.internal.ws.client.ResponseContext;
+//import com.sun.xml.internal.ws.client.ResponseContext;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

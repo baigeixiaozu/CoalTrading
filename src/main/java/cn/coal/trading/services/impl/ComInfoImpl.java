@@ -9,7 +9,7 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
-import jdk.nashorn.internal.parser.Token;
+//import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
