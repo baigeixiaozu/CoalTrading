@@ -5,7 +5,9 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.MsgService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +25,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/message")
 @Slf4j
+@ApiSupport(author = "jiyec")
 public class MsgController {
     @Resource
     MsgService msgService;
 
+    @ApiOperation(value = "getMyMsgList",notes = "获取个人消息列表")
     @GetMapping("/myMsg")
     public Map<String, Object> getMyMsgList(@RequestParam(defaultValue = "0", required = false) Integer page, @RequestParam(defaultValue = "10", required = false) Integer limit){
         TokenProfile profile = ProfileHolder.getProfile();
@@ -39,6 +43,7 @@ public class MsgController {
         }};
     }
 
+    @ApiOperation(value = "msgDetail",notes = "获取详细消息")
     @GetMapping("/detail/{msg_id}")
     public ResponseData msgDetail(@PathVariable("msg_id") Integer msgId){
         ResponseData responseData = new ResponseData();
@@ -66,6 +71,7 @@ public class MsgController {
         return responseData;
     }
 
+    @ApiOperation(value = "markAsRead",notes = "将消息设为已读")
     @PostMapping("/markAsRead")
     public ResponseData markAsRead(@RequestBody HashSet<Long> ids){
         log.info("{}", ids);

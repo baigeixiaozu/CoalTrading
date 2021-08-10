@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
-@Api(tags = "???")
+@Api(tags = "获取公司信息")
 @HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")

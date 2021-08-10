@@ -22,9 +22,9 @@ import java.util.List;
 @HasRole("USER_BUY")
 @RequestMapping("/fin")
 @RestController
-public class deFundsController {
+public class DeFundsController {
     private DeFundsMapper deFundsMapper;
-    public deFundsController(DeFundsMapper deFundsMapper){
+    public DeFundsController(DeFundsMapper deFundsMapper){
         this.deFundsMapper=deFundsMapper;
     }
     @GetMapping("/{id}")

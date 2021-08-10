@@ -5,7 +5,9 @@ import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.PaymentService;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,11 +27,13 @@ import javax.annotation.Resource;
 @Api(tags = "保证金模块")
 @RestController
 @RequestMapping("/payment")
+@ApiSupport(author = "Heming233")
 public class PaymentController {
     @Resource
     PaymentService paymentService;
 
     //展示用户财产信息
+    @ApiOperation(value = "showFinanceInfo",notes = "展示用户财务信息")
     @GetMapping("show")
     public ResponseData showInformation(){
         try{
@@ -52,7 +56,9 @@ public class PaymentController {
         }
     }
 
+
     //输入需求量，计算出保证金并缴纳
+    @ApiOperation(value = "securityPayment",notes = "缴纳保证金")
     @PostMapping("number/{requestId}")
     public ResponseData SecurityPayment(@RequestBody double number, @PathVariable String requestId){
         try{

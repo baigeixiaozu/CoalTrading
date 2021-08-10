@@ -8,11 +8,12 @@ import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
-
+@Api(tags="摘牌模块")
 @RestController
 @RequestMapping("/delist")
 public class DelistController {
