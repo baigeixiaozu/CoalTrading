@@ -48,7 +48,7 @@ public class NewsServiceImpl implements NewsService {
         //设置查询条件
         wrapper.isNotNull("title");
         wrapper.eq("status","4");
-        wrapper.select("title","id");
+        wrapper.select("title","id","date");
 
         return newsMapper.selectPage(Page,wrapper);
     }

@@ -42,7 +42,7 @@ public class NewsController {
     //接收打开页面时发送的请求，获取资讯标题
     @ApiOperation(value = "showNews",notes = "加载时获取咨询标题")
     @GetMapping("/show")
-    public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "50") int size,@RequestParam(value = "current",defaultValue = "1") int current){
+    public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
         try{
             //普通用户进入资讯页面可查看到所有资讯
             if("all".equals(type)){
