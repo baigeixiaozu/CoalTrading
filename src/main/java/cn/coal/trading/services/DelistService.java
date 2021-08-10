@@ -45,7 +45,6 @@ public interface DelistService {
     /**
      * @author Sorakado
      * 获取摘牌列表
-     * @param id    用户ID
      * @param page      页码
      * @param limit     每页数量
      * @return          需求数据
