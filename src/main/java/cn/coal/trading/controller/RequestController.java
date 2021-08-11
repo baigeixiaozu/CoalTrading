@@ -55,7 +55,7 @@ public class RequestController {
     @GetMapping("/public/list")
     public ResponseData getList(@RequestParam(defaultValue = "", required = false) Long userId, @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
-        Map<String, Object> list = requestService.listAvailable(userId, page, limit);
+        Map<String, Object> list = requestService.getPublicList(userId, page, limit);
         responseData.setCode(200);
         responseData.setMsg("success");
         responseData.setData(list);

@@ -33,7 +33,7 @@ public class RequestServiceImpl implements RequestService {
     FinanceMapper financeMapper;
 
     @Override
-    public Map<String,Object> listAvailable(Long userId, int page, int limit) {
+    public Map<String,Object> getPublicList(Long userId, int page, int limit) {
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             if(userId!=null){
                 eq("user_id",userId);
@@ -81,7 +81,7 @@ public class RequestServiceImpl implements RequestService {
     public Map<String, Object> myList(Long userId, int page, int limit) {
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             eq("user_id", userId);
-            select("id", "user_id", "created_time", "status");
+            select("id", "type", "user_id", "created_time", "status");
         }});
         return new HashMap<String,Object>(){{
             put("rows", requestPage.getRecords());
