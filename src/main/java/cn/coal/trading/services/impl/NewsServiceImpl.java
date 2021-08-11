@@ -94,7 +94,7 @@ public class NewsServiceImpl implements NewsService {
 
     //发布资讯
     @Override
-    public News setOneNews(News content, Long authorId) throws JsonProcessingException {
+    public News setOneNews(News content, Long authorId){
         /*QueryWrapper<News> wrapper=new QueryWrapper<>();*/
         //ObjectMapper mapper=new ObjectMapper();
         //Long Id=2L;//测试用，接口跑通后删除
