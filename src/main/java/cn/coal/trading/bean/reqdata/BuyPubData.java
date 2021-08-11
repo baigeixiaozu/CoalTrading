@@ -19,16 +19,25 @@ import java.util.Date;
 public class BuyPubData {
     private BaseData baseData;                  // 基础信息
     private CoalQuality coalQuality;            // 煤质
+
+    public String getRequestCompany(){
+        return baseData.getRequestCompany();
+    }
+    public String getRequestNum(){
+        return baseData.getRequestNum();
+    }
 }
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 class BaseData {
+    private String requestCompany;              // 申请单位
+    private String requestNum;                  // 单据编号
     private String applicant;                   // 申请人
     private String signer;                      // 签发人
     private Date reqDate;                       // 申请日期
-    private Date[] deliveryTime;             // 交货开始时间
+    private Date[] deliveryTime;                // 交货开始时间
     private String coalType;                    // 煤种[用这种形式：x煤,y煤]
     private Double buyQuantity;                 // 采购数量
     private String transportMode;               // 运输方式

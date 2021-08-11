@@ -1,6 +1,8 @@
 package cn.coal.trading.services.impl;
 
+import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.Request;
+import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.mapper.DelistingMapper;
 import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.mapper.ReqMapper;
@@ -31,6 +33,8 @@ public class RequestServiceImpl implements RequestService {
     DelistingMapper delistingMapper;
     @Resource
     FinanceMapper financeMapper;
+    @Resource
+    CompanyMapper companyMapper;
 
     @Override
     public Map<String,Object> getPublicList(Long userId, int page, int limit) {
@@ -142,7 +146,14 @@ public class RequestServiceImpl implements RequestService {
         return update == 1;
     }
 
-
+    @Override
+    public String getComName(long id) {
+        CompanyInformation companyInformation = companyMapper.selectOne(new QueryWrapper<CompanyInformation>() {{
+            eq("user_id", id);
+            select("com_name");
+        }});
+        return companyInformation.getComName();
+    }
 
 
 }

@@ -385,4 +385,21 @@ public class RequestController {
         return responseData;
     }
 
+    @GetMapping("/getComName")
+    public ResponseData getComName(){
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+        String comName = requestService.getComName(Long.parseLong(id));
+        ResponseData responseData = new ResponseData();
+        if(comName==null){
+            responseData.setCode(201);
+            responseData.setMsg("fail");
+            responseData.setError("公司名获取失败，可能未注册");
+        }else{
+            responseData.setCode(200);
+            responseData.setMsg("success");
+            responseData.setData(comName);
+        }
+        return responseData;
+    }
 }

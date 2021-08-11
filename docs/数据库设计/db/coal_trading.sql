@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/10 18:05:07                           */
+/* Created on:     2021/8/11 21:37:18                           */
 /*==============================================================*/
 
 
@@ -633,6 +633,8 @@ create table ct_request
 (
    id                   bigint(20) not null auto_increment comment '需求ID',
    user_id              bigint(20) comment '用户ID',
+   request_company      varchar(100) comment '申请单位',
+   request_num          varchar(100) comment '单据编号',
    created_time         datetime default CURRENT_TIMESTAMP comment '创建时间',
    ended_time           datetime comment '结束时间',
    type                 enum('1','2') comment '1. 卖出
@@ -810,6 +812,14 @@ create index Index_role_id on ct_userrole
 );
 
 /*==============================================================*/
+/* Index: Index_Role_Type                                       */
+/*==============================================================*/
+create index Index_Role_Type on ct_userrole
+(
+   type
+);
+
+/*==============================================================*/
 /* Table: ct_users                                              */
 /*==============================================================*/
 create table ct_users
@@ -906,6 +916,7 @@ create table ct_zp
             2. 成功
             3. 失败（被抢先摘牌）',
    opinion              varchar(255) comment '审核意见',
+   created_time         datetime not null default CURRENT_TIMESTAMP comment '摘牌时间',
    primary key (id)
 )
 engine = InnoDB;

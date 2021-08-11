@@ -93,4 +93,5 @@ public interface RequestService {
     boolean updateContract(long reqId, long userId, String contractPath);
 
 
+    String getComName(long id);
 }
