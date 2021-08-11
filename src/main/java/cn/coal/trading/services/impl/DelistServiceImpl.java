@@ -167,7 +167,7 @@ public class DelistServiceImpl implements DelistService {
         long queryId = 0;
         Set<String> roles = profile.getRoles();
         for (String role : roles) {
-            if (role == "USER_MONEY") {
+            if ("USER_MONEY".equals(role)) {
                 FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
                     {
                         eq("finance_userid", profile.getId());

@@ -19,11 +19,12 @@ import java.util.Map;
 public class DelistController {
     @Resource
     DelistService delistService;
+
     /**
+     * 摘牌功能
      * @author Sorakado
      * @time 2021/8/6/ 23:20
      * @version 1.0
-     * 摘牌功能
      */
     @PostMapping("/delist")
     @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
@@ -35,7 +36,7 @@ public class DelistController {
     }
 
     /**
-     * 获取所有摘牌信息
+     * 审核员获取所有摘牌列表
      * @param page      页码
      * @param limit     每页数量
      */
@@ -51,10 +52,10 @@ public class DelistController {
     }
 
     /**
+     * 获取指定的摘牌信息
      * @author Sorakado
      * @time 2021/8/7/ 23:20
      * @version 1.0
-     * 获取指定的摘牌信息
      */
     @GetMapping("/detailInfo")
     @HasRole(value = {"TRADE_AUDITOR","USER_MONEY"},logical = Logical.ANY)
@@ -63,11 +64,12 @@ public class DelistController {
         ResponseData result =delistService.getDetailInfo(delistId);
         return result;
     }
+
     /**
+     * 审核操作
      * @author Sorakado
      * @time 2021/8/7/ 00:20
      * @version 1.0
-     * 审核操作
      */
     @PostMapping("/examine")
     @HasRole(value = {"TRADE_AUDITOR"})
@@ -83,7 +85,7 @@ public class DelistController {
      * @param limit     每页数量
      * @return ResponseData
      */
-    @GetMapping("/financeDelist")
+    @GetMapping("/my/list")
     @HasRole(value = {"USER_MONEY","USER_SALE","USER_BUY"},logical = Logical.ANY)
     public ResponseData getDelistListFinance( @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
