@@ -214,6 +214,20 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    @Override
+    public User getFullInfo(long id) {
+        CompanyInformation userComInfo = companyMapper.selectOne(new QueryWrapper<CompanyInformation>() {{
+            eq("user_id", id);
+        }});
+        FinanceProperty userFinanceInfo = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {{
+            eq("main_userid", id);
+        }});
+        return new User(){{
+            setComInfo(userComInfo);
+            setFinanceInfo(userFinanceInfo);
+        }};
+    }
+
     /**
      * @Author Sorakado
      * @Date 2021/7/31 23:10

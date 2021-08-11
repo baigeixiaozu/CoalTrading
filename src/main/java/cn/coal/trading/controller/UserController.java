@@ -250,7 +250,7 @@ public class UserController {
 
     /**
      * @Author Sorakado
-     * @REFACTOR jiye
+     * @REFACTOR jiyecafe@gmail.com
      * @Date 2021/7/31 22:26
      * @Version 1.0
      * 文件上传功能
@@ -325,6 +325,19 @@ public class UserController {
         TokenProfile profile = ProfileHolder.getProfile();
         ResponseData result = userService.getInfo(Long.parseLong(profile.getId()));
         return result;
+    }
+
+    @ApiOperation(value = "getUserFullInfo",notes = "获取企业所有注册信息")
+    @GetMapping("/fullInfo")
+    public ResponseData getUserFullInfo(){
+        ResponseData responseData = new ResponseData();
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+        User fullInfo = userService.getFullInfo(Long.parseLong(id));
+        responseData.setData(fullInfo);
+        responseData.setCode(200);
+        responseData.setMsg("success");
+        return responseData;
     }
 
 }
