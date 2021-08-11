@@ -143,6 +143,8 @@ public class RequestController {
         Request request = new Request(){{
             setStatus(req.getPublish()?2:1);     // 1. 草稿  2. 发布待审核
             setDetail(req.getDetail());
+            setRequestCompany(req.getRequestCompany());
+            setRequestNum(req.getRequestNum());
         }};
         TokenProfile profile = ProfileHolder.getProfile();
         Set<String> roles = profile.getRoles();

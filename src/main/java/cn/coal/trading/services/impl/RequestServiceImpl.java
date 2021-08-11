@@ -3,8 +3,6 @@ package cn.coal.trading.services.impl;
 import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.mapper.CompanyMapper;
-import cn.coal.trading.mapper.DelistingMapper;
-import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -30,10 +28,6 @@ public class RequestServiceImpl implements RequestService {
     @Resource
     ReqMapper reqMapper;
     @Resource
-    DelistingMapper delistingMapper;
-    @Resource
-    FinanceMapper financeMapper;
-    @Resource
     CompanyMapper companyMapper;
 
     @Override
@@ -43,7 +37,7 @@ public class RequestServiceImpl implements RequestService {
                 eq("user_id",userId);
             }
             eq("status", 3);
-            select("id", "user_id", "created_time", "type");
+            select("id", "user_id", "created_time", "type", "request_company", "request_num");
         }});
 
         return new HashMap<String,Object>(){{
@@ -85,7 +79,7 @@ public class RequestServiceImpl implements RequestService {
     public Map<String, Object> myList(Long userId, int page, int limit) {
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             eq("user_id", userId);
-            select("id", "type", "user_id", "created_time", "status");
+            select("id", "type", "user_id", "created_time", "status", "request_company", "request_num");
         }});
         return new HashMap<String,Object>(){{
             put("rows", requestPage.getRecords());
