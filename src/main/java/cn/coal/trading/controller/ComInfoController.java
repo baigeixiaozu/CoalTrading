@@ -33,19 +33,53 @@ public class ComInfoController {
         return responseData;
     }
     @GetMapping("/{id}/{opinion}")
-    public void Opinion(@PathVariable Long id,@PathVariable String opinion){
-            companyMapper.Opinion(id, opinion);
-    }
+    public ResponseData Opinion(@PathVariable Long id,@PathVariable String opinion){
+        Boolean flag=companyMapper.Opinion(id, opinion);
+        if(!flag){
+            responseData.setCode(400);
+            responseData.setMsg("错了");
+            responseData.setError("错");
+        }
+        else{
+            responseData.setCode(200);
+            responseData.setMsg("对了");
+            responseData.setError("无");
+        }
+        return responseData;
+    }//审核意见
     @GetMapping("/verify/{id}")
-    public void verify(@PathVariable Long id){
-        companyMapper.verify(id);
-    }
+    public ResponseData verify(@PathVariable Long id){
+        Boolean flag=companyMapper.verify(id);
+        if(!flag){
+            responseData.setCode(400);
+            responseData.setMsg("错了");
+            responseData.setError("错");
+        }
+        else{
+            responseData.setCode(200);
+            responseData.setMsg("对了");
+            responseData.setError("无");
+        }
+        return responseData;
+    }//确认按钮
     @GetMapping("/reject/{id}")
-    public void reject(@PathVariable Long id){
-        companyMapper.verify(id);
-    }
+    public ResponseData reject(@PathVariable Long id){
+
+        Boolean flag=companyMapper.verify(id);
+        if(!flag){
+            responseData.setCode(400);
+            responseData.setMsg("错了");
+            responseData.setError("错");
+        }
+        else{
+            responseData.setCode(200);
+            responseData.setMsg("对了");
+            responseData.setError("无");
+        }
+        return responseData;
+    }//未通过按钮
     @GetMapping("/download/{id}/{name}")//legal_id_file
-    public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {
+    public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {//文件下载，不采用
          String down=companyMapper.download(id,name);
         fileService.download(down,name);
          if(down==null)

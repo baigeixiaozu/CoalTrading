@@ -16,12 +16,12 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     List<CompanyInformation> getInfo(Long id);
 
     @Update("update ct_company set audit_opinion=#{opinion} where user_id=#{id}")
-    void Opinion(Long id,String opinion);
+    Boolean Opinion(Long id,String opinion);
 
     @Update("update ct_company set status=4 where user_id=#{id}")
-    void verify(Long id);
+    Boolean verify(Long id);
     @Update("update ct_company set status=3 where user_id=#{id}")
-    void reject(Long id);
+    Boolean reject(Long id);
 
 
     @Insert("INSERT INTO `ct_company` (`user_id`, `${col}`) VALUES (#{uid},#{path})")
@@ -29,8 +29,8 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
 
     @Insert("UPDATE `ct_company` SET `${col}`=#{path} WHERE `user_id`=#{uid}")
     int updateCert(String col, String path, long uid);
-    @Select("select #{name} from ct_company where id=#{id}")
+    @Select("select #{name} from ct_company where user_id=#{id}")
     String download(long id,String name);//legal_id_file
-    @Select("select #{name} from ct_company where id=#{id}")
+    @Select("select #{name} from ct_company where user_id=#{id}")
     String picPath(Long id,String name);
 }
