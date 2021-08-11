@@ -31,4 +31,6 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     int updateCert(String col, String path, long uid);
     @Select("select #{name} from ct_company where id=#{id}")
     String download(long id,String name);//legal_id_file
+    @Select("select #{name} from ct_company where id=#{id}")
+    String picPath(Long id,String name);
 }
