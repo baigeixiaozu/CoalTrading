@@ -29,8 +29,19 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
 
     @Insert("UPDATE `ct_company` SET `${col}`=#{path} WHERE `user_id`=#{uid}")
     int updateCert(String col, String path, long uid);
+
     @Select("select #{name} from ct_company where user_id=#{id}")
     String download(long id,String name);//legal_id_file
-    @Select("select #{name} from ct_company where user_id=#{id}")
-    String picPath(Long id,String name);
+
+    @Select("select legal_id_file from ct_company where user_id=#{id}")
+    String legal_id_file(Long id);
+
+    @Select("select business_license_id from ct_company where user_id=#{id}")
+    String business_license_id(Long id);
+    @Select("select oib_code_file from ct_company where user_id=#{id}")
+    String oib_code_file(Long id);
+    @Select("select tr_cert_file from ct_company where user_id=#{id}")
+    String tr_cert_file(Long id);
+    @Select("select manage_license_file from ct_company where user_id=#{id}")
+    String manage_license_file(Long id);
 }

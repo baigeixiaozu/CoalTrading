@@ -28,7 +28,7 @@ public class DeFundsController {
         int id=Integer.parseInt(profile.getId());
         List<FinanceProperty> financeProperties=deFundsMapper.getFinInfo(id);
         responseData.setData(financeProperties);
-        if(financeProperties==null){
+        if(financeProperties.size()==0){
             responseData.setCode(400);
             responseData.setMsg("没了");
             responseData.setError("没了");

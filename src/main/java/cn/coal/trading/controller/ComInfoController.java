@@ -90,6 +90,7 @@ public class ComInfoController {
     @GetMapping("/download/{id}/{name}")//下载，不是图片显示，在这里不实现
     public ResponseData download(@PathVariable Long id,@PathVariable String name) throws IOException {//文件下载，不采用
         String down = companyMapper.download(id, name);
+        System.out.println(down);
         fileService.download(down, name);
         ResponseData responseData = new ResponseData();
         if (down == null) {
