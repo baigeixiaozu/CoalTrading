@@ -10,7 +10,9 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -167,7 +169,7 @@ public class DelistServiceImpl implements DelistService {
         long queryId = 0;
         Set<String> roles = profile.getRoles();
         for (String role : roles) {
-            if (role == "USER_MONEY") {
+            if ("USER_MONEY".equals(role)) {
                 FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
                     {
                         eq("finance_userid", profile.getId());
@@ -192,5 +194,55 @@ public class DelistServiceImpl implements DelistService {
             put("current", delistPage.getCurrent());
             put("pages", delistPage.getPages());
         }};
+    }
+
+    /**
+     * 公司账户获取指定的摘牌详细信息及对应的挂牌信息
+     *
+     * @param profile
+     * @param delistId
+     * @author Sorakado
+     * @time 2021/8/11/ 20:24
+     * @version 1.0
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Async
+    public ResponseData getDetailInfoForUser(TokenProfile profile, long delistId) {
+        ResponseData response = new ResponseData();
+        long queryId = 0;
+        Set<String> roles = profile.getRoles();
+        for (String role : roles) {
+            if ("USER_MONEY".equals(role)) {
+                FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
+                    {
+                        eq("finance_userid", profile.getId());
+                    }
+                });
+                queryId = finance.getMainUserid();
+            } else {
+                queryId = Long.parseLong(profile.getId());
+            }
+        }
+
+        Delisting delist = delistingMapper.selectById(delistId);
+        long userId=delist.getUserId();
+        if(userId==queryId){
+            Request request = reqMapper.selectById(delist.getReqId());
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("reqInfo", request);
+            map.put("delistInfo", delist);
+            response.setData(map);
+            response.setCode(200);
+            response.setMsg("查询成功");
+            response.setError("无");
+        }else{
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("出现未知错误，未查询成功");
+            response.setError("资源，服务未找到");
+        }
+        return response;
+
     }
 }

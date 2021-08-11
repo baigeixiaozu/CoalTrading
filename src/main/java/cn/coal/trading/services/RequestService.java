@@ -17,7 +17,7 @@ public interface RequestService {
      * @param limit     每页数量
      * @return          需求数据
      */
-    Map<String,Object> listAvailable(Long userId, int page, int limit);
+    Map<String,Object> getPublicList(Long userId, int page, int limit);
 
     /**
      * @author Sorakado
@@ -93,4 +93,5 @@ public interface RequestService {
     boolean updateContract(long reqId, long userId, String contractPath);
 
 
+    String getComName(long id);
 }

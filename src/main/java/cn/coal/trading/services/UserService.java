@@ -40,6 +40,7 @@ public interface UserService {
      * @Version 1.0
      **/
     ResponseData finance(FinanceProperty financeProperty);
+
     /**
      * 生成财务用户
      * @Author Sorakado
@@ -56,6 +57,11 @@ public interface UserService {
      **/
     ResponseData getInfo(long id);
 
-
+    /**
+     * 获取企业所有注册信息
+     * @param id 主用户ID
+     * @return
+     */
+    User getFullInfo(long id);
 
 }

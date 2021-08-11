@@ -95,7 +95,7 @@ public class NewsController {
         }
         catch (Exception e){
             return new ResponseData(){{
-                setData(204);
+                setCode(204);
                 setMsg("error");
                 setError("no news caught");
             }};

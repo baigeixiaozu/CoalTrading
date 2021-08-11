@@ -76,6 +76,8 @@ ct:
     location: D:/temp/
 
 knife4j:
+  enable: true
+  production: false
   basic:
-    enable: true
+    enable: false
 
