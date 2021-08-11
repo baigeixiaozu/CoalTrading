@@ -65,7 +65,7 @@ public class ComInfoController {
     @ApiOperation(value = "download",notes = "下载企业资质文件")
     public ResponseData download(@PathVariable Long id, @PathVariable String name) throws IOException {
         String down = companyMapper.download(id, name);
-        fileService.download(down);
+        // fileService.download(down);
         if (down == null) {
             responseData.setCode(400);
             responseData.setMsg("wu");

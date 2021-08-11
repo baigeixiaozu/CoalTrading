@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,22 +47,23 @@ public class DelistServiceImpl implements DelistService {
         delist.setUserId(id);
         delist.setStatus(1);
 
-        int insert = delistingMapper.insert(delist);
-        if (insert == 1) {
-
-            // UpdateWrapper<Request> wrapper = new UpdateWrapper<>();
-            // wrapper.set("zp_id",delist.getId());
-            // reqMapper.update(reqMapper.selectById(requestId),wrapper);
-
-            response.setCode(200);
-            response.setMsg("提交摘牌申请成功！");
-            response.setError("无");
-            response.setData(delist);
-
-        } else {
-            response.setCode(409);
-            response.setMsg("提交摘牌申请失败！");
-            response.setError("资源冲突，或者资源被锁定");
+        try {
+            int insert = delistingMapper.insert(delist);
+            if (insert == 1) {
+                response.setCode(200);
+                response.setMsg("提交摘牌申请成功！");
+                response.setError("无");
+                response.setData(delist);
+            } else {
+                response.setCode(409);
+                response.setMsg("提交摘牌申请失败！");
+                response.setError("资源冲突，或者资源被锁定");
+                response.setData(null);
+            }
+        }catch (DuplicateKeyException e){
+            response.setCode(405);
+            response.setMsg("fail");
+            response.setError("已经摘过牌了");
             response.setData(null);
         }
         return response;
