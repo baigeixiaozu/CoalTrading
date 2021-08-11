@@ -61,7 +61,7 @@ public class NewsServiceImpl implements NewsService {
         QueryWrapper<News> wrapper=new QueryWrapper<>();
 
         wrapper.eq("status","2");
-        wrapper.select("title","id");
+        wrapper.select("title","id","date");
 
         return newsMapper.selectPage(page,wrapper);
     }
