@@ -22,7 +22,7 @@ public class ComInfoController {
     // 不能把响应体写在此处
 
     @GetMapping("/{id}")
-    public ResponseData BasicInfo(@PathVariable Long id) {
+    public ResponseData basicInfo(@PathVariable Long id) {
         ResponseData responseData = new ResponseData();
         List<CompanyInformation> companyInformation = companyMapper.getInfo(id);
         responseData.setData(companyInformation);

@@ -50,4 +50,12 @@ public interface DelistService {
      * @return          需求数据
      */
     Map<String,Object> listDelistFinance(TokenProfile profile, int page, int limit);
+
+    /**
+     * 公司账户获取指定的摘牌详细信息
+     * @author Sorakado
+     * @time 2021/8/11/ 20:24
+     * @version 1.0
+     */
+    ResponseData getDetailInfoForUser(TokenProfile profile,long delistId);
 }
