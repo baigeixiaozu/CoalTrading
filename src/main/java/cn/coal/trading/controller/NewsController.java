@@ -6,6 +6,7 @@ import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +42,7 @@ public class NewsController {
 
     //接收打开页面时发送的请求，获取资讯标题
     @ApiOperation(value = "showNews",notes = "加载时获取咨询标题")
+    @ApiOperationSupport(author = "Heming233")
     @GetMapping("/show")
     public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
         try{
