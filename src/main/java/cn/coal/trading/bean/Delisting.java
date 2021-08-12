@@ -22,6 +22,6 @@ public class Delisting {
     private Long reqId;         // 摘牌对应需求ID
     private Long userId;        // 摘牌用户ID
     private Double deposit;     // 摘牌保证金数额
-    private Integer status;     // 摘牌状态
+    private String status;     // 摘牌状态
     private String opinion;     // 审核意见
 }

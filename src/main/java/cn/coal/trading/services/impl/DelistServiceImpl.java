@@ -47,7 +47,7 @@ public class DelistServiceImpl implements DelistService {
         Delisting delist = new Delisting();
         delist.setReqId((long) requestId);
         delist.setUserId(id);
-        delist.setStatus(1);
+        delist.setStatus("1");
 
         try {
             int insert = delistingMapper.insert(delist);
