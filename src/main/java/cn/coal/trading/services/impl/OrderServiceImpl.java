@@ -35,10 +35,16 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     *
+     * @param userId
+     * @param requestId
+     * @return
+     */
     //生成订单
     @Override
     public Order addNewOrder(Long userId,Long requestId){
-        QueryWrapper<Order> wrapper=new QueryWrapper<>();
+        //QueryWrapper<Order> wrapper=new QueryWrapper<>();
 
         Order order=new Order();
         order.setReqId(requestId);
@@ -53,5 +59,15 @@ public class OrderServiceImpl implements OrderService {
 
         orderMapper.insert(order);
         return order;
+    }
+
+    //获取订单详情
+    @Override
+    public Order getOrderDetail(Long id){
+        QueryWrapper<Order> wrapper=new QueryWrapper<>();
+
+        wrapper.eq("id",id);
+
+        return orderMapper.selectOne(wrapper);
     }
 }
