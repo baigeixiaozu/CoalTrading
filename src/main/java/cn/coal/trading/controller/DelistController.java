@@ -32,7 +32,7 @@ public class DelistController {
     @ApiOperation(value = "delistRequest",notes = "用户摘牌功能")
     @PostMapping("/delist")
     @HasRole(value = {"USER_SALE", "USER_BUY"},logical = Logical.ANY)
-    public ResponseData delistRequest(@RequestParam int request_id){
+    public ResponseData delistRequest(@RequestParam long request_id){
         TokenProfile profile= ProfileHolder.getProfile();
 
         ResponseData result =delistService.delist(Long.parseLong(profile.getId()), request_id);

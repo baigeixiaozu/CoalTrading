@@ -42,10 +42,10 @@ public class DelistServiceImpl implements DelistService {
      */
 
     @Override
-    public ResponseData delist(long id, int requestId) {
+    public ResponseData delist(long id, long requestId) {
         ResponseData response = new ResponseData();
         Delisting delist = new Delisting();
-        delist.setReqId((long) requestId);
+        delist.setReqId(requestId);
         delist.setUserId(id);
         delist.setStatus("1");
 

@@ -14,7 +14,7 @@ public interface DelistService {
      * @param userId, requestId
      * @return
      */
-    ResponseData delist(long userId, int requestId);
+    ResponseData delist(long userId, long requestId);
 
 
     /**
