@@ -1,6 +1,7 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.Request;
+import com.baomidou.shaun.core.profile.TokenProfile;
 
 import java.util.Map;
 
@@ -45,20 +46,20 @@ public interface RequestService {
 
     /**
      * 用户的需求
-     * @param userId
-     * @param page
-     * @param limit
+     * @param profile 登录用户信息
+     * @param page 页数
+     * @param limit 每页数量
      * @return
      */
-    Map<String,Object> myList(Long userId, int page, int limit);
+    Map<String,Object> myList(TokenProfile profile, int page, int limit);
 
     /**
      * 用户的需求详情
-     * @param userId 用户ID
+     * @param profile 登录用户信息
      * @param req_id 需求ID
      * @return   Request 需求所有信息
      */
-    Request myDetail(Long userId, long req_id);
+    Request myDetail(TokenProfile profile, long req_id);
 
     /**
      * 待审核需求列表

@@ -1,8 +1,10 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.CompanyInformation;
+import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.Request;
 import cn.coal.trading.mapper.CompanyMapper;
+import cn.coal.trading.mapper.FinanceMapper;
 import cn.coal.trading.mapper.ReqMapper;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,6 +31,8 @@ public class RequestServiceImpl implements RequestService {
     ReqMapper reqMapper;
     @Resource
     CompanyMapper companyMapper;
+    @Resource
+    FinanceMapper financeMapper;
 
     @Override
     public Map<String,Object> getPublicList(Long userId, int page, int limit) {
@@ -76,9 +80,21 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Map<String, Object> myList(Long userId, int page, int limit) {
+    public Map<String, Object> myList(TokenProfile profile, int page, int limit) {
+        String id = profile.getId();
+        boolean isMoneyUser = profile.getRoles().contains("USER_MONEY");
+        long userId = Long.parseLong(id);
+        if(isMoneyUser){
+            long finalUserId1 = userId;
+            FinanceProperty financeProperty = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {{
+                select("main_userid");
+                eq("finance_userid", finalUserId1);
+            }});
+            userId = financeProperty.getMainUserid();
+        }
+        long finalUserId2 = userId;
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
-            eq("user_id", userId);
+            eq("user_id", finalUserId2);
             select("id", "type", "user_id", "created_time", "status", "request_company", "request_num");
         }});
         return new HashMap<String,Object>(){{
@@ -89,9 +105,21 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Request myDetail(Long userId, long req_id) {
+    public Request myDetail(TokenProfile profile, long req_id) {
+        String id = profile.getId();
+        boolean isMoneyUser = profile.getRoles().contains("USER_MONEY");
+        long userId = Long.parseLong(id);
+        if(isMoneyUser){
+            long finalUserId1 = userId;
+            FinanceProperty financeProperty = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {{
+                select("main_userid");
+                eq("finance_userid", finalUserId1);
+            }});
+            userId = financeProperty.getMainUserid();
+        }
+        long finalUserId2 = userId;
         return reqMapper.selectOne(new QueryWrapper<Request>(){{
-            eq("user_id", userId);
+            eq("user_id", finalUserId2);
             eq("id", req_id);
         }});
     }
@@ -146,7 +174,7 @@ public class RequestServiceImpl implements RequestService {
             eq("user_id", id);
             select("com_name");
         }});
-        return companyInformation.getComName();
+        return companyInformation==null?null:companyInformation.getComName();
     }
 
 

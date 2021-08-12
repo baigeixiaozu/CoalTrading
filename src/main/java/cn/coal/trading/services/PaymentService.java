@@ -1,6 +1,6 @@
 package cn.coal.trading.services;
 
-import cn.coal.trading.bean.FinanceProperty;
+import java.util.Map;
 
 /**
  * Created by Heming233
@@ -17,7 +17,7 @@ import cn.coal.trading.bean.FinanceProperty;
 public interface PaymentService {
 
     //获取用户财产信息
-    FinanceProperty getFinanceById(Long userId);
+    Map<String,Object> getFinanceById(Long userId, long id, String type);
 
     //缴纳保证金
     Boolean setDeposit(Long userId,String requestId,double number);

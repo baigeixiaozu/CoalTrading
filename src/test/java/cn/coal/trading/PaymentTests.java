@@ -1,6 +1,5 @@
 package cn.coal.trading;
 
-import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.services.PaymentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +19,5 @@ public class PaymentTests {
 
     @Test
     void show(){
-        FinanceProperty user=paymentService.getFinanceById(8L);
     }
 }

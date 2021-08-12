@@ -108,12 +108,11 @@ public class RequestController {
      */
     @ApiOperation(value = "getMyList",notes = "获取用户的所有挂牌需求")
     @GetMapping("/my/list")
-    @HasRole({"USER_SALE", "USER_BUY"})
+    @HasRole({"USER_SALE", "USER_BUY", "USER_MONEY"})
     public ResponseData myList(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "10", required = false) int limit){
         ResponseData responseData = new ResponseData();
         TokenProfile profile = ProfileHolder.getProfile();
-        String userId = profile.getId();
-        Map<String, Object> myList = requestService.myList(Long.parseLong(userId), page, limit);
+        Map<String, Object> myList = requestService.myList(profile, page, limit);
         responseData.setCode(200);
         responseData.setMsg("success");
         responseData.setData(myList);
@@ -122,12 +121,12 @@ public class RequestController {
 
     @ApiOperation(value = "getDetail",notes = "获取用户自己的挂牌需求详细信息")
     @GetMapping("/my/detail/{id}")
+    @HasRole({"USER_SALE", "USER_BUY", "USER_MONEY"})
     public ResponseData myDetail(@PathVariable long id){
         ResponseData response = new ResponseData();
         TokenProfile profile = ProfileHolder.getProfile();
-        String userId = profile.getId();
 
-        Request request = requestService.myDetail(Long.parseLong(userId), id);
+        Request request = requestService.myDetail(profile, id);
         if(request == null){
             response.setCode(201);
             response.setMsg("fail");

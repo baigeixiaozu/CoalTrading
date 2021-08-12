@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Heming233
@@ -33,12 +35,26 @@ public class PaymentServiceImpl implements PaymentService {
 
     //获取用户财产信息
     @Override
-    public FinanceProperty getFinanceById(Long userId){
+    public Map<String,Object> getFinanceById(Long userId, long id, String type){
         QueryWrapper<FinanceProperty> wrapper=new QueryWrapper<>();
 
-        wrapper.eq("finance_userid",userId);
-
-        return financeMapper.selectOne(wrapper);
+        wrapper.eq("finance_userid", userId);
+        FinanceProperty financeProperty = financeMapper.selectOne(wrapper);
+        Request request;
+        if("zp".equals(type)){
+            // 摘牌ID
+            request = reqMapper.selectOneByZPId(financeProperty.getMainUserid(), id);
+        }else{
+            // 挂牌ID
+            request = reqMapper.selectOne(new QueryWrapper<Request>(){{
+                eq("user_id", financeProperty.getMainUserid());
+                eq("id", id);
+            }});
+        }
+        return new HashMap<String, Object>(){{
+            put("financeInfo", financeProperty);
+            put("requestInfo", request);
+        }};
     }
 
     //缴纳保证金
