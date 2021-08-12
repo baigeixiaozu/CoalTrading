@@ -11,9 +11,12 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.print.attribute.HashPrintJobAttributeSet;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,6 +33,7 @@ import java.util.Map;
 public class OrderController {
     @Resource
     OrderService orderService;
+
     @GetMapping("/list")
     @ApiOperation(value = "getOrderList",notes = "获取订单列表")
     public ResponseData orderList(@RequestParam(defaultValue = "1", required = false) int page, @RequestParam(defaultValue = "1", required = false) int limit){
@@ -72,6 +76,41 @@ public class OrderController {
                 setCode(403);
                 setMsg("error");
                 setError("add new order failed");
+            }};
+        }
+    }
+
+    /**
+     * Created by Heming233
+     * Date:2021/8/12
+     * version:v1.0
+     */
+    @ApiOperation(value="getOrderDetail",notes = "获取订单详情")
+    @GetMapping("/detail/{orderId}")
+    public ResponseData getDetail(@PathVariable String orderId){
+        try{
+            Order order =orderService.getOrderDetail(Long.parseLong(orderId));
+
+            if(order!=null){
+                return new ResponseData(){{
+                    setCode(200);
+                    setMsg("success");
+                    setData(order);
+                }};
+            }
+            else{
+                return new ResponseData(){{
+                    setCode(204);
+                    setMsg("error");
+                    setMsg("no such order");
+                }};
+            }
+        }
+        catch (Exception e){
+            return new ResponseData(){{
+                setCode(204);
+                setMsg("error");
+                setError("no order caught");
             }};
         }
     }
