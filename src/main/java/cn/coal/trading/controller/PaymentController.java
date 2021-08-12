@@ -10,6 +10,8 @@ import com.baomidou.shaun.core.profile.TokenProfile;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,6 +29,15 @@ import javax.annotation.Resource;
  */
 
 @Api(tags = "保证金模块")
+@ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
+        @ApiResponse(code = 400,message = "参数列表错误",response = ResponseData.class),
+        @ApiResponse(code = 401,message = "未授权",response = ResponseData.class),
+        @ApiResponse(code = 403,message = "授权受限，授权过期",response = ResponseData.class),
+        @ApiResponse(code = 404,message = "资源，服务未找到",response = ResponseData.class),
+        @ApiResponse(code = 409,message = "资源冲突，或者资源被锁定",response = ResponseData.class),
+        @ApiResponse(code = 429,message = "请求过多被限制",response = ResponseData.class),
+        @ApiResponse(code = 500,message = "系统内部错误",response = ResponseData.class),
+        @ApiResponse(code = 501,message = "接口未实现",response = ResponseData.class)})
 @RestController
 @RequestMapping("/payment")
 @ApiSupport(author = "Heming233")

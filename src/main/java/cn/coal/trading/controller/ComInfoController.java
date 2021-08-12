@@ -19,7 +19,15 @@ import java.util.List;
 @HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")
-
+@ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
+            @ApiResponse(code = 400,message = "参数列表错误",response = ResponseData.class),
+        @ApiResponse(code = 401,message = "未授权",response = ResponseData.class),
+        @ApiResponse(code = 403,message = "授权受限，授权过期",response = ResponseData.class),
+        @ApiResponse(code = 404,message = "资源，服务未找到",response = ResponseData.class),
+        @ApiResponse(code = 409,message = "资源冲突，或者资源被锁定",response = ResponseData.class),
+        @ApiResponse(code = 429,message = "请求过多被限制",response = ResponseData.class),
+        @ApiResponse(code = 500,message = "系统内部错误",response = ResponseData.class),
+        @ApiResponse(code = 501,message = "接口未实现",response = ResponseData.class)})
 @Api(tags = "企业信息模块")
 @ApiSupport(author = "songyan.bai")
 public class ComInfoController {
