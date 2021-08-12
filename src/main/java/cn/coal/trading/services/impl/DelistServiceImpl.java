@@ -35,8 +35,7 @@ public class DelistServiceImpl implements DelistService {
     FinanceMapper financeMapper;
 
     /**
-     * @param id requestId    摘牌用户id，需求id
-     * @param delisting
+     * @param delisting 摘牌信息
      * @return ResponseData
      * 摘牌操作
      * @author Sorakado
@@ -302,25 +301,17 @@ public class DelistServiceImpl implements DelistService {
             eq("user_id", finalQueryId);
             eq("req_id", reqId);
         }});
-        long userId=delist.getUserId();
-        if(userId==queryId){
-            Request request = reqMapper.selectOne(new QueryWrapper<Request>(){{
-                eq("id", reqId);
-                eq("status", "3");
-            }});
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("reqInfo", request);
-            map.put("delistInfo", delist);
-            response.setData(map);
-            response.setCode(200);
-            response.setMsg("查询成功");
-            response.setError("无");
-        }else{
-            response.setData(null);
-            response.setCode(404);
-            response.setMsg("出现未知错误，未查询成功");
-            response.setError("资源，服务未找到");
-        }
+        Request request = reqMapper.selectOne(new QueryWrapper<Request>(){{
+            eq("id", reqId);
+            eq("status", "3");
+        }});
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("reqInfo", request);
+        map.put("delistInfo", delist);
+        response.setData(map);
+        response.setCode(200);
+        response.setMsg("查询成功");
+        response.setError("无");
         return response;
 
     }

@@ -98,7 +98,7 @@ public class DelistController {
     public ResponseData getDetailInfoForUser2(@RequestParam long reqId){
         TokenProfile profile=ProfileHolder.getProfile();
 
-        ResponseData result =delistService.getDetailInfoForUser(profile, reqId);
+        ResponseData result =delistService.getDetailInfoForUser2(profile, reqId);
         return result;
     }
 

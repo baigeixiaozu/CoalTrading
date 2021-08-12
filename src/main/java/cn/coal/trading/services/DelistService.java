@@ -12,10 +12,9 @@ import java.util.Map;
 public interface DelistService {
 
     /**
-     * @author Sorakado
      * 摘牌功能
-     * @param userId, requestId
-     * @param delisting
+     * @author Sorakado
+     * @param delisting 摘牌信息
      * @return
      */
     ResponseData delist(Delisting delisting);
