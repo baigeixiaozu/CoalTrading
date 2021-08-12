@@ -36,26 +36,23 @@ public class DelistServiceImpl implements DelistService {
 
     /**
      * @param id requestId    摘牌用户id，需求id
+     * @param delisting
      * @return ResponseData
      * 摘牌操作
      * @author Sorakado
      */
 
     @Override
-    public ResponseData delist(long id, long requestId) {
+    public ResponseData delist(Delisting delisting) {
         ResponseData response = new ResponseData();
-        Delisting delist = new Delisting();
-        delist.setReqId(requestId);
-        delist.setUserId(id);
-        delist.setStatus("1");
 
         try {
-            int insert = delistingMapper.insert(delist);
+            int insert = delistingMapper.insert(delisting);
             if (insert == 1) {
                 response.setCode(200);
                 response.setMsg("提交摘牌申请成功！");
                 response.setError("无");
-                response.setData(delist);
+                response.setData(delisting);
             } else {
                 response.setCode(409);
                 response.setMsg("提交摘牌申请失败！");
@@ -84,7 +81,7 @@ public class DelistServiceImpl implements DelistService {
         Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
 
             eq("status", 1);
-            select("id", "req_id", "user_id", "created_time", "status");
+            select("id", "req_id", "user_id", "created_time", "status","type");
         }});
 
         return new HashMap<String, Object>() {{
@@ -101,10 +98,37 @@ public class DelistServiceImpl implements DelistService {
      * @return
      */
     @Override
-    public ResponseData getDetailInfo(long delistId) {
+    public ResponseData getDetailInfoByZPId(long delistId) {
 
         Delisting delist = delistingMapper.selectById(delistId);
         Request request = reqMapper.selectById(delist.getReqId());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("reqInfo", request);
+        map.put("delistInfo", delist);
+        ResponseData response = new ResponseData();
+        if (delist != null && request != null) {
+            response.setData(map);
+            response.setCode(200);
+            response.setMsg("查询成功");
+            response.setError("无");
+        } else {
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("出现未知错误，未查询成功");
+            response.setError("资源，服务未找到");
+        }
+
+        return response;
+    }
+
+    @Override
+    public ResponseData getDetailInfo2(long gpId, long userId) {
+
+        Request request = reqMapper.selectById(gpId);
+        Delisting delist = delistingMapper.selectOne(new QueryWrapper<Delisting>(){{
+            eq("user_id", userId);
+            eq("req_id", gpId);
+        }});
         HashMap<String, Object> map = new HashMap<>();
         map.put("reqInfo", request);
         map.put("delistInfo", delist);
@@ -181,12 +205,11 @@ public class DelistServiceImpl implements DelistService {
             }
         }
 
-
         long finalQueryId = queryId;
         Page<Map<String, Object>> delistPage = delistingMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Delisting>() {{
             eq("user_id", finalQueryId);
             eq("status", 1);
-            select("id", "req_id", "user_id", "created_time", "status");
+            select("id", "req_id", "user_id", "created_time", "status","type");
         }});
 
         return new HashMap<String, Object>() {{
@@ -229,6 +252,62 @@ public class DelistServiceImpl implements DelistService {
         long userId=delist.getUserId();
         if(userId==queryId){
             Request request = reqMapper.selectById(delist.getReqId());
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("reqInfo", request);
+            map.put("delistInfo", delist);
+            response.setData(map);
+            response.setCode(200);
+            response.setMsg("查询成功");
+            response.setError("无");
+        }else{
+            response.setData(null);
+            response.setCode(404);
+            response.setMsg("出现未知错误，未查询成功");
+            response.setError("资源，服务未找到");
+        }
+        return response;
+
+    }
+    /**
+     * 公司账户获取指定的摘牌详细信息及对应的挂牌信息
+     *
+     * @param profile
+     * @param reqId
+     * @author Sorakado
+     * @time 2021/8/11/ 20:24
+     * @version 1.0
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Async
+    public ResponseData getDetailInfoForUser2(TokenProfile profile, long reqId) {
+        ResponseData response = new ResponseData();
+        long queryId = 0;
+        Set<String> roles = profile.getRoles();
+        for (String role : roles) {
+            if ("USER_MONEY".equals(role)) {
+                FinanceProperty finance = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {
+                    {
+                        eq("finance_userid", profile.getId());
+                    }
+                });
+                queryId = finance.getMainUserid();
+            } else {
+                queryId = Long.parseLong(profile.getId());
+            }
+        }
+
+        long finalQueryId = queryId;
+        Delisting delist = delistingMapper.selectOne(new QueryWrapper<Delisting>(){{
+            eq("user_id", finalQueryId);
+            eq("req_id", reqId);
+        }});
+        long userId=delist.getUserId();
+        if(userId==queryId){
+            Request request = reqMapper.selectOne(new QueryWrapper<Request>(){{
+                eq("id", reqId);
+                eq("status", "3");
+            }});
             HashMap<String, Object> map = new HashMap<>();
             map.put("reqInfo", request);
             map.put("delistInfo", delist);

@@ -1,8 +1,11 @@
 package cn.coal.trading.services;
 
 import cn.coal.trading.bean.AuditOpinion;
+import cn.coal.trading.bean.Delisting;
 import cn.coal.trading.bean.ResponseData;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -12,9 +15,10 @@ public interface DelistService {
      * @author Sorakado
      * 摘牌功能
      * @param userId, requestId
+     * @param delisting
      * @return
      */
-    ResponseData delist(long userId, long requestId);
+    ResponseData delist(Delisting delisting);
 
 
     /**
@@ -29,11 +33,21 @@ public interface DelistService {
 
     /**
      * @author Sorakado
-     * 获取挂牌摘牌的详细信息
-     * @param delistId   挂牌id
+     * 根据摘牌ID获取挂牌摘牌的详细信息
+     * @param delistId   摘牌id
      * @return          需求数据
      */
-    ResponseData getDetailInfo(long delistId);
+    ResponseData getDetailInfoByZPId(long delistId);
+
+    /**
+     * @author Sorakado
+     * 根据用户ID和挂牌ID 获取挂牌摘牌的详细信息
+     * @param gpId   挂牌id
+     * @param userId   用户id
+     * @return          需求数据
+     */
+    ResponseData getDetailInfo2(long gpId, long userId);
+
     /**
      * @author Sorakado
      * 审核功能
@@ -58,4 +72,8 @@ public interface DelistService {
      * @version 1.0
      */
     ResponseData getDetailInfoForUser(TokenProfile profile,long delistId);
+
+    @Transactional(rollbackFor = Exception.class)
+    @Async
+    ResponseData getDetailInfoForUser2(TokenProfile profile, long reqId);
 }

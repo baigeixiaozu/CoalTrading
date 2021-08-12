@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/12 14:44:12                           */
+/* Created on:     2021/8/12 17:38:05                           */
 /*==============================================================*/
 
 
@@ -918,6 +918,9 @@ create table ct_zp
             3. 失败（被抢先摘牌）',
    opinion              varchar(255) comment '审核意见',
    created_time         datetime not null default CURRENT_TIMESTAMP comment '摘牌时间',
+   type                 enum('1','2') comment '摘牌类型
+            1. 买方摘牌
+            2. 卖方摘牌',
    primary key (id)
 )
 engine = InnoDB;

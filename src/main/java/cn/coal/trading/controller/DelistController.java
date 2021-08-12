@@ -1,6 +1,7 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.AuditOpinion;
+import cn.coal.trading.bean.Delisting;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.DelistService;
 import com.baomidou.shaun.core.annotation.HasRole;
@@ -35,7 +36,12 @@ public class DelistController {
     public ResponseData delistRequest(@RequestParam long request_id){
         TokenProfile profile= ProfileHolder.getProfile();
 
-        ResponseData result =delistService.delist(Long.parseLong(profile.getId()), request_id);
+        Delisting delist = new Delisting();
+        delist.setReqId(request_id);
+        delist.setUserId(Long.parseLong(profile.getId()));
+        delist.setStatus("1");
+        delist.setType(profile.getRoles().contains("USER_SALE")?"2":"1");   // 卖方2  买方1
+        ResponseData result =delistService.delist(delist);
         return result;
     }
 
@@ -57,7 +63,7 @@ public class DelistController {
     }
 
     /**
-     * 交易审核员获取指定的摘牌详细信息及摘牌信息
+     * 交易审核员获取指定的摘牌详细信息及挂牌信息
      * @author Sorakado
      * @time 2021/8/7/ 23:20
      * @version 1.0
@@ -67,7 +73,7 @@ public class DelistController {
     @ApiOperation(value = "getDetailInfo",notes = "交易审核员获取指定的摘牌详细信息及摘牌信息")
     public ResponseData getDetailInfo(@RequestParam long delistId){
 
-        ResponseData result =delistService.getDetailInfo(delistId);
+        ResponseData result =delistService.getDetailInfoByZPId(delistId);
         return result;
     }
 
@@ -84,6 +90,15 @@ public class DelistController {
         TokenProfile profile=ProfileHolder.getProfile();
 
         ResponseData result =delistService.getDetailInfoForUser(profile,delistId);
+        return result;
+    }
+    @GetMapping("/detailInfoForUser2")
+    @HasRole(value = {"USER_BUY","USER_SALE","USER_MONEY"})
+    @ApiOperation(value = "getDetailInfoForUser2",notes = "公司账户获取指定的挂牌信息及对应的摘牌详细信息")
+    public ResponseData getDetailInfoForUser2(@RequestParam long reqId){
+        TokenProfile profile=ProfileHolder.getProfile();
+
+        ResponseData result =delistService.getDetailInfoForUser(profile, reqId);
         return result;
     }
 

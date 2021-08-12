@@ -58,13 +58,13 @@ shaun:
     - /user/register
     - /user/getRoleList/user
     - /news/show
-    - /request/list   # 需求列表
     - /info
   exclude-branch: # 排除以此路径开头
     - /webjars
 #    - /info
     - /news/detail
     - /news/more
+    - /request/public   # 公共挂牌相关
 #    - /fin
   expire-time: 99d # 不设置默认永久有效
   header:
