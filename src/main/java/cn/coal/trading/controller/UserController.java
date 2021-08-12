@@ -90,6 +90,10 @@ public class UserController {
             responseData.setMsg("角色数据不能为空");
             return responseData;
         }
+
+        // TODO: BEAN处理
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+        user.setPass(encoder.encode(user.getPass()));
         String ret = userService.newUser(user);
 
         if (ret == null) {

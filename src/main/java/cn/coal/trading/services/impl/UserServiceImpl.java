@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     private CompanyMapper companyMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String newUser(User user) {
 
         Integer count = userMapper.selectCount(new QueryWrapper<User>() {{
