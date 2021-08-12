@@ -8,6 +8,11 @@ import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -15,6 +20,17 @@ import java.util.List;
 
 @HasRole("USER_BUY")
 @RequestMapping("/fin")
+@Api(tags = "资金预存模块")
+@ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
+        @ApiResponse(code = 400,message = "参数列表错误",response = ResponseData.class),
+        @ApiResponse(code = 401,message = "未授权",response = ResponseData.class),
+        @ApiResponse(code = 403,message = "授权受限，授权过期",response = ResponseData.class),
+        @ApiResponse(code = 404,message = "资源，服务未找到",response = ResponseData.class),
+        @ApiResponse(code = 409,message = "资源冲突，或者资源被锁定",response = ResponseData.class),
+        @ApiResponse(code = 429,message = "请求过多被限制",response = ResponseData.class),
+        @ApiResponse(code = 500,message = "系统内部错误",response = ResponseData.class),
+        @ApiResponse(code = 501,message = "接口未实现",response = ResponseData.class)})
+@ApiSupport(author = "songyan.bai")
 @RestController
 public class DeFundsController {
     private DeFundsMapper deFundsMapper;
@@ -22,7 +38,8 @@ public class DeFundsController {
         this.deFundsMapper=deFundsMapper;
     }
     @GetMapping("/info")
-    public ResponseData BasicInfo(){//数据库中为int，不是long
+    @ApiOperation(value = "basicInfo",notes = "获取企业信息")
+    public ResponseData basicInfo(){//数据库中为int，不是long
         ResponseData responseData=new ResponseData();
         TokenProfile profile = ProfileHolder.getProfile();
         int id=Integer.parseInt(profile.getId());
@@ -51,6 +68,7 @@ public class DeFundsController {
 //        financeLog.setQuantity(quantity);
 //        deFundsMapper.TransInfo(financeLog);
 //    }
+    @ApiOperation(value = "setQuanity",notes = "设置提交数量")
     @PostMapping("/updateQ/{quantity}")//提交数量
     public ResponseData setQuantity(@PathVariable Double quantity){
         ResponseData responseData=new ResponseData();
@@ -76,6 +94,7 @@ public class DeFundsController {
         }
         return responseData;
     }
+    @ApiOperation(value = "upload",notes = "提交文件")
     @PostMapping("/updateF/{path}")//提交文件
     public ResponseData upLoad(@PathVariable Double quantity, @PathVariable String path){
         ResponseData responseData=new ResponseData();

@@ -7,6 +7,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -56,10 +57,12 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 // api名称
                 .title("SwaggerUI APIS")
+                // 作者信息
+                .contact(new Contact("白给小分队",null,null))
                 // api 描述
-
                 .description("CoalTrading Project About SwaggerUI APIS")
                 // api 版本
+                .termsOfServiceUrl("")
                 .version("1.0")
                 // 构建
                 .build();
