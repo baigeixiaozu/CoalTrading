@@ -141,7 +141,7 @@ public class RequestController {
 
         // 挂牌参数处理（为保证安全，仅提取需要的数据）
         Request request = new Request(){{
-            setStatus(req.getPublish()?2:1);     // 1. 草稿  2. 发布待审核
+            setStatus(req.getPublish()?"15":"1");     // 1. 草稿  15. 待交保证金
             setDetail(req.getDetail());
             setRequestCompany(req.getRequestCompany());
             setRequestNum(req.getRequestNum());
@@ -190,7 +190,7 @@ public class RequestController {
         // 挂牌参数处理（为保证安全，仅提取需要的数据）
         Request request = new Request(){{
             setId(req.getId());
-            setStatus(req.getPublish()?2:1);     // 1. 草稿  2. 发布待审核
+            setStatus(req.getPublish()?"15":"1");     // 1. 草稿  15. 待交保证金
             setDetail(req.getDetail());
         }};
 
@@ -210,6 +210,7 @@ public class RequestController {
             responseData.setMsg("success");
         }else{
             responseData.setCode(31201);
+            responseData.setError("没有数据被更新");
             responseData.setMsg("fail");
         }
         return responseData;
@@ -255,7 +256,7 @@ public class RequestController {
         boolean accept = (boolean) request.get("accept");
         Request req = new Request(){{
             setId(req_id);
-            setStatus(accept?3:7);
+            setStatus(accept?"3":"7");
             setOpinion(opinion);
         }};
         boolean b = requestService.doAudit(req);

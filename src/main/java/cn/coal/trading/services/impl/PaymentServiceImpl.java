@@ -52,12 +52,12 @@ public class PaymentServiceImpl implements PaymentService {
         requestWrapper.eq("id",requestId);
         Request request=reqMapper.selectOne(requestWrapper);
         //检测该需求是否已经被摘牌
-        if(request.getStatus()==4){
+        if("4".equals(request.getStatus())){
             return false;
         }
         else{
             //更新需求表
-            request.setStatus(4);
+            request.setStatus("4");
             request.setDeposit(number*100000);
             requestUpdateWrapper.eq("id",requestId);
             reqMapper.update(request,requestUpdateWrapper);

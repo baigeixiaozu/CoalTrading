@@ -30,7 +30,7 @@ public class Request {
     private String requestNum;              // 单据编号
     private Date createdTime;               // 创建时间
     private Integer type;                   // 需求类型[ 1.卖出| 2.采购]
-    private Integer status;                 // 需求状态[ 1.草稿| 2.审核中| 3.发布| 4.被摘取| 5.隐藏| 6.完成]
+    private String status;                 // 需求状态[ 1.草稿| 2.审核中| 3.发布| 4.被摘取| 5.隐藏| 6.完成 | 15. 待交保证金]
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Object detail;                  // 需求（挂牌）详细
     private Long zpId;                      // 摘牌表 -- 摘牌ID

@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/11 21:37:18                           */
+/* Created on:     2021/8/12 14:44:12                           */
 /*==============================================================*/
 
 
@@ -639,7 +639,7 @@ create table ct_request
    ended_time           datetime comment '结束时间',
    type                 enum('1','2') comment '1. 卖出
             2. 采购',
-   status               enum('1','2','3','4','6', '7','8','9','10','11','12') not null comment '需求状态
+   status               enum('1','2','3','4','6', '7','8','9','10','11','12','15') not null comment '需求状态
             1. 草稿
             2. 审核中
             3. 发布
@@ -650,7 +650,8 @@ create table ct_request
             9. 合同已上传，等待确认
             10. 合同被拒绝
             11. 合同被确认，同时生成订单
-            12. 交易完成',
+            12. 交易完成
+            15. 待交保证金',
    detail               json comment '需求信息(JSON)',
    zp_id                bigint(20) comment '最终摘牌信息ID（摘牌表--摘牌ID）',
    contract_file        varchar(255) comment '合同文件（路径）',
@@ -927,14 +928,6 @@ engine = InnoDB;
 create index Index_ZP_USER_ID on ct_zp
 (
    user_id
-);
-
-/*==============================================================*/
-/* Index: Index_ZP_REQ_ID                                       */
-/*==============================================================*/
-create index Index_ZP_REQ_ID on ct_zp
-(
-   req_id
 );
 
 /*==============================================================*/
