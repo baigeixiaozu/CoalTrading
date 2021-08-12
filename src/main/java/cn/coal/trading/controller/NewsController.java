@@ -179,7 +179,8 @@ public class NewsController {
 
             return  new ResponseData(){{
                 setCode(200);
-                setMsg(status);
+                setMsg("success");
+                setData(status);
             }};
         }
         catch (Exception e){
