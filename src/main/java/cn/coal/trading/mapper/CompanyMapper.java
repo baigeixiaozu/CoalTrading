@@ -18,9 +18,9 @@ public interface CompanyMapper extends BaseMapper<CompanyInformation> {
     @Update("update ct_company set audit_opinion=#{opinion} where user_id=#{id}")
     Boolean Opinion(Long id,String opinion);
 
-    @Update("update ct_company set status=4 where user_id=#{id}")
-    Boolean verify(Long id);
     @Update("update ct_company set status=3 where user_id=#{id}")
+    Boolean verify(Long id);
+    @Update("update ct_company set status=1 where user_id=#{id}")
     Boolean reject(Long id);
 
 

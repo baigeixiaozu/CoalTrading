@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 
-//@HasRole("USER_REG_AUDITOR")
+@HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")
 @ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
