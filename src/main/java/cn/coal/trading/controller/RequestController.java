@@ -324,7 +324,7 @@ public class RequestController {
         return response;
     }
 
-    @ApiOperation(value = "getContractFile",notes = "获取上传的交易合同")
+    @ApiOperation(value = "getContractFile",notes = "下载上传的交易合同")
     @GetMapping("/contract/file/{req_id}")
     @HasRole({"USER_SALE", "USER_BUY"})
     public ResponseData contractFile(HttpServletResponse response, @PathVariable("req_id") long requestId, @RequestParam String path){
@@ -362,6 +362,7 @@ public class RequestController {
             bis = new BufferedInputStream(new FileInputStream(file));
             byte[] buff = new byte[1024];
 
+            response.setHeader("Content-Disposition", "attachment; filename=" + StringUtils.substringAfter(path, "/"));
             // 开始
             int read = bis.read(buff);
             while (read != -1){
