@@ -92,22 +92,30 @@ public class PaymentController {
     @ApiOperation(value = "securityPayment", notes = "缴纳保证金")
     @PostMapping("/pay/{type}/{pid}")
     @HasRole(value = "USER_MONEY")
-    public ResponseData SecurityPayment(@RequestBody double margin, @PathVariable String pid, @PathVariable TradeType type) {
+    public ResponseData SecurityPayment(@RequestBody Map<String, Object> data, @PathVariable String pid, @PathVariable TradeType type) {
         try {
-
-            if (paymentService.setDeposit(type.name(), pid, margin)) {
+            Object margin = data.get("margin");
+            if(margin == null){
+                return new ResponseData() {{
+                    setCode(201);
+                    setMsg("fail");
+                    setError("参数错误");
+                }};
+            }
+            if (paymentService.setDeposit(type.name(), pid, Double.parseDouble(margin+""))) {
                 return new ResponseData() {{
                     setCode(200);
                     setMsg("success");
                 }};
             } else {
                 return new ResponseData() {{
-                    setCode(403);
+                    setCode(205);
                     setMsg("error");
-                    setError("This request has been occupied");
+                    setError("支付失败");
                 }};
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseData() {{
                 setCode(204);
                 setMsg("error");

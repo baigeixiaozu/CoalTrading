@@ -76,19 +76,21 @@ public class PaymentServiceImpl implements PaymentService {
             // 摘牌保证金
             update = delistingMapper.update(new Delisting() {{
                 setDeposit(margin);
-                setStatus("2");
+                setStatus("2");             // 摘牌置为成功
             }}, new UpdateWrapper<Delisting>() {{
                 eq("id", pid);
                 eq("user_id", mId);          // 摘牌用户ID
+                eq("status", "1");      // 待交保证金状态
             }});
         }else{
             // 挂牌保证金
             update = reqMapper.update(new Request(){{
                 setDeposit(margin);
-                setStatus("2");
+                setStatus("2");                     // 挂牌置为审核状态
             }}, new UpdateWrapper<Request>(){{
                 eq("id", pid);
                 eq("user_id", mId);
+                eq("status", "15");     // 待交保证金状态
             }});
         }
         if(update != 1)return false;
