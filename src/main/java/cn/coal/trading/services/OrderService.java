@@ -12,9 +12,7 @@ import java.util.Map;
  * @Version 1.0
  **/
 public interface OrderService {
-    Map<String, Object> list(Order order, int page, int limit);
-
-    Order addNewOrder(Long userId,Long requestId);
+    Map<String, Object> list(long userId, int page, int limit);
 
     Order getOrderDetail(Long id);
 }

@@ -100,5 +100,7 @@ public interface RequestService {
      */
     boolean acceptContract(long reqId, boolean accept);
 
+    String getContractPath(long zpId);
+
     String getComName(long id);
 }

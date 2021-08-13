@@ -12,4 +12,7 @@ import org.apache.ibatis.annotations.Select;
 public interface ReqMapper extends BaseMapper<Request> {
     @Select("SELECT * FROM ct_request WHERE id=(SELECT req_id FROM ct_zp WHERE user_id=#{userId} AND id=#{id})")
     Request selectOneByZPId(long userId, long id);
+
+    @Select("SELECT user_id FROM ct_request WHERE id=#{reqId}")
+    long selectUserIdByReqId(long reqId);
 }

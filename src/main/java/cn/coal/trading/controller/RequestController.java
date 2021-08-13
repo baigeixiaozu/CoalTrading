@@ -4,6 +4,7 @@ import cn.coal.trading.bean.Request;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.bean.reqdata.BuyPubData;
 import cn.coal.trading.bean.reqdata.SalePubData;
+import cn.coal.trading.services.OrderService;
 import cn.coal.trading.services.RequestService;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
@@ -51,6 +52,8 @@ public class RequestController {
 
     @Resource
     RequestService requestService;
+    @Resource
+    OrderService orderService;
 
     @Value("${ct.uploadFile.location}")
     private String BASE_STORE_PATH;
@@ -297,6 +300,7 @@ public class RequestController {
         if(!file.isFile() && !file.exists()){
             file.mkdirs();
         }
+
         String exactPath = dir + String.format("/contract_%s.%s", id, suffix);
 
         try {
@@ -325,25 +329,39 @@ public class RequestController {
     }
 
     @ApiOperation(value = "getContractFile",notes = "下载上传的交易合同")
-    @GetMapping("/contract/file/{req_id}")
+    @GetMapping("/contract/file/{id}")
     @HasRole({"USER_SALE", "USER_BUY"})
-    public ResponseData contractFile(HttpServletResponse response, @PathVariable("req_id") long requestId, @RequestParam String path){
+    public ResponseData contractFile(HttpServletResponse response, @PathVariable("id") long pid, @RequestParam(required = false) String path){
 
         ResponseData responseData = new ResponseData();
 
-        TokenProfile profile = ProfileHolder.getProfile();
-        String id = profile.getId();
+        if(path != null) {
+            // 挂牌方下载合同， pid为挂牌ID
+            TokenProfile profile = ProfileHolder.getProfile();
+            String id = profile.getId();
 
-        // 文件路径前缀，唯一
-        String exactPath = String.format("/request/contract/%d/contract_%s.", requestId, id);
+            // 文件路径前缀，唯一
+            String exactPath = String.format("/request/contract/%d/contract_%s.", pid, id);
 
-        // 简单的合法性验证
-        if(path == null || !path.startsWith(exactPath)){
-            // 参数有误
-            responseData.setCode(201);
-            responseData.setMsg("fail");
-            responseData.setError("参数有误！");
-            return responseData;
+            // 简单的合法性验证
+            if (!path.startsWith(exactPath)) {
+                // 参数有误
+                responseData.setCode(201);
+                responseData.setMsg("fail");
+                responseData.setError("参数有误！");
+                return responseData;
+            }
+        }else{
+            path = requestService.getContractPath(pid);
+
+            // 简单的合法性验证
+            if (path == null) {
+                // 参数有误
+                responseData.setCode(201);
+                responseData.setMsg("fail");
+                responseData.setError("文件不存在！");
+                return responseData;
+            }
         }
         ServletOutputStream outputStream = null;
         BufferedInputStream bis = null;

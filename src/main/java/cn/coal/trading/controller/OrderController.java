@@ -13,12 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.print.attribute.HashPrintJobAttributeSet;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,7 +26,7 @@ import java.util.Map;
 @Api(tags = "订单模块")
 @RestController
 @RequestMapping("/order")
-@HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)      // 部分功能需管理员？
+@HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
 @ApiSupport(author = "jiyec & Heming233")
 @ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
         @ApiResponse(code = 400,message = "参数列表错误",response = ResponseData.class),
@@ -53,9 +50,7 @@ public class OrderController {
         String id = profile.getId();
         ResponseData responseData = new ResponseData();
 
-        Map<String, Object> result = orderService.list(new Order(){{
-            setUserId(Long.parseLong(id));
-        }}, page, limit);
+        Map<String, Object> result = orderService.list(Long.parseLong(id), page, limit);
         responseData.setCode(200);
         responseData.setMsg("success");
         responseData.setData(result);
@@ -63,33 +58,33 @@ public class OrderController {
         return responseData;
     }
 
-    /**
-     * Created by Heming233
-     * Date:2021/8/9
-     * version:v1.0
-     */
-    @ApiOperation(value = "newOrder",notes = "创建新订单")
-    @PostMapping("/new")
-    public ResponseData newOrder(@PathVariable Long requestId){
-        try{
-            TokenProfile profile=ProfileHolder.getProfile();
-            Long userId=Long.parseLong(profile.getId());
-
-            Order order=orderService.addNewOrder(userId,requestId);
-            return new ResponseData(){{
-                setCode(200);
-                setMsg("success");
-                setData(order);
-            }};
-        }
-        catch(Exception e){
-            return new ResponseData(){{
-                setCode(403);
-                setMsg("error");
-                setError("add new order failed");
-            }};
-        }
-    }
+    // /**
+    //  * Created by Heming233
+    //  * Date:2021/8/9
+    //  * version:v1.0
+    //  */
+    // @ApiOperation(value = "newOrder",notes = "创建新订单")
+    // @PostMapping("/new")
+    // public ResponseData newOrder(@PathVariable Long requestId){
+    //     try{
+    //         TokenProfile profile=ProfileHolder.getProfile();
+    //         Long userId=Long.parseLong(profile.getId());
+    //
+    //         Order order=orderService.addNewOrder(userId,requestId);
+    //         return new ResponseData(){{
+    //             setCode(200);
+    //             setMsg("success");
+    //             setData(order);
+    //         }};
+    //     }
+    //     catch(Exception e){
+    //         return new ResponseData(){{
+    //             setCode(403);
+    //             setMsg("error");
+    //             setError("add new order failed");
+    //         }};
+    //     }
+    // }
 
     /**
      * Created by Heming233
