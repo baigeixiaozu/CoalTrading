@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
 
-@HasRole("USER_REG_AUDITOR")
+//@HasRole("USER_REG_AUDITOR")
 @RestController
 @RequestMapping("/info")
 @ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
@@ -62,7 +62,7 @@ public class ComInfoController {
     }
 
     @ApiOperation(value = "opinion", notes = "提交审核意见")
-    @GetMapping("/{id}/{opinion}")//提交审核意见
+    @PostMapping("/{id}/{opinion}")//提交审核意见
     public ResponseData opinion(@PathVariable Long id, @PathVariable String opinion) {
         Boolean flag = companyMapper.Opinion(id, opinion);
         ResponseData responseData = new ResponseData();
@@ -80,7 +80,7 @@ public class ComInfoController {
 
     //审核意见
     @ApiOperation(value = "verify", notes = "确认按钮")
-    @GetMapping("/verify/{id}")
+    @PostMapping ("/verify/{id}")
     public ResponseData verify(@PathVariable Long id) {
         Boolean flag = companyMapper.verify(id);
         ResponseData responseData = new ResponseData();
@@ -98,7 +98,7 @@ public class ComInfoController {
 
     //确认按钮
     @ApiOperation(value = "reject", notes = "未通过按钮")
-    @GetMapping("/reject/{id}")
+    @PostMapping("/reject/{id}")
     public ResponseData reject(@PathVariable Long id) {
 
         Boolean flag = companyMapper.verify(id);
@@ -137,7 +137,7 @@ public class ComInfoController {
 
     @ApiOperation(value = "showList", notes = "获取审核名单")
     @GetMapping("/list")
-    public ResponseData showNews(@RequestParam(value = "size", defaultValue = "20") int size, @RequestParam(value = "current", defaultValue = "1") int current) {
+    public ResponseData showNews(@RequestParam(value = "size", defaultValue = "20") Long size, @RequestParam(value = "current", defaultValue = "1") Long current) {
         try {
             Page<CompanyInformation> companyInformationPage = comInfo.getAuditingList(current, size);
             return new ResponseData() {{
