@@ -399,6 +399,29 @@ public class RequestController {
         return responseData;
     }
 
+    @ApiOperation(value = "contractAccept",notes = "用户进行确认合同")
+    @PostMapping("/contract/accept/{req_id}")
+    @HasRole({"USER_SALE", "USER_BUY"})
+    public ResponseData contractAccept(@PathVariable long req_id, @RequestBody Map<String, Object> data){
+        ResponseData response = new ResponseData();
+        if(data.get("accept")==null){
+            response.setCode(202);
+            response.setMsg("fail");
+            response.setError("参数有误");
+            return response;
+        }
+        boolean accept = (boolean) data.get("accept");
+        boolean b = requestService.acceptContract(req_id, accept);
+        if(b){
+            response.setCode(200);
+            response.setMsg("success");
+        }else{
+            response.setCode(201);
+            response.setMsg("fail");
+        }
+        return response;
+    }
+
     @GetMapping("/getComName")
     public ResponseData getComName(){
         TokenProfile profile = ProfileHolder.getProfile();

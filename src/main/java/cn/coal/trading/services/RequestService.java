@@ -93,6 +93,12 @@ public interface RequestService {
      */
     boolean updateContract(long reqId, long userId, String contractPath);
 
+    /**
+     * 确认或拒绝合同
+     * @param reqId
+     * @return
+     */
+    boolean acceptContract(long reqId, boolean accept);
 
     String getComName(long id);
 }

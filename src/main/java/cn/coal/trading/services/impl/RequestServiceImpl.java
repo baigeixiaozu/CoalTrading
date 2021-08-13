@@ -169,6 +169,21 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public boolean acceptContract(long reqId, boolean accept) {
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+        long userId = Long.parseLong(id);
+        int update = reqMapper.update(new Request() {{
+            setStatus(accept ? "11" : "10");
+        }}, new UpdateWrapper<Request>() {{
+            eq("user_id", userId);
+            eq("id", reqId);
+        }});
+        return update == 1;
+    }
+
+
+    @Override
     public String getComName(long id) {
         CompanyInformation companyInformation = companyMapper.selectOne(new QueryWrapper<CompanyInformation>() {{
             eq("user_id", id);
