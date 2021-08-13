@@ -90,14 +90,12 @@ public class PaymentController {
 
     //输入需求量，计算出保证金并缴纳
     @ApiOperation(value = "securityPayment", notes = "缴纳保证金")
-    @PostMapping("number/{requestId}")
-    @HasRole(value = "USER_MONEY", logical = Logical.ANY)
-    public ResponseData SecurityPayment(@RequestBody double number, @PathVariable String requestId) {
+    @PostMapping("/pay/{type}/{pid}")
+    @HasRole(value = "USER_MONEY")
+    public ResponseData SecurityPayment(@RequestBody double margin, @PathVariable String pid, @PathVariable TradeType type) {
         try {
-            TokenProfile profile = ProfileHolder.getProfile();
-            Long id = Long.parseLong(profile.getId());
 
-            if (paymentService.setDeposit(id, requestId, number)) {
+            if (paymentService.setDeposit(type.name(), pid, margin)) {
                 return new ResponseData() {{
                     setCode(200);
                     setMsg("success");
@@ -118,4 +116,9 @@ public class PaymentController {
         }
 
     }
+}
+
+enum TradeType{
+    zp,
+    gp
 }

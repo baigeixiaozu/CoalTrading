@@ -20,5 +20,5 @@ public interface PaymentService {
     Map<String,Object> getFinanceById(Long userId, long id, String type);
 
     //缴纳保证金
-    Boolean setDeposit(Long userId,String requestId,double number);
+    Boolean setDeposit(String type, String requestId, double number);
 }
