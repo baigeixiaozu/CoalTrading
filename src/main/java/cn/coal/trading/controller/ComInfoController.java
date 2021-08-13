@@ -1,14 +1,11 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.CompanyInformation;
-import cn.coal.trading.bean.News;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.services.ComInfo;
 import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.shaun.core.annotation.HasRole;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -137,7 +134,7 @@ public class ComInfoController {
 
     @ApiOperation(value = "showList", notes = "获取审核名单")
     @GetMapping("/list")
-    public ResponseData showNews(@RequestParam(value = "size", defaultValue = "20") Long size, @RequestParam(value = "current", defaultValue = "1") Long current) {
+    public ResponseData showNews(@RequestParam(value = "size", defaultValue = "20") int size, @RequestParam(value = "current", defaultValue = "1") int current) {
         try {
             Page<CompanyInformation> companyInformationPage = comInfo.getAuditingList(current, size);
             return new ResponseData() {{

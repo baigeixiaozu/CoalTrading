@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-@HasRole("USER_BUY")
+@HasRole("USER_MONEY")
 @RequestMapping("/fin")
 @Api(tags = "资金预存模块")
 @ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
@@ -34,9 +34,11 @@ import java.util.List;
 @RestController
 public class DeFundsController {
     private DeFundsMapper deFundsMapper;
+
     public DeFundsController(DeFundsMapper deFundsMapper){
         this.deFundsMapper=deFundsMapper;
     }
+
     @GetMapping("/info")
     @ApiOperation(value = "basicInfo",notes = "获取企业信息")
     public ResponseData basicInfo(){//数据库中为int，不是long
@@ -57,6 +59,7 @@ public class DeFundsController {
         }
         return responseData;
     }
+
 //    @GetMapping("/update/{cert}/{quantity}")
 //    public void TransInfo(@PathVariable String cert,@PathVariable Double quantity){
 //        FinanceLog financeLog=new FinanceLog();
@@ -94,6 +97,7 @@ public class DeFundsController {
         }
         return responseData;
     }
+
     @ApiOperation(value = "upload",notes = "提交文件")
     @PostMapping("/updateF/{path}")//提交文件
     public ResponseData upLoad(@PathVariable Double quantity, @PathVariable String path){
