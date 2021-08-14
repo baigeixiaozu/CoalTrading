@@ -4,6 +4,8 @@ import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.FinanceStore;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.DeFundsMapper;
+import cn.coal.trading.services.FileService;
+import cn.coal.trading.services.FinanceStoreService;
 import cn.coal.trading.services.impl.FileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
@@ -13,8 +15,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
@@ -33,11 +43,12 @@ import java.util.List;
 @ApiSupport(author = "songyan.bai")
 @RestController
 public class DeFundsController {
+    @Resource
     private DeFundsMapper deFundsMapper;
-
-    public DeFundsController(DeFundsMapper deFundsMapper){
-        this.deFundsMapper=deFundsMapper;
-    }
+    @Resource
+    FinanceStoreService financeStoreService;
+    @Value("${ct.uploadFile.location}")
+    String BaseUploadPath;
 
     @GetMapping("/info")
     @ApiOperation(value = "basicInfo",notes = "获取企业信息")
@@ -71,7 +82,9 @@ public class DeFundsController {
 //        financeLog.setQuantity(quantity);
 //        deFundsMapper.TransInfo(financeLog);
 //    }
-    @ApiOperation(value = "setQuanity",notes = "设置提交数量")
+
+    @Deprecated
+    @ApiOperation(value = "setQuanity",notes = "设置预存资金数量")
     @PostMapping("/updateQ/{quantity}")//提交数量
     public ResponseData setQuantity(@PathVariable Double quantity){
         ResponseData responseData=new ResponseData();
@@ -79,7 +92,7 @@ public class DeFundsController {
         TokenProfile profile = ProfileHolder.getProfile();
         Long id=Long.parseLong(profile.getId());
         Date date=new Date();
-        financeStore.setUser_id(id);
+        financeStore.setUserId(id);
         financeStore.setDate(date);
         financeStore.setCert(null);
         financeStore.setStatus(1);
@@ -102,9 +115,9 @@ public class DeFundsController {
     @PostMapping("/updateF/{path}")//提交文件
     public ResponseData upLoad(@PathVariable Double quantity, @PathVariable String path){
         ResponseData responseData=new ResponseData();
-        FileServiceImpl fileService=new FileServiceImpl();
+        FileService fileService=new FileServiceImpl();
         TokenProfile profile = ProfileHolder.getProfile();
-        Long id=Long.parseLong(profile.getId());
+        long id=Long.parseLong(profile.getId());
         Boolean flag2=fileService.storeCert2DB(path,null, id);
         Boolean flag1=deFundsMapper.updateF(path,id);
         if(flag1&&flag2){
@@ -118,5 +131,50 @@ public class DeFundsController {
             responseData.setError("错误");
         }
         return responseData;
+    }
+
+    @ApiOperation(value = "upload",notes = "资金预存，上传文件同时提交数据，By jiyecafe@gmail.com")
+    @PostMapping("/store")
+    public ResponseData store(@RequestBody MultipartFile cert, @RequestParam double quantity){
+        ResponseData response = new ResponseData();
+        if(cert.isEmpty()){
+            response.setCode(400);
+            response.setMsg("fail");
+            response.setError("文件上传失败");
+            return response;
+        }
+        TokenProfile profile = ProfileHolder.getProfile();
+        String id = profile.getId();
+        String suffix = StringUtils.substringAfter(cert.getOriginalFilename(), ".");
+
+        // 构建文件路径
+        String certBasePath = "finance/store/" + id + "/";
+
+
+        try {
+            String md5 = DigestUtils.md5DigestAsHex(cert.getInputStream());
+            File dir = new File(BaseUploadPath + certBasePath);
+            if(!dir.exists())dir.mkdirs();
+
+            String certPath = certBasePath + "cert_" + md5 + "." + suffix;
+            cert.transferTo(Paths.get(BaseUploadPath + certPath));
+            boolean store = financeStoreService.store(quantity, certPath);
+
+            if(store){
+                response.setCode(200);
+                response.setMsg("success");
+            }else{
+                response.setCode(201);
+                response.setMsg("fail");
+                response.setError("数据存储异常");
+            }
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.setCode(500);
+            response.setMsg("fail");
+            response.setError("文件存储失败");
+            return response;
+        }
     }
 }

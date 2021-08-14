@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  coal_trading                                 */
 /* DBMS name:      MySQL 5.7                                    */
-/* Created on:     2021/8/13 14:34:50                           */
+/* Created on:     2021/8/14 7:56:27                            */
 /*==============================================================*/
 
 
@@ -11,86 +11,54 @@ SET FOREIGN_KEY_CHECKS=0;  # 取消外键约束
 
 use coal_trading;
 
-drop table if exists coal_trading.tmp_ct_order;
+drop table if exists coal_trading.tmp_ct_finance_store;
 
-rename table coal_trading.ct_order to tmp_ct_order;
+rename table coal_trading.ct_finance_store to tmp_ct_finance_store;
 
 use coal_trading;
 
 /*==============================================================*/
-/* Table: ct_order                                              */
+/* Table: ct_finance_store                                      */
 /*==============================================================*/
-create table ct_order
+create table ct_finance_store
 (
-   id                   bigint(20) not null auto_increment comment '订单ID',
-   num                  varchar(30) not null comment '订单号',
-   req_id               bigint(20) comment '需求ID',
-   gp_userid            bigint(20) comment '挂牌方用户ID',
-   zp_userid            bigint(20) comment '摘牌方用户ID',
-   created_time         datetime comment '创建时间',
-   status               enum('1','2','3','4') not null comment '订单状态：
-            1. 进行中
-            2. 超时
-            3. 完成
-            4. 取消',
+   id                   bigint(20) not null auto_increment comment '预存ID',
+   user_id              bigint(20) not null comment '财务用户ID',
+   date                 datetime default CURRENT_TIMESTAMP comment '变动时间',
+   quantity             decimal(10,2) comment '金额数量',
+   cert                 varchar(255) not null comment '交易凭证（文件）',
+   status               enum('1','2','3') default '1' comment '预存状态：
+            1. 待审核
+            2. 驳回（审核不通过）
+            3. 审核通过',
    primary key (id)
 )
 engine = InnoDB;
 
-alter table ct_order comment '订单表';
+alter table ct_finance_store comment '资金预存表';
 
-insert into ct_order (id, num, req_id, gp_userid, zp_userid, created_time, status)
-select id, num, req_id, gp_userid, zp_userid, created_time, status
-from coal_trading.tmp_ct_order;
+insert into ct_finance_store (id, user_id, date, quantity, cert, status)
+select id, user_id, date, quantity, cert, status
+from coal_trading.tmp_ct_finance_store;
 
-drop table if exists coal_trading.tmp_ct_order;
+drop table if exists coal_trading.tmp_ct_finance_store;
 
 /*==============================================================*/
-/* Index: Index_req_id                                          */
+/* Index: Index_user_id                                         */
 /*==============================================================*/
-create unique index Index_req_id on ct_order
+create index Index_user_id on ct_finance_store
 (
-   req_id
+   user_id
 );
 
 /*==============================================================*/
-/* Index: Index_order_id                                        */
+/* Index: Index_cert                                            */
 /*==============================================================*/
-create unique index Index_order_id on ct_order
+create unique index Index_cert on ct_finance_store
 (
-   id
+   cert
 );
 
-/*==============================================================*/
-/* Index: Index_order_num                                       */
-/*==============================================================*/
-create unique index Index_order_num on ct_order
-(
-   num
-);
-
-/*==============================================================*/
-/* Index: Index_user_id_1                                       */
-/*==============================================================*/
-create index Index_user_id_1 on ct_order
-(
-   gp_userid
-);
-
-/*==============================================================*/
-/* Index: Index_user_id_2                                       */
-/*==============================================================*/
-create index Index_user_id_2 on ct_order
-(
-   zp_userid
-);
-
-alter table ct_order add constraint FK_ORDER_REF_REQ foreign key (req_id)
-      references ct_request (id) on delete restrict on update restrict;
-
-alter table ct_order add constraint FK_ORDER_REF_USER_1 foreign key (gp_userid)
-      references ct_users (id) on delete restrict on update restrict;
-
-alter table ct_order add constraint FK_ORDER_REF_USER_2 foreign key (zp_userid)
+alter table ct_finance_store add constraint FK_UF_REF_USER foreign key (user_id)
       references ct_users (id) on delete restrict on update restrict;
 
