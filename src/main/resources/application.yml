@@ -80,4 +80,7 @@ knife4j:
   production: false
   basic:
     enable: false
+  setting:
+    enableHost: true
+    enableHostText: "http://106.52.202.68"
 
