@@ -99,7 +99,7 @@ public class NewsServiceImpl implements NewsService {
         //ObjectMapper mapper=new ObjectMapper();
         //Long Id=2L;//测试用，接口跑通后删除
         content.setStatus(2);//刚发布的资讯还处于审查中状态
-        content.setAuditorId(3L);
+        content.setAuditorId(3L);//默认审核员。正式审核时会将当前正在进行审核的审核员ID写进去
         content.setAuthorId(authorId);
 
         newsMapper.insert(content);
@@ -118,11 +118,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     //审核资讯
-    public String newsAudit(String type,Long newsId){
+    public String newsAudit(String type,Long newsId,Long auditorId){
         UpdateWrapper<News> wrapper=new UpdateWrapper<>();
 
         wrapper.eq("id",newsId);
         News news=newsMapper.selectOne(wrapper);
+        news.setAuditorId(auditorId);
 
         if("pass".equals(type)){
             news.setStatus(4);

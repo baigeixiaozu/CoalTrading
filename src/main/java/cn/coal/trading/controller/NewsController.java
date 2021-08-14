@@ -196,11 +196,15 @@ public class NewsController {
 
     //审核资讯
     @ApiOperation(value = "auditNews",notes = "审核咨询")
+    @HasRole(value = "NEWS_AUDITOR",logical = Logical.ANY)
     @PostMapping("/audit/{type}/{newsId}")
     public ResponseData auditNews(@PathVariable String type,@PathVariable String newsId){
         try{
+            TokenProfile profile=ProfileHolder.getProfile();
+            Long auditorId=Long.parseLong(profile.getId());
+
             Long id=Long.parseLong(newsId);
-            String status=newsService.newsAudit(type,id);;
+            String status=newsService.newsAudit(type,id,auditorId);;
 
             return  new ResponseData(){{
                 setCode(200);
