@@ -39,4 +39,10 @@ public class NewsTests {
         // news.setTitle("山西将建40座绿色开采煤矿");
         // newsService.setOneNews(news,2L);
     }
+
+    @Test
+    void newsAudit(){
+//        String opinion="bullshit";
+//        String status=newsService.newsAudit("pass",101L,3L);
+    }
 }
