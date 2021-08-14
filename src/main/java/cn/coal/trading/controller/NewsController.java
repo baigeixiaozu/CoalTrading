@@ -56,40 +56,32 @@ public class NewsController {
     @ApiOperationSupport(author = "Heming233")
     @GetMapping("/show")
     public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
-        try{
-            //普通用户进入资讯页面可查看到所有资讯
-            if("all".equals(type)){
-                Page<News> NewsList= newsService.getAllNews(current,size);
 
-                return new ResponseData(){{
-                    setCode(200);
-                    setData(NewsList);
-                    setMsg("success");
-                }};
-            }
-            //资讯审核人员可以直接看到所有带审查的资讯列表
-            else if("auditing".equals(type)){
-                Page<News> NewsList=newsService.getAuditingNews(current,size);
+        //普通用户进入资讯页面可查看到所有资讯
+        if("all".equals(type)){
+            Page<News> NewsList= newsService.getAllNews(current,size);
 
-                return new ResponseData(){{
-                    setCode(200);
-                    setData(NewsList);
-                    setMsg("success");
-                }};
-            }
             return new ResponseData(){{
-                setCode(403);
-                setMsg("error");
-                setError("invalid operation");
+                setCode(200);
+                setData(NewsList);
+                setMsg("success");
             }};
         }
-        catch (Exception e){
+        //资讯审核人员可以直接看到所有带审查的资讯列表
+        else if("auditing".equals(type)){
+            Page<News> NewsList=newsService.getAuditingNews(current,size);
+
             return new ResponseData(){{
-                setCode(204);
-                setMsg("error");
-                setError("no news caught");
+                setCode(200);
+                setData(NewsList);
+                setMsg("success");
             }};
         }
+        return new ResponseData(){{
+            setCode(403);
+            setMsg("error");
+            setError("invalid operation");
+        }};
     }
 
     //点击资讯查看详细内容
