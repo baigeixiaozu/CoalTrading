@@ -130,7 +130,7 @@ public class ComInfoController {
 
     @ApiOperation(value = "showList", notes = "获取审核名单")
     @GetMapping("/list")
-    public ResponseData showNews(@RequestParam(value = "size", defaultValue = "20") Long size, @RequestParam(value = "current", defaultValue = "1") Long current) {
+    public ResponseData showNews(@RequestParam(value = "size", defaultValue = "20") int size, @RequestParam(value = "current", defaultValue = "1") int current) {
         try {
             Page<CompanyInformation> companyInformationPage = comInfo.getAuditingList(current, size);
             return new ResponseData() {{
