@@ -196,10 +196,11 @@ public class NewsController {
 
     //审核资讯
     @ApiOperation(value = "auditNews",notes = "审核咨询")
-    @PostMapping("/audit/{type}")
-    public ResponseData auditNews(@PathVariable String type,@RequestBody News news){
+    @PostMapping("/audit/{type}/{newsId}")
+    public ResponseData auditNews(@PathVariable String type,@PathVariable String newsId){
         try{
-            String status=newsService.newsAudit(type,news);;
+            Long id=Long.parseLong(newsId);
+            String status=newsService.newsAudit(type,id);;
 
             return  new ResponseData(){{
                 setCode(200);

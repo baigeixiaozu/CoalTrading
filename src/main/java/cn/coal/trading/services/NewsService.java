@@ -39,6 +39,6 @@ public interface NewsService {
     News setOneDraft(News content, Long authorId);
 
     //资讯审核
-    String newsAudit(String type,News news);
+    String newsAudit(String type,Long newsId);
 
 }

@@ -118,11 +118,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     //审核资讯
-    public String newsAudit(String type,News news){
+    public String newsAudit(String type,Long newsId){
         UpdateWrapper<News> wrapper=new UpdateWrapper<>();
-        //News news=new News();
 
-        wrapper.eq("id",news.getId());
+        wrapper.eq("id",newsId);
+        News news=newsMapper.selectOne(wrapper);
+
         if("pass".equals(type)){
             news.setStatus(4);
 
