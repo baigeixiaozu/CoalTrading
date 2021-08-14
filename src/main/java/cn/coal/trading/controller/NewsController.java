@@ -4,6 +4,8 @@ import cn.coal.trading.bean.News;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.services.NewsService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.shaun.core.annotation.HasRole;
+import com.baomidou.shaun.core.annotation.Logical;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -33,6 +35,9 @@ import java.util.List;
  *
  * update:2021/8/9
  * version:v1.5
+ *
+ * update:2021/8/14
+ * version:v1.6
  */
 @Api(tags = "新闻模块")
 @ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
@@ -55,10 +60,10 @@ public class NewsController {
     @ApiOperation(value = "showNews",notes = "加载时获取咨询标题")
     @ApiOperationSupport(author = "Heming233")
     @GetMapping("/show")
-    public ResponseData showNews(@RequestParam(value="type",defaultValue="all") String type,@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
+    public ResponseData showNews(@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
 
         //普通用户进入资讯页面可查看到所有资讯
-        if("all".equals(type)){
+        try{
             Page<News> NewsList= newsService.getAllNews(current,size);
 
             return new ResponseData(){{
@@ -67,23 +72,38 @@ public class NewsController {
                 setMsg("success");
             }};
         }
-        //资讯审核人员可以直接看到所有带审查的资讯列表
-        else if("auditing".equals(type)){
-            Page<News> NewsList=newsService.getAuditingNews(current,size);
-
+        catch (Exception e){
             return new ResponseData(){{
-                setCode(200);
-                setData(NewsList);
-                setMsg("success");
+                setCode(403);
+                setMsg("error");
+                setError("invalid operation");
             }};
         }
-        return new ResponseData(){{
-            setCode(403);
-            setMsg("error");
-            setError("invalid operation");
-        }};
+
     }
 
+    //资讯审核人员可以直接看到所有待审查的资讯列表
+    @ApiOperation(value = "showAuditingNews",notes = "获取待审核的咨询标题")
+    @HasRole(value = "NEWS_AUDITOR",logical = Logical.ANY)
+    @GetMapping("/showAudit")
+    public ResponseData showAuditingNews(@RequestParam(value="size",defaultValue = "20") int size,@RequestParam(value = "current",defaultValue = "1") int current){
+        try{
+        Page<News> NewsList=newsService.getAuditingNews(current,size);
+
+        return new ResponseData(){{
+            setCode(200);
+            setData(NewsList);
+            setMsg("success");
+        }};
+        }
+        catch (Exception e){
+            return new ResponseData(){{
+                setCode(403);
+                setMsg("error");
+                setError("invalid operation");
+            }};
+        }
+    }
     //点击资讯查看详细内容
     @ApiOperation(value = "detailNews",notes = "获取详细咨询内容" )
     @GetMapping("/detail/{newsId}")
