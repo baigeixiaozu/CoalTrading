@@ -87,8 +87,7 @@ public class PaymentController {
 
     }
 
-
-    //输入需求量，计算出保证金并缴纳
+    // 保证金支付
     @ApiOperation(value = "securityPayment", notes = "缴纳保证金")
     @PostMapping("/pay/{type}/{pid}")
     @HasRole(value = "USER_MONEY")

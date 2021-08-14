@@ -111,6 +111,7 @@ public class DeFundsController {
         return responseData;
     }
 
+    @Deprecated
     @ApiOperation(value = "upload",notes = "提交文件")
     @PostMapping("/updateF/{path}")//提交文件
     public ResponseData upLoad(@PathVariable Double quantity, @PathVariable String path){
@@ -133,7 +134,13 @@ public class DeFundsController {
         return responseData;
     }
 
-    @ApiOperation(value = "upload",notes = "资金预存，上传文件同时提交数据，By jiyecafe@gmail.com")
+    /**
+     * @author jiyecafe@gmail.com
+     * @param cert 上传的证书
+     * @param quantity  请求参数
+     * @return 响应体
+     */
+    @ApiOperation(value = "store",notes = "资金预存，上传文件同时提交数据，By jiyecafe@gmail.com")
     @PostMapping("/store")
     public ResponseData store(@RequestBody MultipartFile cert, @RequestParam double quantity){
         ResponseData response = new ResponseData();
@@ -149,7 +156,6 @@ public class DeFundsController {
 
         // 构建文件路径
         String certBasePath = "finance/store/" + id + "/";
-
 
         try {
             String md5 = DigestUtils.md5DigestAsHex(cert.getInputStream());
