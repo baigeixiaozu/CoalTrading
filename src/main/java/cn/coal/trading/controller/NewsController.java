@@ -104,6 +104,7 @@ public class NewsController {
             }};
         }
     }
+
     //点击资讯查看详细内容
     @ApiOperation(value = "detailNews",notes = "获取详细咨询内容" )
     @GetMapping("/detail/{newsId}")
