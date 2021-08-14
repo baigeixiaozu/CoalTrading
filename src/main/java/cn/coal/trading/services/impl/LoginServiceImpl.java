@@ -62,18 +62,14 @@ public class LoginServiceImpl implements LoginService {
             // 角色暂时只能一个
             String roleMark = (String) relation.get(0).get("role_mark");
             profile.addRole(roleMark);
-            if("USER_SALE".equals(roleMark) || "USER_SALE".equals(roleMark)){
+            if("USER_SALE".equals(roleMark) || "USER_BUY".equals(roleMark)){
                 complete = checkComplete(loginUser.getId());
             }
 
-            //profile.setRoles(roles:Set);
             // 权限有多个
             for (Map<String, Object> map : relation) {
                 profile.addPermission((String) map.get("permission"));
             }
-            //profile.setPermissions(permissions:Set);
-            //profile.addAttribute("key","value");
-            //如果选择token存cookie里,securityManager.login会进行自动操作
         }
         String token = securityManager.login(profile);
         if(token==null)return null;

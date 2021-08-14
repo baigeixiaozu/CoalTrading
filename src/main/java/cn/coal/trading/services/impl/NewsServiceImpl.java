@@ -55,7 +55,7 @@ public class NewsServiceImpl implements NewsService {
 
     //展示所有待审核的资讯
     @Override
-    @HasRole(value = "NEWS_AUDITOR",logical = Logical.ANY)
+    //@HasRole(value = "NEWS_AUDITOR",logical = Logical.ANY)
     public Page<News> getAuditingNews(int current,int size){
         Page<News> page=new Page<>(current,size);
         QueryWrapper<News> wrapper=new QueryWrapper<>();

@@ -5,6 +5,7 @@ import org.pac4j.core.context.HttpConstants;
 import org.pac4j.core.exception.http.ForbiddenAction;
 import org.pac4j.core.exception.http.HttpAction;
 import org.pac4j.core.exception.http.UnauthorizedAction;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,6 +39,15 @@ public class GlobalExceptionHandler {
             r.setError("未知异常");
         }
 
+        return r;
+    }
+
+    @ExceptionHandler(value = {DuplicateKeyException.class})
+    @ResponseBody
+    public ResponseData dup(){
+        ResponseData r = new ResponseData();
+        r.setCode(400);
+        r.setError("数据已存在");
         return r;
     }
     /**

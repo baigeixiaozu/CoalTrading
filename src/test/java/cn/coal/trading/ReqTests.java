@@ -20,7 +20,7 @@ public class ReqTests {
 
     @Test
     public void getReqTest(){
-        List<Request> requests = reqMapper.selectList(null);
-        System.out.println(requests);
+        // List<Request> requests = reqMapper.selectList(null);
+        // System.out.println(requests);
     }
 }
