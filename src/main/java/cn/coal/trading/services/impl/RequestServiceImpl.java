@@ -36,13 +36,14 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public Map<String, Object> getPublicList(Long userId, int page, int limit) {
-        Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
-            if (userId != null) {
-                eq("user_id", userId);
-            }
-            eq("status", 3);
-            select("id", "user_id", "created_time", "type", "request_company", "request_num");
-        }});
+        Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(
+                new Page<>(page, limit), new QueryWrapper<Request>() {{
+                    if (userId != null) {
+                        eq("user_id", userId);
+                    }
+                    eq("status", 3);
+                    select("id", "user_id", "created_time", "type", "request_company", "request_num");
+                }});
 
         return new HashMap<String, Object>() {{
             put("rows", requestPage.getRecords());
@@ -114,10 +115,11 @@ public class RequestServiceImpl implements RequestService {
         long userId = Long.parseLong(id);
         if (isMoneyUser) {
             long finalUserId1 = userId;
-            FinanceProperty financeProperty = financeMapper.selectOne(new QueryWrapper<FinanceProperty>() {{
-                select("main_userid");
-                eq("finance_userid", finalUserId1);
-            }});
+            FinanceProperty financeProperty = financeMapper.selectOne(
+                    new QueryWrapper<FinanceProperty>() {{
+                        select("main_userid");
+                        eq("finance_userid", finalUserId1);
+                    }});
             userId = financeProperty.getMainUserid();
         }
         long finalUserId2 = userId;
@@ -184,7 +186,7 @@ public class RequestServiceImpl implements RequestService {
             eq("id", reqId);
         }});
         int insert = 0;
-        if(accept && update == 1){
+        if (accept && update == 1) {
             // 确认合同，我是摘牌方
             Order order = new Order();
             order.setReqId(reqId);
@@ -199,14 +201,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public String getContractPath(long zpId){
+    public String getContractPath(long zpId) {
         TokenProfile profile = ProfileHolder.getProfile();
         String userId = profile.getId();
         Integer integer = delistingMapper.selectCount(new QueryWrapper<Delisting>() {{
             eq("id", zpId);
             eq("user_id", Long.parseLong(userId));
         }});
-        if(integer==null || integer==0){
+        if (integer == null || integer == 0) {
             return null;
         }
         Request request = reqMapper.selectOne(new QueryWrapper<Request>() {{
@@ -215,6 +217,7 @@ public class RequestServiceImpl implements RequestService {
         }});
         return request.getContractFile();
     }
+
     @Override
     public String getComName(long id) {
         CompanyInformation companyInformation = companyMapper.selectOne(new QueryWrapper<CompanyInformation>() {{
