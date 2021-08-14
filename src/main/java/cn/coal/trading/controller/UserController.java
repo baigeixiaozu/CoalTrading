@@ -1,7 +1,7 @@
 package cn.coal.trading.controller;
 
 import cn.coal.trading.bean.*;
-import cn.coal.trading.services.FileService;
+import cn.coal.trading.services.UserFileService;
 import cn.coal.trading.services.LoginService;
 import cn.coal.trading.services.RegisterService;
 import cn.coal.trading.services.UserService;
@@ -33,15 +33,15 @@ import java.util.Set;
  */
 @Api(value = "用户管理", tags = "用户管理")
 
-@ApiResponses({@ApiResponse(code = 200,message = "操作成功",response = ResponseData.class),
-        @ApiResponse(code = 400,message = "参数列表错误",response = ResponseData.class),
-        @ApiResponse(code = 401,message = "未授权",response = ResponseData.class),
-        @ApiResponse(code = 403,message = "授权受限，授权过期",response = ResponseData.class),
-        @ApiResponse(code = 404,message = "资源，服务未找到",response = ResponseData.class),
-        @ApiResponse(code = 409,message = "资源冲突，或者资源被锁定",response = ResponseData.class),
-        @ApiResponse(code = 429,message = "请求过多被限制",response = ResponseData.class),
-        @ApiResponse(code = 500,message = "系统内部错误",response = ResponseData.class),
-        @ApiResponse(code = 501,message = "接口未实现",response = ResponseData.class)})
+@ApiResponses({@ApiResponse(code = 200, message = "操作成功", response = ResponseData.class),
+        @ApiResponse(code = 400, message = "参数列表错误", response = ResponseData.class),
+        @ApiResponse(code = 401, message = "未授权", response = ResponseData.class),
+        @ApiResponse(code = 403, message = "授权受限，授权过期", response = ResponseData.class),
+        @ApiResponse(code = 404, message = "资源，服务未找到", response = ResponseData.class),
+        @ApiResponse(code = 409, message = "资源冲突，或者资源被锁定", response = ResponseData.class),
+        @ApiResponse(code = 429, message = "请求过多被限制", response = ResponseData.class),
+        @ApiResponse(code = 500, message = "系统内部错误", response = ResponseData.class),
+        @ApiResponse(code = 501, message = "接口未实现", response = ResponseData.class)})
 @RestController
 @RequestMapping("/user")
 @ApiSupport(author = "Sorakado & jiyeme")
@@ -56,7 +56,7 @@ public class UserController {
     @Resource
     RegisterService registerService;
     @Resource
-    FileService fileService;
+    UserFileService userFileService;
 
     /**
      * 新增用户操作
@@ -127,7 +127,7 @@ public class UserController {
      * @return ResponseData
      * @Author jiyeme
      */
-    @ApiOperation(value = "getRoleList",notes = "获取角色列表")
+    @ApiOperation(value = "getRoleList", notes = "获取角色列表")
     @GetMapping({"/getRoleList/{type}"})
     public ResponseData getRoleList(@PathVariable String type) {
         ResponseData responseData = new ResponseData();
@@ -161,7 +161,7 @@ public class UserController {
      * @Version 2.0
      * 用户注册功能
      **/
-    @ApiOperation(value = "register",notes = "注册新用户（平台外）")
+    @ApiOperation(value = "register", notes = "注册新用户（平台外）")
     @PostMapping("/register")
     public ResponseData register(@RequestBody User user) {
         ResponseData response = new ResponseData();
@@ -205,7 +205,7 @@ public class UserController {
      * @Version 2.0
      * 用户登录功能
      **/
-    @ApiOperation(value = "login",notes = "用户登录")
+    @ApiOperation(value = "login", notes = "用户登录")
     @PostMapping("/login")
     public ResponseData login(@RequestBody User user) {
         ResponseData response = new ResponseData();
@@ -252,7 +252,7 @@ public class UserController {
      * @Version 1.0
      * 企业信息完善（不包括财务开户)
      **/
-    @ApiOperation(value = "completeCominfo",notes = "用户完善企业信息")
+    @ApiOperation(value = "completeCominfo", notes = "用户完善企业信息")
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/complete")
     public ResponseData complete(@RequestBody CompanyInformation info) {
@@ -271,10 +271,10 @@ public class UserController {
      * @Version 1.0
      * 文件上传功能
      **/
-    @ApiOperation(value = "uploadFile",notes = "企业上传资质文件")
+    @ApiOperation(value = "uploadFile", notes = "企业上传资质文件")
     @HasRole(value = {"USER_SALE", "USER_BUY"}, logical = Logical.ANY)
     @PostMapping("/uploadFile")
-    public ResponseData uploadFile(@RequestPart("file") MultipartFile file, @RequestParam CertType type){
+    public ResponseData uploadFile(@RequestPart("file") MultipartFile file, @RequestParam CertType type) {
         ResponseData response = new ResponseData();
         if (file.isEmpty()) {
             response.setCode(400);
@@ -287,8 +287,8 @@ public class UserController {
         long userId = Long.parseLong(profile.getId());
 
         // 转存文件到服务器
-        String storePath = fileService.storeFile2Local(file, type, userId);
-        if(storePath == null ){
+        String storePath = userFileService.storeFile2Local(file, type, userId);
+        if (storePath == null) {
             response.setCode(400);
             response.setMsg("fail");
             response.setError("文件转存失败！");
@@ -296,8 +296,8 @@ public class UserController {
         }
 
         // 存储路径到数据库
-        boolean b = fileService.storeCert2DB(storePath, type, userId);
-        if(!b){
+        boolean b = userFileService.storeCert2DB(storePath, type, userId);
+        if (!b) {
             response.setCode(400);
             response.setMsg("fail");
             response.setError("文件数据存储失败");
@@ -305,7 +305,7 @@ public class UserController {
         }
         response.setCode(200);
         response.setMsg("success");
-        response.setData(new HashMap<String, String>(){{
+        response.setData(new HashMap<String, String>() {{
             put("path", storePath);
         }});
 
@@ -335,7 +335,7 @@ public class UserController {
      * @Version 1.0
      * 获取登录用户的基本信息
      **/
-    @ApiOperation(value = "getUserInfo",notes = "获取登录用户的个人信息")
+    @ApiOperation(value = "getUserInfo", notes = "获取登录用户的个人信息")
     @GetMapping("/info")
     public ResponseData getUserInfo() {
         TokenProfile profile = ProfileHolder.getProfile();
@@ -343,9 +343,9 @@ public class UserController {
         return result;
     }
 
-    @ApiOperation(value = "getUserFullInfo",notes = "获取企业所有注册信息")
+    @ApiOperation(value = "getUserFullInfo", notes = "获取企业所有注册信息")
     @GetMapping("/fullInfo")
-    public ResponseData getUserFullInfo(){
+    public ResponseData getUserFullInfo() {
         ResponseData responseData = new ResponseData();
         TokenProfile profile = ProfileHolder.getProfile();
         String id = profile.getId();

@@ -1,12 +1,10 @@
 package cn.coal.trading.services.impl;
 
 import cn.coal.trading.bean.CertType;
-import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.mapper.FinanceMapper;
-import cn.coal.trading.services.FileService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import cn.coal.trading.services.UserFileService;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.Buffer;
 import java.util.Locale;
 
 /**
@@ -26,7 +21,7 @@ import java.util.Locale;
  * @Version 1.0
  **/
 @Service
-public class FileServiceImpl implements FileService {
+public class UserFileServiceImpl implements UserFileService {
 
     @Resource
     CompanyMapper companyMapper;

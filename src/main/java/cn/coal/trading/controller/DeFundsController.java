@@ -4,9 +4,9 @@ import cn.coal.trading.bean.FinanceProperty;
 import cn.coal.trading.bean.FinanceStore;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.DeFundsMapper;
-import cn.coal.trading.services.FileService;
+import cn.coal.trading.services.UserFileService;
 import cn.coal.trading.services.FinanceStoreService;
-import cn.coal.trading.services.impl.FileServiceImpl;
+import cn.coal.trading.services.impl.UserFileServiceImpl;
 import com.baomidou.shaun.core.annotation.HasRole;
 import com.baomidou.shaun.core.context.ProfileHolder;
 import com.baomidou.shaun.core.profile.TokenProfile;
@@ -115,7 +115,7 @@ public class DeFundsController {
     @PostMapping("/updateF/{path}")//提交文件
     public ResponseData upLoad(@PathVariable Double quantity, @PathVariable String path){
         ResponseData responseData=new ResponseData();
-        FileService fileService=new FileServiceImpl();
+        UserFileService fileService=new UserFileServiceImpl();
         TokenProfile profile = ProfileHolder.getProfile();
         long id=Long.parseLong(profile.getId());
         Boolean flag2=fileService.storeCert2DB(path,null, id);

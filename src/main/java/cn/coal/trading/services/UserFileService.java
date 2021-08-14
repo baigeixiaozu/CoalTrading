@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Date 2021/7/29 18:54
  * @Version 1.0
  **/
-public interface FileService {
+public interface UserFileService {
     /**
      * 文件保存至服务器
      * @param multipartFile

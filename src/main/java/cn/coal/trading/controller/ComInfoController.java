@@ -4,7 +4,7 @@ import cn.coal.trading.bean.CompanyInformation;
 import cn.coal.trading.bean.ResponseData;
 import cn.coal.trading.mapper.CompanyMapper;
 import cn.coal.trading.services.ComInfo;
-import cn.coal.trading.services.impl.FileServiceImpl;
+import cn.coal.trading.services.impl.UserFileServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.annotations.Api;
@@ -35,7 +35,7 @@ public class ComInfoController {
     @Resource
     private CompanyMapper companyMapper;
     @Resource
-    FileServiceImpl fileService;
+    UserFileServiceImpl fileService;
     // 不能把响应体写在此处
     @Resource
     ComInfo comInfo;
