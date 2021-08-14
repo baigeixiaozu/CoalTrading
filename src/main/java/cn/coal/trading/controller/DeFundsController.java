@@ -60,13 +60,12 @@ public class DeFundsController {
         responseData.setData(financeProperties);
         if(financeProperties.size()==0){
             responseData.setCode(400);
-            responseData.setMsg("没了");
-            responseData.setError("没了");
+            responseData.setMsg("error");
+            responseData.setError("无审核数据");
         }
         else{
             responseData.setCode(200);
-            responseData.setMsg("对了");
-            responseData.setError("无");
+            responseData.setMsg("success");
         }
         return responseData;
     }
@@ -100,13 +99,12 @@ public class DeFundsController {
         Boolean flag=deFundsMapper.TransInfo(financeStore);
         if(!flag){
             responseData.setCode(400);
-            responseData.setMsg("错误");
-            responseData.setError("错误");
+            responseData.setMsg("error");
+            responseData.setError("无法预存资金");
         }
         else if(flag){
             responseData.setCode(200);
-            responseData.setMsg("对了");
-            responseData.setError("无");
+            responseData.setMsg("success");
         }
         return responseData;
     }
@@ -123,13 +121,12 @@ public class DeFundsController {
         Boolean flag1=deFundsMapper.updateF(path,id);
         if(flag1&&flag2){
             responseData.setCode(200);
-            responseData.setMsg("对了");
-            responseData.setError("无");
+            responseData.setMsg("success");
         }
         else{
             responseData.setCode(400);
-            responseData.setMsg("错误");
-            responseData.setError("错误");
+            responseData.setMsg("error");
+            responseData.setError("未提交成功");
         }
         return responseData;
     }
