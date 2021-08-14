@@ -197,9 +197,9 @@ public class NewsController {
     //审核资讯
     @ApiOperation(value = "auditNews",notes = "审核咨询")
     @PostMapping("/audit/{type}")
-    public ResponseData auditNews(@PathVariable String type,@RequestBody Long newsId){
+    public ResponseData auditNews(@PathVariable String type,@RequestBody News news){
         try{
-            String status=newsService.newsAudit(type,newsId);;
+            String status=newsService.newsAudit(type,news);;
 
             return  new ResponseData(){{
                 setCode(200);

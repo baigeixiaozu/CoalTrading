@@ -61,8 +61,9 @@ public class SwaggerConfig {
                 .contact(new Contact("白给小分队",null,null))
                 // api 描述
                 .description("CoalTrading Project About SwaggerUI APIS")
+                //服务URL
+                .termsOfServiceUrl("http://106.52.202.68")
                 // api 版本
-                .termsOfServiceUrl("")
                 .version("1.0")
                 // 构建
                 .build();
