@@ -133,7 +133,7 @@ public class RequestServiceImpl implements RequestService {
     public Map<String, Object> auditPending(int page, int limit) {
         Page<Map<String, Object>> requestPage = reqMapper.selectMapsPage(new Page<>(page, limit), new QueryWrapper<Request>() {{
             eq("status", 2);
-            select("id", "created_time");
+            select("id", "created_time", "type");
         }});
         return new HashMap<String, Object>() {{
             put("rows", requestPage.getRecords());
