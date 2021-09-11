@@ -45,6 +45,15 @@ public class DelistServiceImpl implements DelistService {
     public ResponseData delist(Delisting delisting) {
         ResponseData response = new ResponseData();
 
+        int i = reqMapper.updateById(new Request() {{
+            setId(delisting.getReqId());
+            setStatus("8");
+        }});
+
+        if(i == 0) {
+            throw new RuntimeException("更新失败");
+        }
+
         try {
             int insert = delistingMapper.insert(delisting);
             if (insert == 1) {

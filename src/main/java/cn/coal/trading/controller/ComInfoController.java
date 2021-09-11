@@ -15,8 +15,13 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //@HasRole("USER_REG_AUDITOR")
 @RestController
@@ -110,23 +115,62 @@ public class ComInfoController {
     }//未通过按钮
 
     @ApiOperation(value = "download", notes = "下载图片or显示")
-    @GetMapping("/download/{id}/{name}")//下载，不是图片显示，在这里不实现
-    public ResponseData download(@PathVariable Long id, @PathVariable String name) throws IOException {//文件下载，不采用
-        String down = companyMapper.download(id, name);
-        System.out.println(down);
-        fileService.download(down, name);
-        ResponseData responseData = new ResponseData();
-        if (down == null) {
-            responseData.setCode(400);
-            responseData.setMsg("error");
-            responseData.setError("无链接");
-        } else {
-            responseData.setData(down);
-            responseData.setCode(201);
-            responseData.setMsg("success");
+    @RequestMapping("/download")
+    public Map<String,String> download(HttpServletRequest request, HttpServletResponse response, String fileName) throws UnsupportedEncodingException, UnsupportedEncodingException {
+        Map<String,String> map = new HashMap<>();
+        String rootPath = "//var/lib/data";//存储文件的目录
+        String FullPath = rootPath + fileName;//文件的位置
+        File packetFile = new File(FullPath);
+        String fn = packetFile.getName(); //下载的文件名
+        System.out.println("filename:"+fn);
+        File file = new File(FullPath);
+        // 如果文件名存在，则进行下载
+        if (file.exists()) {
+            // 配置文件下载
+            response.setHeader("content-type", "application/octet-stream");
+            response.setContentType("application/octet-stream");
+            // 下载文件能正常显示中文
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            // 实现文件下载
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null;
+            BufferedInputStream bis = null;
+            try {
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                OutputStream os = response.getOutputStream();
+                int i = bis.read(buffer);
+                while (i != -1) {
+                    os.write(buffer, 0, i);
+                    i = bis.read(buffer);
+                }
+                System.out.println("Download the song successfully!");
+            } catch (Exception e) {
+                System.out.println("Download the song failed!");
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        } else {//对应文件不存在
+            map.put("result","failed");
+            return map;
         }
-        return responseData;
+
     }
+
 
     @ApiOperation(value = "showList", notes = "获取审核名单")
     @GetMapping("/list")
